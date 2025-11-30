@@ -39,6 +39,14 @@
         letter-spacing: 2px;
       }
 
+      .header .team-name {
+        font-size: 1.5em;
+        opacity: 0.95;
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
       .header p {
         font-size: 1.3em;
         opacity: 0.95;
@@ -47,9 +55,19 @@
 
       .options-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
         margin-bottom: 40px;
+      }
+
+      .team-tile {
+        grid-column: span 1;
+      }
+
+      @media (max-width: 1050px) {
+        .team-tile {
+          grid-column: 1 / -1;
+        }
       }
 
       .option-card {
@@ -184,6 +202,7 @@
     <div class="container">
       <div class="header">
         <h1>🦅 The Wings of Discovery</h1>
+        <div class="team-name">By The Quantum Crystals</div>
         <p>Explore the sky with advanced imaging and analysis tools</p>
       </div>
 
@@ -222,19 +241,30 @@
           </div>
           <button class="option-button">Plan Flight Path</button>
         </a>
+
+        <!-- Meet the Team Card -->
+        <a href="team.html" class="option-card team-tile">
+          <div class="option-icon">👥</div>
+          <h2 class="option-title">Meet The Team</h2>
+          <p class="option-description">
+            Meet The Quantum Crystals, the talented team behind The Wings of
+            Discovery. Discover the brilliant minds driving innovation in
+            imaging technology and drone automation.
+          </p>
+          <div class="feature-list">
+            <div class="feature-item">6 amazing team members</div>
+            <div class="feature-item">Diverse expertise</div>
+            <div class="feature-item">Collaborative vision</div>
+            <div class="feature-item">Cutting-edge innovation</div>
+          </div>
+          <button class="option-button">View Team Members</button>
+        </a>
       </div>
 
       <div class="footer">
         <p>
           © 2025 The Wings of Discovery. Created by
           <strong>The Quantum Crystals</strong>. All rights reserved.
-        </p>
-        <p style="margin-top: 10px">
-          <a
-            href="team.html"
-            style="color: white; text-decoration: underline; opacity: 0.9"
-            >Meet the Team</a
-          >
         </p>
       </div>
     </div>
