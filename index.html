@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Artifact Detector - Wings of Discovery</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        max-width: 600px;
+        width: 100%;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 2.5em;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 1.1em;
+      }
+
+      .upload-section {
+        margin-bottom: 30px;
+      }
+
+      .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .file-input-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        border: 3px dashed #667eea;
+        border-radius: 15px;
+        background: #f8f9ff;
+        transition: all 0.3s ease;
+        font-size: 1.1em;
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .file-input-label:hover {
+        background: #eef0ff;
+        border-color: #764ba2;
+        color: #764ba2;
+      }
+
+      #fileInput {
+        display: none;
+      }
+
+      .preview-section {
+        display: none;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .preview-section.active {
+        display: block;
+      }
+
+      #preview {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+
+      button {
+        flex: 1;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-analyze {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-analyze:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-analyze:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .btn-clear {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .btn-clear:hover {
+        background: #e0e0e0;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .loading.active {
+        display: block;
+      }
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .results-section {
+        display: none;
+      }
+
+      .results-section.active {
+        display: block;
+      }
+
+      .result-card {
+        background: #f8f9ff;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-left: 5px solid #667eea;
+      }
+
+      .result-card.high {
+        border-left-color: #e74c3c;
+      }
+
+      .result-card.medium {
+        border-left-color: #f39c12;
+      }
+
+      .result-card.low {
+        border-left-color: #27ae60;
+      }
+
+      .category-name {
+        font-size: 1.3em;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 8px;
+      }
+
+      .confidence {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .confidence-label {
+        color: #666;
+        font-weight: 600;
+      }
+
+      .confidence-bar {
+        flex: 1;
+        height: 20px;
+        background: #e0e0e0;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .confidence-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        transition: width 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 5px;
+        color: white;
+        font-size: 0.8em;
+        font-weight: 600;
+      }
+
+      .confidence-percent {
+        min-width: 50px;
+        text-align: right;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .emoji {
+        font-size: 1.5em;
+        margin-right: 5px;
+      }
+
+      .error-message {
+        display: none;
+        background: #ffebee;
+        border: 2px solid #e74c3c;
+        color: #c0392b;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .error-message.active {
+        display: block;
+      }
+
+      .info-box {
+        background: #e3f2fd;
+        border: 2px solid #667eea;
+        color: #1976d2;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .debug-console {
+        background: #1e1e1e;
+        color: #00ff00;
+        border: 3px solid #00ff00;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 30px;
+        font-family: "Courier New", monospace;
+        font-size: 0.9em;
+        max-height: 300px;
+        overflow-y: auto;
+        line-height: 1.5;
+        box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+      }
+
+      .debug-console-line {
+        margin-bottom: 8px;
+        word-break: break-all;
+      }
+
+      .debug-console-line.error {
+        color: #ff6b6b;
+      }
+
+      .debug-console-line.log {
+        color: #00ff00;
+      }
+
+      .debug-console-line.info {
+        color: #00ccff;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 1.8em;
+        }
+
+        .file-input-label {
+          padding: 25px;
+          font-size: 0.95em;
+        }
+
+        button {
+          padding: 10px 16px;
+          font-size: 0.9em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎨 Artifact Detector</h1>
+      <p class="subtitle">Upload an image to check for artifacts</p>
+
+      <div class="error-message" id="errorMessage"></div>
+      <div class="info-box" id="infoBox" style="display: none">
+        Loading model... Please wait a moment
+      </div>
+
+      <div
+        style="
+          background: #f0f0f0;
+          padding: 10px;
+          border-radius: 5px;
+          margin-bottom: 20px;
+          text-align: center;
+        "
+      >
+        <small style="color: #666">
+          <button
+            id="debugBtn"
+            style="
+              padding: 5px 10px;
+              font-size: 0.8em;
+              background: #667eea;
+              color: white;
+              border: none;
+              border-radius: 3px;
+              cursor: pointer;
+            "
+          >
+            🐛 Test Image Loading
+          </button>
+        </small>
+      </div>
+
+      <div class="upload-section">
+        <div class="file-input-wrapper">
+          <label for="fileInput" class="file-input-label">
+            📁 Click to upload or drag & drop
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            aria-label="Upload image file"
+          />
+        </div>
+      </div>
+
+      <div class="preview-section" id="previewSection">
+        <img id="preview" alt="Image preview" />
+      </div>
+
+      <div class="button-group" id="buttonGroup" style="display: none">
+        <button class="btn-analyze" id="analyzeBtn">🔍 Analyze Image</button>
+        <button class="btn-clear" id="clearBtn">🔄 Clear</button>
+      </div>
+
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Analyzing image...</p>
+      </div>
+
+      <div class="results-section" id="resultsSection">
+        <h2 style="color: #333; margin-bottom: 20px; text-align: center">
+          Results
+        </h2>
+        <div id="resultsList"></div>
+      </div>
+
+      <div class="debug-console" id="debugConsole"></div>
+    </div>
+
+    <script>
+      // Configuration
+      const MODEL_URL =
+        "https://teachablemachine.withgoogle.com/models/aPjxyfdkU/"; // Replace with your model URL
+
+      // Debug console logging
+      const debugConsole = document.getElementById("debugConsole");
+      let logCount = 0;
+      let isLoggingToConsole = false;
+
+      function addDebugLog(message, type = "log") {
+        logCount++;
+        const line = document.createElement("div");
+        line.className = `debug-console-line ${type}`;
+        line.textContent = `[${logCount}] ${message}`;
+        debugConsole.appendChild(line);
+        debugConsole.scrollTop = debugConsole.scrollHeight;
+
+        // Also log to browser console (only if not already logging to prevent recursion)
+        if (!isLoggingToConsole) {
+          isLoggingToConsole = true;
+          if (type === "error") originalError.apply(console, [message]);
+          else if (type === "info") originalInfo.apply(console, [message]);
+          else originalLog.apply(console, [message]);
+          isLoggingToConsole = false;
+        }
+      }
+
+      // Override console methods with safe serialization to avoid crashes
+      const originalLog = console.log.bind(console);
+      const originalError = console.error.bind(console);
+      const originalInfo = console.info.bind(console);
+
+      function safeSerializeArg(arg) {
+        try {
+          if (typeof arg === "string") return arg;
+          if (arg instanceof Error)
+            return arg.message + "\n" + (arg.stack || "");
+          if (typeof File !== "undefined" && arg instanceof File)
+            return `<File name=${arg.name} size=${arg.size}>`;
+          if (arg && typeof arg === "object") {
+            try {
+              return JSON.stringify(arg);
+            } catch (e) {
+              return String(arg);
+            }
+          }
+          return String(arg);
+        } catch (e) {
+          return String(arg);
+        }
+      }
+
+      console.log = function (...args) {
+        try {
+          if (!isLoggingToConsole) {
+            const txt = args.map((a) => safeSerializeArg(a)).join(" ");
+            addDebugLog(txt, "log");
+          }
+        } catch (e) {
+          originalError("Debug log failed:", e && e.message);
+        } finally {
+          originalLog(...args);
+        }
+      };
+
+      console.error = function (...args) {
+        try {
+          if (!isLoggingToConsole) {
+            const txt = args.map((a) => safeSerializeArg(a)).join(" ");
+            addDebugLog(txt, "error");
+          }
+        } catch (e) {
+          originalError("Debug log failed:", e && e.message);
+        } finally {
+          originalError(...args);
+        }
+      };
+
+      console.info = function (...args) {
+        try {
+          if (!isLoggingToConsole) {
+            const txt = args.map((a) => safeSerializeArg(a)).join(" ");
+            addDebugLog(txt, "info");
+          }
+        } catch (e) {
+          originalError("Debug log failed:", e && e.message);
+        } finally {
+          originalInfo(...args);
+        }
+      };
+
+      // Capture key DOM events early (capturing phase) so we can see what fires before handlers
+      (function attachCaptureListeners() {
+        try {
+          const captureEvents = [
+            "change",
+            "input",
+            "click",
+            "dragenter",
+            "dragover",
+            "drop",
+          ];
+          captureEvents.forEach((ev) => {
+            document.addEventListener(
+              ev,
+              (e) => {
+                try {
+                  const target = e.target;
+                  let desc =
+                    (target &&
+                      (target.id ||
+                        target.tagName ||
+                        (target.className && String(target.className)) ||
+                        target.nodeName)) ||
+                    "unknown";
+                  addDebugLog(`CAPTURE EVENT ${ev} target=${desc}`, "info");
+                } catch (err) {
+                  originalError("capture listener error", err && err.message);
+                }
+              },
+              true
+            );
+          });
+          originalLog("✅ Capture event listeners attached");
+        } catch (err) {
+          originalError(
+            "Failed to attach capture listeners",
+            err && err.message
+          );
+        }
+      })();
+
+      // Add initial message
+      addDebugLog("Debug console initialized", "info");
+      addDebugLog("Teachable Machine Artifact Detector Ready", "log");
+
+      // Global error handler
+      window.addEventListener("error", (event) => {
+        console.error(
+          "🔴 GLOBAL ERROR:",
+          event.message,
+          "at",
+          event.filename,
+          "line",
+          event.lineno
+        );
+        if (errorMessage) {
+          showError("Error: " + event.message);
+        }
+      });
+
+      window.addEventListener("unhandledrejection", (event) => {
+        console.error("🔴 UNHANDLED PROMISE REJECTION:", event.reason);
+        if (errorMessage) {
+          showError("Error: " + event.reason);
+        }
+      });
+
+      // State
+      let model = null;
+      let webcam = null;
+      let selectedImage = null;
+      let isLoading = false;
+
+      // DOM Elements - will be initialized after DOM is ready
+      let fileInput = null;
+      let preview = null;
+      let previewSection = null;
+      let analyzeBtn = null;
+      let clearBtn = null;
+      let loading = null;
+      let resultsSection = null;
+      let resultsList = null;
+      let buttonGroup = null;
+      let errorMessage = null;
+      let infoBox = null;
+      let fileInputLabel = null;
+
+      // Function to initialize DOM elements
+      function initializeDOMElements() {
+        console.log("📌 Initializing DOM elements...");
+        fileInput = document.getElementById("fileInput");
+        preview = document.getElementById("preview");
+        previewSection = document.getElementById("previewSection");
+        analyzeBtn = document.getElementById("analyzeBtn");
+        clearBtn = document.getElementById("clearBtn");
+        loading = document.getElementById("loading");
+        resultsSection = document.getElementById("resultsSection");
+        resultsList = document.getElementById("resultsList");
+        buttonGroup = document.getElementById("buttonGroup");
+        errorMessage = document.getElementById("errorMessage");
+        infoBox = document.getElementById("infoBox");
+        fileInputLabel = document.querySelector(".file-input-label");
+
+        if (!fileInput) {
+          console.error("❌ fileInput element not found!");
+          return false;
+        }
+
+        console.log("✅ DOM elements initialized successfully");
+        return true;
+      }
+
+      // Initialize model on page load
+      async function initModel() {
+        try {
+          console.log("🤖 Starting model initialization...");
+          infoBox.style.display = "block";
+          // Teachable Machine URL format
+          const modelURL = MODEL_URL.endsWith("/")
+            ? MODEL_URL
+            : MODEL_URL + "/";
+          const fullModelURL = modelURL + "model.json";
+          const metadataURL = modelURL + "metadata.json";
+
+          console.log("Loading model from:", fullModelURL);
+          console.log("Loading metadata from:", metadataURL);
+
+          model = await tmImage.load(fullModelURL, metadataURL);
+          console.log("✅ Model loaded successfully");
+          infoBox.style.display = "none";
+        } catch (error) {
+          showError(
+            "Failed to load model. Please check:\n1. Model URL is correct\n2. You have internet connection\n3. Model is public on Teachable Machine"
+          );
+          console.error("❌ Model loading error:", error);
+          console.log("Attempted to load from:", MODEL_URL);
+        }
+      }
+
+      // Setup event listeners
+      function setupEventListeners() {
+        console.log("🎯 Setting up event listeners...");
+        if (!fileInput || !fileInputLabel) {
+          console.error(
+            "❌ Cannot setup event listeners - DOM elements missing"
+          );
+          return;
+        }
+
+        fileInput.addEventListener("change", handleFileSelect);
+        fileInputLabel.addEventListener("dragover", handleDragOver);
+        fileInputLabel.addEventListener("dragleave", handleDragLeave);
+        fileInputLabel.addEventListener("drop", handleDrop);
+        analyzeBtn.addEventListener("click", analyzeImage);
+        clearBtn.addEventListener("click", clearAll);
+
+        console.log("✅ Event listeners attached");
+      }
+
+      function handleFileSelect(event) {
+        try {
+          console.log("🔹 handleFileSelect called");
+          const file = event.target.files[0];
+          console.log("🔹 Got file object");
+          if (file) {
+            console.log("🔹 File exists, calling loadImage");
+            loadImage(file);
+            console.log("🔹 loadImage returned");
+          }
+        } catch (err) {
+          console.error("🔴 CRASH in handleFileSelect:", err.message);
+          console.error("Stack:", err.stack);
+          showError("Error selecting file: " + err.message);
+        }
+      }
+
+      function handleDragOver(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        fileInputLabel.style.background = "#eef0ff";
+      }
+
+      function handleDragLeave(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        fileInputLabel.style.background = "#f8f9ff";
+      }
+
+      function handleDrop(event) {
+        try {
+          console.log("🔹 handleDrop called");
+          event.preventDefault();
+          event.stopPropagation();
+          fileInputLabel.style.background = "#f8f9ff";
+
+          const files = event.dataTransfer.files;
+          console.log("🔹 Got files from dataTransfer:", files.length);
+          if (files.length > 0 && files[0].type.startsWith("image/")) {
+            console.log("🔹 File is image type, setting fileInput.files");
+            fileInput.files = files;
+            console.log("🔹 Calling loadImage");
+            loadImage(files[0]);
+            console.log("🔹 loadImage returned");
+          } else {
+            showError("Please drop an image file.");
+          }
+        } catch (err) {
+          console.error("🔴 CRASH in handleDrop:", err.message);
+          console.error("Stack:", err.stack);
+          showError("Error dropping file: " + err.message);
+        }
+      }
+
+      function loadImage(file) {
+        try {
+          console.log(
+            "📸 Starting to load image:",
+            file.name,
+            "Size:",
+            file.size,
+            "bytes"
+          );
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              console.log("✅ FileReader loaded successfully");
+              selectedImage = new Image();
+              selectedImage.onload = () => {
+                try {
+                  console.log(
+                    "✅ Image loaded to DOM. Dimensions:",
+                    selectedImage.naturalWidth,
+                    "x",
+                    selectedImage.naturalHeight
+                  );
+                  preview.src = selectedImage.src;
+                  previewSection.classList.add("active");
+                  buttonGroup.style.display = "flex";
+                  resultsSection.classList.remove("active");
+                  errorMessage.classList.remove("active");
+                } catch (err) {
+                  console.error("❌ Error in image onload:", err.message);
+                  showError("Error displaying image: " + err.message);
+                }
+              };
+              selectedImage.onerror = () => {
+                console.error("❌ Image failed to load");
+                showError("Failed to load image");
+              };
+              console.log("📝 Setting image source from FileReader result");
+              selectedImage.src = e.target.result;
+            } catch (err) {
+              console.error("❌ Error in FileReader onload:", err.message);
+              showError("Error reading file: " + err.message);
+            }
+          };
+          reader.onerror = () => {
+            console.error("❌ FileReader error:", reader.error);
+            showError("Error reading file");
+          };
+          console.log("📂 Starting FileReader.readAsDataURL...");
+          reader.readAsDataURL(file);
+        } catch (err) {
+          console.error("❌ Critical error in loadImage:", err.message);
+          console.error("Stack trace:", err.stack);
+          showError("Critical error: " + err.message);
+        }
+      }
+
+      async function analyzeImage() {
+        console.log("🔍 Starting image analysis...");
+
+        if (!model) {
+          console.error("❌ Model not loaded");
+          showError(
+            "Model is still loading. Please wait a moment and try again."
+          );
+          return;
+        }
+        console.log("✅ Model is loaded");
+
+        if (!selectedImage) {
+          console.error("❌ No image selected");
+          showError("Please select an image first.");
+          return;
+        }
+        console.log("✅ Image selected");
+
+        // Check if image is fully loaded
+        if (!selectedImage.complete || selectedImage.naturalHeight === 0) {
+          console.error(
+            "❌ Image not fully loaded. Complete:",
+            selectedImage.complete,
+            "Height:",
+            selectedImage.naturalHeight
+          );
+          showError("Image failed to load. Please try uploading again.");
+          return;
+        }
+        console.log(
+          "✅ Image fully loaded:",
+          selectedImage.naturalWidth,
+          "x",
+          selectedImage.naturalHeight
+        );
+
+        if (isLoading) {
+          console.log("⏸️ Already loading, ignoring request");
+          return;
+        }
+
+        isLoading = true;
+        analyzeBtn.disabled = true;
+        loading.classList.add("active");
+        resultsSection.classList.remove("active");
+        errorMessage.classList.remove("active");
+
+        try {
+          console.log("📐 Creating canvas...");
+          // Create a canvas and draw the image on it for proper prediction
+          const canvas = document.createElement("canvas");
+          canvas.width = selectedImage.naturalWidth;
+          canvas.height = selectedImage.naturalHeight;
+          console.log("📐 Canvas created:", canvas.width, "x", canvas.height);
+
+          const ctx = canvas.getContext("2d");
+
+          if (!ctx) {
+            throw new Error("Failed to get canvas context");
+          }
+          console.log("✅ Canvas context obtained");
+
+          console.log("🎨 Drawing image to canvas...");
+          ctx.drawImage(selectedImage, 0, 0);
+          console.log("✅ Image drawn to canvas");
+
+          console.log("🤖 Sending to model for prediction...");
+          const predictions = await model.predict(canvas);
+          console.log("✅ Predictions received:", predictions);
+
+          if (!predictions || predictions.length === 0) {
+            console.error("❌ No predictions from model");
+            showError("No results from model. Please try another image.");
+            return;
+          }
+          console.log("📊 Displaying results...");
+          displayResults(predictions);
+        } catch (error) {
+          console.error("❌ Error during analysis:", error.message);
+          console.error("Stack:", error.stack);
+          showError("Error analyzing image: " + error.message);
+        } finally {
+          isLoading = false;
+          analyzeBtn.disabled = false;
+          loading.classList.remove("active");
+        }
+      }
+      function displayResults(predictions) {
+        resultsList.innerHTML = "";
+
+        // Sort predictions by confidence (highest first)
+        const sorted = predictions.sort(
+          (a, b) => b.probability - a.probability
+        );
+
+        sorted.forEach((prediction, index) => {
+          const percentage = (prediction.probability * 100).toFixed(1);
+          const confidence = prediction.probability;
+
+          // Determine risk level based on confidence
+          let riskLevel = "low";
+          let emoji = "✅";
+          if (confidence > 0.7) {
+            riskLevel = "high";
+            emoji = "⚠️";
+          } else if (confidence > 0.4) {
+            riskLevel = "medium";
+            emoji = "⚡";
+          }
+
+          const card = document.createElement("div");
+          card.className = `result-card ${riskLevel}`;
+          card.innerHTML = `
+                    <div class="category-name">
+                        <span class="emoji">${emoji}</span>${
+            prediction.className
+          }
+                    </div>
+                    <div class="confidence">
+                        <span class="confidence-label">Confidence:</span>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: ${percentage}%">
+                                ${percentage > 10 ? percentage + "%" : ""}
+                            </div>
+                        </div>
+                        <span class="confidence-percent">${percentage}%</span>
+                    </div>
+                `;
+          resultsList.appendChild(card);
+        });
+
+        resultsSection.classList.add("active");
+      }
+
+      function showError(message) {
+        if (!errorMessage) {
+          console.error(
+            "Cannot show error - errorMessage element not initialized:",
+            message
+          );
+          return;
+        }
+        errorMessage.textContent = message;
+        errorMessage.classList.add("active");
+      }
+
+      function clearAll() {
+        fileInput.value = "";
+        preview.src = "";
+        selectedImage = null;
+        previewSection.classList.remove("active");
+        buttonGroup.style.display = "none";
+        resultsSection.classList.remove("active");
+        errorMessage.classList.remove("active");
+      }
+
+      // Initialize on load
+      window.addEventListener("load", () => {
+        console.log("🚀 Page loaded, initializing...");
+        const success = initializeDOMElements();
+        if (success) {
+          setupEventListeners();
+          setupDebugButton();
+          initModel();
+        }
+      });
+
+      // Debug test button - initialize after page load
+      function setupDebugButton() {
+        const debugBtn = document.getElementById("debugBtn");
+        if (debugBtn) {
+          debugBtn.addEventListener("click", testImageLoading);
+          console.log("✅ Debug button initialized");
+        }
+      }
+
+      function testImageLoading() {
+        console.log("🧪 TEST MODE: Creating sample image for testing...");
+
+        try {
+          // Create a simple test image (small colored square)
+          const canvas = document.createElement("canvas");
+          canvas.width = 100;
+          canvas.height = 100;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#667eea";
+          ctx.fillRect(0, 0, 100, 100);
+
+          canvas.toBlob((blob) => {
+            try {
+              console.log("🧪 Created test image blob");
+              const testFile = new File([blob], "test-image.png", {
+                type: "image/png",
+              });
+              console.log("🧪 Calling loadImage with test file...");
+              loadImage(testFile);
+            } catch (err) {
+              console.error("🧪 Error creating test file:", err.message);
+            }
+          });
+        } catch (err) {
+          console.error("🧪 Error in testImageLoading:", err.message);
+        }
+      }
+    </script>
+  </body>
+</html>
