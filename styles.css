@@ -1,0 +1,213 @@
+/* Global Styles for Wings of Discovery */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Typography */
+body {
+  font-family: "Nunito", sans-serif;
+  background: url("images/Wings.png") center/cover no-repeat;
+  min-height: 100vh;
+  color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Nunito", sans-serif;
+}
+
+/* Colors - Wings Palette */
+:root {
+  --color-primary-violet: #8a3edb;
+  --color-deep-purple: #4b1f69;
+  --color-light-lavender: #c48cff;
+  --color-dark-plum: #32104a;
+  --color-cyan: rgb(0, 230, 255);
+  --color-white: white;
+  --color-dark-text: #333;
+  --color-light-text: #666;
+}
+
+/* Buttons */
+button,
+.btn,
+.option-button {
+  background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover,
+.btn:hover,
+.option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(138, 62, 219, 0.3);
+}
+
+button:active,
+.btn:active,
+.option-button:active {
+  transform: translateY(0);
+}
+
+/* Back Button */
+.back-button {
+  display: inline-block;
+  margin-bottom: 20px;
+  background: white;
+  color: #8a3edb;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.back-button:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* Cards */
+.option-card,
+.team-member,
+.content {
+  background: white;
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.option-card:hover,
+.team-member:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 80px rgba(138, 62, 219, 0.2);
+  border-color: #8a3edb;
+}
+
+/* Text Colors */
+.team-name {
+  color: #8a3edb;
+  font-weight: 700;
+}
+
+.member-role {
+  color: #8a3edb;
+  font-weight: 600;
+}
+
+/* Gradient Elements */
+.stat-item,
+.option-button {
+  background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 100%);
+}
+
+/* Mission/Info Box */
+.mission {
+  background: #f3e6ff;
+  border-left: 5px solid #8a3edb;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+
+.mission h2 {
+  color: #8a3edb;
+  margin-bottom: 10px;
+}
+
+/* Input Fields */
+input,
+textarea,
+select {
+  font-family: "Montserrat", sans-serif;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: #8a3edb;
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.8em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  .option-card,
+  .team-member,
+  .content {
+    padding: 20px;
+  }
+
+  button,
+  .btn,
+  .option-button {
+    padding: 10px 20px;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
+
+  .option-card,
+  .team-member {
+    padding: 15px;
+  }
+}
