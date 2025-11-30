@@ -34,8 +34,9 @@
 
       .header-logo {
         height: 80px;
-        margin-bottom: 20px;
         display: inline-block;
+        margin-right: 20px;
+        vertical-align: middle;
       }
 
       .header h1 {
@@ -43,6 +44,8 @@
         margin-bottom: 10px;
         text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         letter-spacing: 2px;
+        display: inline-block;
+        vertical-align: middle;
       }
 
       .header .team-name {
@@ -207,12 +210,14 @@
   <body>
     <div class="container">
       <div class="header">
-        <img
-          src="images/WingsOfDiscovery-Logo.png"
-          alt="Wings of Discovery Logo"
-          class="header-logo"
-        />
-        <h1>The Wings of Discovery</h1>
+        <div>
+          <img
+            src="images/WingsOfDiscovery-Logo.png"
+            alt="Wings of Discovery Logo"
+            class="header-logo"
+          />
+          <h1>The Wings of Discovery</h1>
+        </div>
         <div class="team-name">By The Quantum Crystals</div>
         <p>Explore the sky with advanced imaging and analysis tools</p>
       </div>
