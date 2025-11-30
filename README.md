@@ -29,7 +29,7 @@ A simple, kid-friendly web application for detecting and categorizing image arti
 ### Setup
 
 1. Clone or download this repository
-2. Open `index.html` in your web browser
+2. Open `single-viewer.html` in your web browser
 3. Update the `MODEL_URL` in the script with your Teachable Machine model URL:
    ```javascript
    const MODEL_URL =
@@ -48,7 +48,7 @@ A simple, kid-friendly web application for detecting and categorizing image arti
 
 ```
 wings-of-discovery/
-├── index.html          # Main application file
+├── single-viewer.html  # Single image artifact detector
 ├── README.md          # This file
 └── .git/              # Version control
 ```
