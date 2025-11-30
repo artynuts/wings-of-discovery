@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Team - The Wings of Discovery</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .back-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        background: white;
+        color: #667eea;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .back-button:hover {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+      }
+
+      .header {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        color: #333;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .team-name {
+        font-size: 1.8em;
+        color: #667eea;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .content {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        margin-bottom: 30px;
+      }
+
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .team-member {
+        background: #f8f9ff;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        border: 2px solid #e0e0e0;
+        transition: all 0.3s ease;
+      }
+
+      .team-member:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        border-color: #667eea;
+      }
+
+      .member-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+      }
+
+      .member-name {
+        font-size: 1.4em;
+        color: #333;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .member-role {
+        color: #667eea;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .member-bio {
+        color: #666;
+        line-height: 1.6;
+        font-size: 0.95em;
+      }
+
+      .team-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+        padding-top: 40px;
+        border-top: 2px solid #f0f0f0;
+      }
+
+      .stat-item {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 2.5em;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+
+      .stat-label {
+        font-size: 1em;
+        opacity: 0.9;
+      }
+
+      .mission {
+        background: #e3f2fd;
+        border-left: 5px solid #667eea;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 30px;
+      }
+
+      .mission h2 {
+        color: #1976d2;
+        margin-bottom: 10px;
+      }
+
+      .mission p {
+        color: #333;
+        line-height: 1.8;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 1.8em;
+        }
+
+        .team-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .content {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="landing.html" class="back-button">← Back to Home</a>
+
+      <div class="header">
+        <div class="team-name">✨ The Quantum Crystals ✨</div>
+        <h1>Meet Our Team</h1>
+        <p>
+          Six brilliant minds building the future of drone technology and image
+          analysis
+        </p>
+      </div>
+
+      <div class="content">
+        <div class="team-grid">
+          <div class="team-member">
+            <div class="member-avatar">👩‍💻</div>
+            <div class="member-name">Team Member 1</div>
+            <div class="member-role">Lead Developer</div>
+            <div class="member-bio">
+              Passionate about creating innovative solutions and pushing the
+              boundaries of what's possible with drone technology.
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-avatar">👩‍💼</div>
+            <div class="member-name">Team Member 2</div>
+            <div class="member-role">UI/UX Designer</div>
+            <div class="member-bio">
+              Focused on creating beautiful and intuitive interfaces that make
+              complex tasks simple and enjoyable.
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-avatar">👩‍🔬</div>
+            <div class="member-name">Team Member 3</div>
+            <div class="member-role">AI/ML Specialist</div>
+            <div class="member-bio">
+              Expert in machine learning and image recognition, bringing
+              artificial intelligence to life in our applications.
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-avatar">👩‍🎓</div>
+            <div class="member-name">Team Member 4</div>
+            <div class="member-role">Project Manager</div>
+            <div class="member-bio">
+              Keeps the team organized and on track, ensuring every project
+              milestone is met with excellence.
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-avatar">👩‍🔧</div>
+            <div class="member-name">Team Member 5</div>
+            <div class="member-role">Backend Engineer</div>
+            <div class="member-bio">
+              Building robust and scalable systems that power our applications
+              behind the scenes.
+            </div>
+          </div>
+
+          <div class="team-member">
+            <div class="member-avatar">👩‍🎨</div>
+            <div class="member-name">Team Member 6</div>
+            <div class="member-role">QA/Testing Lead</div>
+            <div class="member-bio">
+              Ensures every feature works perfectly, maintaining the highest
+              standards of quality and reliability.
+            </div>
+          </div>
+        </div>
+
+        <div class="team-stats">
+          <div class="stat-item">
+            <div class="stat-number">6</div>
+            <div class="stat-label">Team Members</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Tools Created</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Commitment</div>
+          </div>
+        </div>
+
+        <div class="mission">
+          <h2>Our Mission</h2>
+          <p>
+            The Quantum Crystals team is dedicated to revolutionizing drone
+            technology and image analysis. We believe in the power of
+            innovation, collaboration, and creative problem-solving. Through our
+            tools—including artifact detection, batch image analysis, and
+            advanced drone path planning—we're empowering users to accomplish
+            more with technology. Together, we're building "The Wings of
+            Discovery," a platform that makes cutting-edge technology accessible
+            and easy to use.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
