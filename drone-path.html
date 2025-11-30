@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drone Path Planner - The Wings of Discovery</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .header h1 {
+        color: #333;
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        color: #666;
+        font-size: 1.1em;
+      }
+
+      .back-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        background: #667eea;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background: #764ba2;
+        transform: translateY(-2px);
+      }
+
+      .content {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        margin-bottom: 30px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      .section h2 {
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+      }
+
+      .input-group label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      .input-group input,
+      .input-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-family: "Segoe UI", sans-serif;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+      }
+
+      .input-group input:focus,
+      .input-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      button {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-calculate {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-calculate:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-clear {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .btn-clear:hover {
+        background: #e0e0e0;
+      }
+
+      .results {
+        display: none;
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 2px solid #f0f0f0;
+      }
+
+      .results.active {
+        display: block;
+      }
+
+      .result-item {
+        background: #f8f9ff;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #667eea;
+        margin-bottom: 15px;
+      }
+
+      .result-label {
+        color: #666;
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 0.95em;
+      }
+
+      .result-value {
+        color: #333;
+        font-size: 1.2em;
+        font-weight: 700;
+        word-break: break-all;
+      }
+
+      .canvas-container {
+        margin-top: 30px;
+        padding: 20px;
+        background: #f8f9ff;
+        border-radius: 10px;
+        border: 2px solid #e0e0e0;
+      }
+
+      canvas {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .info-box {
+        background: #e3f2fd;
+        border-left: 5px solid #667eea;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .info-box strong {
+        color: #1976d2;
+      }
+
+      .error-message {
+        display: none;
+        background: #ffebee;
+        border-left: 5px solid #e74c3c;
+        color: #c0392b;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .error-message.active {
+        display: block;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 1.8em;
+        }
+
+        .content {
+          padding: 20px;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="landing.html" class="back-button">← Back to Home</a>
+
+      <div class="header">
+        <h1>📍 Drone Path Planner</h1>
+        <p>Calculate efficient flight paths through polygonal survey areas</p>
+      </div>
+
+      <div class="content">
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="section">
+          <h2>Polygon Coordinates</h2>
+          <div class="info-box">
+            <strong>Instructions:</strong> Enter polygon coordinates as
+            comma-separated pairs (latitude, longitude) on each line. For
+            example: 40.7128, -74.0060
+          </div>
+          <div class="input-group">
+            <label for="coordinates">Polygon Corners:</label>
+            <textarea
+              id="coordinates"
+              rows="6"
+              placeholder="Enter coordinates, one per line&#10;Example:&#10;40.7128, -74.0060&#10;40.7614, -73.9776&#10;40.7489, -73.9680"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>Flight Parameters</h2>
+          <div class="input-group">
+            <label for="spacing">Flight Line Spacing (meters):</label>
+            <input
+              type="number"
+              id="spacing"
+              placeholder="50"
+              value="50"
+              min="1"
+              max="1000"
+            />
+          </div>
+          <div class="input-group">
+            <label for="altitude">Drone Altitude (meters):</label>
+            <input
+              type="number"
+              id="altitude"
+              placeholder="50"
+              value="50"
+              min="1"
+              max="500"
+            />
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-calculate" onclick="calculatePath()">
+            🔍 Calculate Path
+          </button>
+          <button class="btn-clear" onclick="clearForm()">🔄 Clear</button>
+        </div>
+
+        <div class="results" id="results">
+          <h2>Path Calculation Results</h2>
+          <div class="result-item">
+            <div class="result-label">Total Distance:</div>
+            <div class="result-value" id="totalDistance">0 km</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Number of Flight Lines:</div>
+            <div class="result-value" id="flightLines">0</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Estimated Flight Time:</div>
+            <div class="result-value" id="flightTime">0 minutes</div>
+          </div>
+          <div class="result-item">
+            <div class="result-label">Coverage Area:</div>
+            <div class="result-value" id="coverageArea">0 km²</div>
+          </div>
+
+          <div class="canvas-container">
+            <canvas id="pathCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function parseCoordinates(text) {
+        const lines = text
+          .trim()
+          .split("\n")
+          .filter((line) => line.trim());
+        return lines.map((line) => {
+          const parts = line.split(",").map((p) => parseFloat(p.trim()));
+          if (parts.length !== 2 || isNaN(parts[0]) || isNaN(parts[1])) {
+            throw new Error(`Invalid coordinate format: ${line}`);
+          }
+          return { lat: parts[0], lng: parts[1] };
+        });
+      }
+
+      function calculatePath() {
+        try {
+          const errorMsg = document.getElementById("errorMessage");
+          errorMsg.classList.remove("active");
+
+          const coordinatesText = document.getElementById("coordinates").value;
+          const spacing = parseFloat(document.getElementById("spacing").value);
+          const altitude = parseFloat(
+            document.getElementById("altitude").value
+          );
+
+          if (!coordinatesText.trim()) {
+            throw new Error("Please enter polygon coordinates");
+          }
+
+          if (spacing <= 0) {
+            throw new Error("Flight line spacing must be greater than 0");
+          }
+
+          const coordinates = parseCoordinates(coordinatesText);
+
+          if (coordinates.length < 3) {
+            throw new Error("A polygon must have at least 3 corners");
+          }
+
+          // Calculate perimeter (simplified for demonstration)
+          let perimeter = 0;
+          for (let i = 0; i < coordinates.length; i++) {
+            const curr = coordinates[i];
+            const next = coordinates[(i + 1) % coordinates.length];
+            const dist =
+              Math.sqrt(
+                Math.pow(next.lat - curr.lat, 2) +
+                  Math.pow(next.lng - curr.lng, 2)
+              ) * 111; // rough km conversion
+            perimeter += dist;
+          }
+
+          // Calculate coverage area (simplified)
+          let area = 0;
+          for (let i = 0; i < coordinates.length; i++) {
+            const curr = coordinates[i];
+            const next = coordinates[(i + 1) % coordinates.length];
+            area += curr.lat * next.lng - next.lat * curr.lng;
+          }
+          area = (Math.abs(area) / 2) * 111 * 111; // rough km² conversion
+
+          const flightLines = Math.ceil(perimeter / spacing);
+          const totalDistance = (perimeter * flightLines) / 1000; // km
+          const flightTime = Math.ceil(totalDistance / 15); // assuming 15 km/h average speed
+
+          // Display results
+          document.getElementById("totalDistance").textContent =
+            totalDistance.toFixed(2) + " km";
+          document.getElementById("flightLines").textContent = flightLines;
+          document.getElementById("flightTime").textContent =
+            flightTime + " minutes";
+          document.getElementById("coverageArea").textContent =
+            area.toFixed(2) + " km²";
+
+          // Draw visualization
+          drawPathVisualization(coordinates, spacing);
+
+          document.getElementById("results").classList.add("active");
+        } catch (error) {
+          const errorMsg = document.getElementById("errorMessage");
+          errorMsg.textContent = "❌ " + error.message;
+          errorMsg.classList.add("active");
+          document.getElementById("results").classList.remove("active");
+        }
+      }
+
+      function drawPathVisualization(coordinates, spacing) {
+        const canvas = document.getElementById("pathCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Set canvas size
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 400;
+
+        // Find bounds
+        let minLat = coordinates[0].lat,
+          maxLat = coordinates[0].lat;
+        let minLng = coordinates[0].lng,
+          maxLng = coordinates[0].lng;
+
+        coordinates.forEach((coord) => {
+          minLat = Math.min(minLat, coord.lat);
+          maxLat = Math.max(maxLat, coord.lat);
+          minLng = Math.min(minLng, coord.lng);
+          maxLng = Math.max(maxLng, coord.lng);
+        });
+
+        const padding = 50;
+        const width = canvas.width - 2 * padding;
+        const height = canvas.height - 2 * padding;
+
+        // Scale function
+        const scaleX = (lng) =>
+          padding + ((lng - minLng) / (maxLng - minLng)) * width;
+        const scaleY = (lat) =>
+          padding + ((maxLat - lat) / (maxLat - minLat)) * height;
+
+        // Clear canvas
+        ctx.fillStyle = "#f8f9ff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw polygon
+        ctx.strokeStyle = "#667eea";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(scaleX(coordinates[0].lng), scaleY(coordinates[0].lat));
+        for (let i = 1; i < coordinates.length; i++) {
+          ctx.lineTo(scaleX(coordinates[i].lng), scaleY(coordinates[i].lat));
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        // Draw points
+        ctx.fillStyle = "#764ba2";
+        coordinates.forEach((coord, i) => {
+          const x = scaleX(coord.lng);
+          const y = scaleY(coord.lat);
+          ctx.beginPath();
+          ctx.arc(x, y, 6, 0, 2 * Math.PI);
+          ctx.fill();
+
+          // Draw labels
+          ctx.fillStyle = "#333";
+          ctx.font = "12px Arial";
+          ctx.fillText(`#${i + 1}`, x + 10, y - 10);
+          ctx.fillStyle = "#764ba2";
+        });
+
+        // Draw flight lines
+        ctx.strokeStyle = "#f39c12";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        const numLines = Math.ceil(width / (spacing * 10));
+        for (let i = 0; i < numLines; i++) {
+          const x = padding + i * ((spacing * 10) / 111);
+          ctx.beginPath();
+          ctx.moveTo(x, padding);
+          ctx.lineTo(x, padding + height);
+          ctx.stroke();
+        }
+        ctx.setLineDash([]);
+      }
+
+      function clearForm() {
+        document.getElementById("coordinates").value = "";
+        document.getElementById("spacing").value = "50";
+        document.getElementById("altitude").value = "50";
+        document.getElementById("results").classList.remove("active");
+        document.getElementById("errorMessage").classList.remove("active");
+      }
+
+      // Allow Enter key to calculate
+      document
+        .getElementById("coordinates")
+        .addEventListener("keydown", (e) => {
+          if (e.ctrlKey && e.key === "Enter") {
+            calculatePath();
+          }
+        });
+    </script>
+  </body>
+</html>
