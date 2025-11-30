@@ -110,7 +110,7 @@ button,
   transition: all 0.3s ease;
   margin-top: 20px;
   margin-bottom: 20px;
-  margin-left: 20px;
+  margin-left: 0px;
 }
 
 button:hover,
