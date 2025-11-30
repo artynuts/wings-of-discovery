@@ -349,8 +349,8 @@
               <input
                 type="number"
                 id="scale"
-                placeholder="1"
-                value="1"
+                placeholder="0.1"
+                value="0.1"
                 min="0.1"
                 max="100"
                 step="0.1"
@@ -443,20 +443,93 @@
       let pathGenerated = false;
       let generatedPath = null;
       let boundingRect = null;
+      let draggedPointIndex = -1;
 
       canvas.addEventListener("click", (e) => {
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        polygonPoints.push({ x, y });
-        drawCanvas();
-        updatePointsList();
+        // Check if clicking on existing point
+        let clickedPoint = -1;
+        for (let i = 0; i < polygonPoints.length; i++) {
+          const dist = Math.sqrt(
+            Math.pow(x - polygonPoints[i].x, 2) +
+              Math.pow(y - polygonPoints[i].y, 2)
+          );
+          if (dist < 10) {
+            clickedPoint = i;
+            break;
+          }
+        }
 
-        // Show step 2 when points are added
-        if (polygonPoints.length > 0) {
+        // If not clicking on existing point, add new point
+        if (clickedPoint === -1) {
+          polygonPoints.push({ x, y });
+          drawCanvas();
+          updatePointsList();
           console.log(`Point ${polygonPoints.length} added`);
         }
+      });
+
+      canvas.addEventListener("mousedown", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Check if clicking on a point to drag
+        for (let i = 0; i < polygonPoints.length; i++) {
+          const dist = Math.sqrt(
+            Math.pow(x - polygonPoints[i].x, 2) +
+              Math.pow(y - polygonPoints[i].y, 2)
+          );
+          if (dist < 10) {
+            draggedPointIndex = i;
+            canvas.style.cursor = "grabbing";
+            break;
+          }
+        }
+      });
+
+      canvas.addEventListener("mousemove", (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Check if hovering over a point
+        let hovering = false;
+        for (let i = 0; i < polygonPoints.length; i++) {
+          const dist = Math.sqrt(
+            Math.pow(x - polygonPoints[i].x, 2) +
+              Math.pow(y - polygonPoints[i].y, 2)
+          );
+          if (dist < 10) {
+            hovering = true;
+            break;
+          }
+        }
+        canvas.style.cursor = hovering ? "grab" : "crosshair";
+
+        // Drag point if one is being dragged
+        if (draggedPointIndex >= 0) {
+          polygonPoints[draggedPointIndex].x = x;
+          polygonPoints[draggedPointIndex].y = y;
+          drawCanvas();
+          updatePointsList();
+          if (pathGenerated) {
+            generatePath();
+          }
+        }
+      });
+
+      canvas.addEventListener("mouseup", () => {
+        draggedPointIndex = -1;
+        canvas.style.cursor = "crosshair";
+      });
+
+      canvas.addEventListener("mouseleave", () => {
+        draggedPointIndex = -1;
+        canvas.style.cursor = "crosshair";
       });
 
       canvas.addEventListener("contextmenu", (e) => {
@@ -589,50 +662,11 @@
             <div style="grid-column: 1 / -1;">
               <div class="point-label">Point ${index + 1} to Point ${
             ((index + 1) % polygonPoints.length) + 1
-          } Distance (feet):</div>
-              <input
-                type="number"
-                value="${feetDist.toFixed(1)}"
-                min="0.1"
-                step="0.1"
-                onchange="updatePointDistance(${index}, this.value)"
-              />
+          }: ${feetDist.toFixed(1)} ft (drag points to adjust)</div>
             </div>
           `;
           container.appendChild(pointItem);
         });
-      }
-
-      function updatePointDistance(index, newFeetDist) {
-        const numValue = parseFloat(newFeetDist);
-        if (isNaN(numValue) || numValue <= 0) return;
-
-        const scale = parseFloat(document.getElementById("scale").value);
-        const point = polygonPoints[index];
-        const nextPoint = polygonPoints[(index + 1) % polygonPoints.length];
-
-        // Calculate current vector from point to next point
-        const currentDx = nextPoint.x - point.x;
-        const currentDy = nextPoint.y - point.y;
-        const currentPixelDist = Math.sqrt(
-          Math.pow(currentDx, 2) + Math.pow(currentDy, 2)
-        );
-
-        if (currentPixelDist === 0) return;
-
-        // Calculate new pixel distance needed
-        const newPixelDist = numValue / scale;
-
-        // Scale the vector to the new distance
-        const scale_factor = newPixelDist / currentPixelDist;
-        nextPoint.x = point.x + currentDx * scale_factor;
-        nextPoint.y = point.y + currentDy * scale_factor;
-
-        drawCanvas();
-        updatePointsList();
-        if (pathGenerated) {
-          generatePath();
-        }
       }
 
       function calculateBoundingRectangle(points) {
