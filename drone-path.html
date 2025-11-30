@@ -52,7 +52,7 @@
       .back-button {
         display: inline-block;
         margin-bottom: 20px;
-        background: #667eea;
+        background: #8A3EDB;
         color: white;
         padding: 10px 20px;
         border-radius: 8px;
@@ -61,7 +61,7 @@
       }
 
       .back-button:hover {
-        background: #764ba2;
+        background: #4B1F69;
         transform: translateY(-2px);
       }
 
@@ -112,7 +112,7 @@
 
       .input-group input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #8A3EDB;
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
       }
 
@@ -134,7 +134,7 @@
       }
 
       .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #8A3EDB 0%, #4B1F69 100%);
         color: white;
       }
 
@@ -185,7 +185,7 @@
         background: #f8f9ff;
         padding: 20px;
         border-radius: 10px;
-        border-left: 5px solid #667eea;
+        border-left: 5px solid #8A3EDB;
         margin-bottom: 15px;
       }
 
@@ -204,14 +204,14 @@
 
       .info-box {
         background: #e3f2fd;
-        border-left: 5px solid #667eea;
+        border-left: 5px solid #8A3EDB;
         padding: 20px;
         border-radius: 8px;
         margin-bottom: 20px;
       }
 
       .info-box strong {
-        color: #1976d2;
+        color: #8A3EDB;
       }
 
       .error-message {
@@ -252,7 +252,7 @@
       }
 
       .step-badge.active {
-        background: #667eea;
+        background: #8A3EDB;
         color: white;
       }
 
@@ -574,7 +574,7 @@
 
         // Draw polygon
         if (polygonPoints.length > 0) {
-          ctx.strokeStyle = "#667eea";
+          ctx.strokeStyle = "#8A3EDB";
           ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.moveTo(polygonPoints[0].x, polygonPoints[0].y);
@@ -600,7 +600,7 @@
           }
 
           // Draw points
-          ctx.fillStyle = "#764ba2";
+          ctx.fillStyle = "#4B1F69";
           polygonPoints.forEach((p, i) => {
             ctx.beginPath();
             ctx.arc(p.x, p.y, 6, 0, 2 * Math.PI);
@@ -609,7 +609,7 @@
             ctx.fillStyle = "#333";
             ctx.font = "bold 12px Arial";
             ctx.fillText(`${i + 1}`, p.x + 10, p.y - 10);
-            ctx.fillStyle = "#764ba2";
+            ctx.fillStyle = "#4B1F69";
           });
         }
 
