@@ -8,19 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Nunito", sans-serif;
-        background: url("images/Wings.png") center/cover no-repeat;
-        min-height: 100vh;
-        padding: 20px;
-      }
-
+      /* Batch Viewer Specific Styles */
       .container {
         max-width: 1200px;
         margin: 0 auto;
@@ -462,23 +450,7 @@
     </style>
   </head>
   <body>
-    <a
-      href="landing.html"
-      style="
-        display: inline-block;
-        margin: 20px;
-        background: #8a3edb;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
-      "
-      onmouseover="this.style.background='#4B1F69'; this.style.transform='translateY(-2px)';"
-      onmouseout="this.style.background='#8A3EDB'; this.style.transform='none';"
-      >← Back to Home</a
-    >
+    <a href="landing.html" class="back-button">← Back to Home</a>
     <div class="container">
       <div class="header">
         <h1>🔍 Batch Image Analyzer</h1>

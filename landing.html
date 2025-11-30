@@ -12,16 +12,8 @@
     <link rel="stylesheet" href="styles.css" />
     <title>The Wings of Discovery</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
+      /* Landing Page Specific Styles */
       body {
-        font-family: "Nunito", sans-serif;
-        background: url("images/Wings.png") center/cover no-repeat;
-        min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -53,14 +45,6 @@
         letter-spacing: 2px;
         display: inline-block;
         vertical-align: middle;
-      }
-
-      .header .team-name {
-        font-size: 1.5em;
-        opacity: 0.95;
-        margin-bottom: 20px;
-        font-weight: 600;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
       }
 
       .header p {
@@ -128,26 +112,11 @@
       }
 
       .option-button {
-        background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 100%);
-        color: white;
-        border: none;
         padding: 15px 30px;
         border-radius: 10px;
         font-size: 1.1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
         align-self: center;
         min-width: 200px;
-      }
-
-      .option-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-      }
-
-      .option-button:active {
-        transform: translateY(0);
       }
 
       .feature-list {
