@@ -461,6 +461,23 @@
     </style>
   </head>
   <body>
+    <a
+      href="landing.html"
+      style="
+        display: inline-block;
+        margin: 20px;
+        background: #667eea;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      "
+      onmouseover="this.style.background='#764ba2'; this.style.transform='translateY(-2px)';"
+      onmouseout="this.style.background='#667eea'; this.style.transform='none';"
+      >← Back to Home</a
+    >
     <div class="container">
       <div class="header">
         <h1>🔍 Batch Image Analyzer</h1>
@@ -897,14 +914,14 @@
           result.predictions.forEach((pred) => {
             const percent = (pred.probability * 100).toFixed(1);
             const confidence = pred.probability;
-            
+
             let predEmoji = "⊘";
             if (confidence > 0.7) {
               predEmoji = "✅";
             } else if (confidence > 0.4) {
               predEmoji = "◯";
             }
-            
+
             predictionsHtml += `
               <div class="prediction-row">
                 <span class="prediction-label">${predEmoji} ${pred.className}</span>
@@ -919,7 +936,7 @@
                 ? `<img src="${result.dataUrl}" class="result-image" alt="${result.filename}">`
                 : ""
             }
-            <div class="result-filename">${emoji} ${result.filename}</div>
+            <div class="result-filename">🖼️ ${result.filename}</div>
             <div class="result-predictions">${predictionsHtml}</div>
           `;
 
