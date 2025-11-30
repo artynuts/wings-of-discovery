@@ -385,7 +385,7 @@
               />
             </div>
 
-            <div class="points-list" id="pointsList" style="display: none;">
+            <div class="points-list" id="pointsList" style="display: none">
               <h3>Point Adjustments</h3>
               <div id="pointsContainer"></div>
             </div>
@@ -504,6 +504,22 @@
           }
           ctx.stroke();
 
+          // Draw distance labels between points
+          const scale = parseFloat(document.getElementById("scale").value);
+          ctx.fillStyle = "#e74c3c";
+          ctx.font = "bold 11px Arial";
+          for (let i = 0; i < polygonPoints.length; i++) {
+            const curr = polygonPoints[i];
+            const next = polygonPoints[(i + 1) % polygonPoints.length];
+            const pixelDist = Math.sqrt(
+              Math.pow(next.x - curr.x, 2) + Math.pow(next.y - curr.y, 2)
+            );
+            const feetDist = pixelDist * scale;
+            const midX = (curr.x + next.x) / 2;
+            const midY = (curr.y + next.y) / 2;
+            ctx.fillText(`${feetDist.toFixed(1)} ft`, midX + 5, midY - 5);
+          }
+
           // Draw points
           ctx.fillStyle = "#764ba2";
           polygonPoints.forEach((p, i) => {
@@ -556,8 +572,17 @@
 
         pointsList.style.display = "block";
         container.innerHTML = "";
+        const scale = parseFloat(document.getElementById("scale").value);
 
         polygonPoints.forEach((point, index) => {
+          // Calculate distance to next point
+          const nextPoint = polygonPoints[(index + 1) % polygonPoints.length];
+          const pixelDist = Math.sqrt(
+            Math.pow(nextPoint.x - point.x, 2) +
+              Math.pow(nextPoint.y - point.y, 2)
+          );
+          const feetDist = pixelDist * scale;
+
           const pointItem = document.createElement("div");
           pointItem.className = "point-item";
           pointItem.innerHTML = `
@@ -567,6 +592,17 @@
                 type="number"
                 value="${Math.round(point.x)}"
                 onchange="updatePointCoordinate(${index}, 'x', this.value)"
+              />
+            </div>
+            <div>
+              <div class="point-label">Distance to Point ${
+                ((index + 1) % polygonPoints.length) + 1
+              }:</div>
+              <input
+                type="text"
+                value="${feetDist.toFixed(1)} ft"
+                readonly
+                style="background: #f0f0f0; cursor: not-allowed;"
               />
             </div>
             <div>
@@ -636,7 +672,9 @@
           boundingRect = calculateBoundingRectangle(polygonPoints);
 
           // Generate sector lines (using Drone FOV setting)
-          const droneFOV = parseFloat(document.getElementById("droneFOV").value);
+          const droneFOV = parseFloat(
+            document.getElementById("droneFOV").value
+          );
           const sectorSpacingPixels = droneFOV / scale;
           generatedPath = [];
 
