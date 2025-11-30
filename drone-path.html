@@ -586,31 +586,16 @@
           const pointItem = document.createElement("div");
           pointItem.className = "point-item";
           pointItem.innerHTML = `
-            <div>
-              <div class="point-label">Point ${index + 1} - X (pixels):</div>
+            <div style="grid-column: 1 / -1;">
+              <div class="point-label">Point ${index + 1} to Point ${
+            ((index + 1) % polygonPoints.length) + 1
+          } Distance (feet):</div>
               <input
                 type="number"
-                value="${Math.round(point.x)}"
-                onchange="updatePointCoordinate(${index}, 'x', this.value)"
-              />
-            </div>
-            <div>
-              <div class="point-label">Distance to Point ${
-                ((index + 1) % polygonPoints.length) + 1
-              }:</div>
-              <input
-                type="text"
-                value="${feetDist.toFixed(1)} ft"
-                readonly
-                style="background: #f0f0f0; cursor: not-allowed;"
-              />
-            </div>
-            <div>
-              <div class="point-label">Point ${index + 1} - Y (pixels):</div>
-              <input
-                type="number"
-                value="${Math.round(point.y)}"
-                onchange="updatePointCoordinate(${index}, 'y', this.value)"
+                value="${feetDist.toFixed(1)}"
+                min="0.1"
+                step="0.1"
+                onchange="updatePointDistance(${index}, this.value)"
               />
             </div>
           `;
@@ -618,18 +603,35 @@
         });
       }
 
-      function updatePointCoordinate(index, axis, value) {
-        const numValue = parseFloat(value);
-        if (!isNaN(numValue)) {
-          if (axis === "x") {
-            polygonPoints[index].x = numValue;
-          } else if (axis === "y") {
-            polygonPoints[index].y = numValue;
-          }
-          drawCanvas();
-          if (pathGenerated) {
-            generatePath();
-          }
+      function updatePointDistance(index, newFeetDist) {
+        const numValue = parseFloat(newFeetDist);
+        if (isNaN(numValue) || numValue <= 0) return;
+
+        const scale = parseFloat(document.getElementById("scale").value);
+        const point = polygonPoints[index];
+        const nextPoint = polygonPoints[(index + 1) % polygonPoints.length];
+
+        // Calculate current vector from point to next point
+        const currentDx = nextPoint.x - point.x;
+        const currentDy = nextPoint.y - point.y;
+        const currentPixelDist = Math.sqrt(
+          Math.pow(currentDx, 2) + Math.pow(currentDy, 2)
+        );
+
+        if (currentPixelDist === 0) return;
+
+        // Calculate new pixel distance needed
+        const newPixelDist = numValue / scale;
+
+        // Scale the vector to the new distance
+        const scale_factor = newPixelDist / currentPixelDist;
+        nextPoint.x = point.x + currentDx * scale_factor;
+        nextPoint.y = point.y + currentDy * scale_factor;
+
+        drawCanvas();
+        updatePointsList();
+        if (pathGenerated) {
+          generatePath();
         }
       }
 
