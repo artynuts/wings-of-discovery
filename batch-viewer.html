@@ -896,9 +896,18 @@
           let predictionsHtml = "";
           result.predictions.forEach((pred) => {
             const percent = (pred.probability * 100).toFixed(1);
+            const confidence = pred.probability;
+            
+            let predEmoji = "⊘";
+            if (confidence > 0.7) {
+              predEmoji = "✅";
+            } else if (confidence > 0.4) {
+              predEmoji = "◯";
+            }
+            
             predictionsHtml += `
               <div class="prediction-row">
-                <span class="prediction-label">${pred.className}</span>
+                <span class="prediction-label">${predEmoji} ${pred.className}</span>
                 <span class="prediction-value">${percent}%</span>
               </div>
             `;
