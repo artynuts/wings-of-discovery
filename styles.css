@@ -77,6 +77,22 @@ h6 {
   --color-light-text: #666;
 }
 
+/* QC Logo Styling */
+.qc-logo {
+  object-fit: contain;
+  object-position: center;
+}
+
+.qc-logo-team {
+  height: 120px;
+  width: 120px;
+}
+
+.qc-logo-landing {
+  height: 100px;
+  width: 100px;
+}
+
 /* Buttons */
 button,
 .btn,
