@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Image Viewer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
+        max-width: 800px;
+        width: 100%;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2em;
+      }
+
+      .upload-section {
+        margin-bottom: 40px;
+      }
+
+      .file-input-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        cursor: pointer;
+      }
+
+      .file-input-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        border: 3px dashed #667eea;
+        border-radius: 15px;
+        background: #f8f9ff;
+        transition: all 0.3s ease;
+        font-size: 1.2em;
+        color: #667eea;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .file-input-label:hover {
+        background: #eef0ff;
+        border-color: #764ba2;
+        color: #764ba2;
+        transform: translateY(-2px);
+      }
+
+      #fileInput {
+        display: none;
+      }
+
+      .image-display {
+        display: none;
+        text-align: center;
+      }
+
+      .image-display.active {
+        display: block;
+      }
+
+      #imageViewer {
+        max-width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      .image-info {
+        background: #f0f0f0;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: left;
+        font-size: 0.95em;
+        color: #666;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+
+      .info-label {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .btn-secondary:hover {
+        background: #e0e0e0;
+      }
+
+      .error-message {
+        display: none;
+        background: #ffebee;
+        border: 2px solid #e74c3c;
+        color: #c0392b;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      .error-message.active {
+        display: block;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 1.5em;
+        }
+
+        .file-input-label {
+          padding: 30px;
+          font-size: 1em;
+        }
+
+        button {
+          padding: 10px 16px;
+          font-size: 0.9em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🖼️ Image Viewer</h1>
+
+      <div class="error-message" id="errorMessage"></div>
+
+      <div class="upload-section">
+        <div class="file-input-wrapper">
+          <label for="fileInput" class="file-input-label">
+            📁 Click to open an image or drag & drop
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            aria-label="Open image file"
+          />
+        </div>
+      </div>
+
+      <div class="image-display" id="imageDisplay">
+        <img id="imageViewer" alt="Opened image" />
+
+        <div class="image-info">
+          <div class="info-row">
+            <span class="info-label">Filename:</span>
+            <span id="fileName">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">File Size:</span>
+            <span id="fileSize">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Image Dimensions:</span>
+            <span id="imageDimensions">-</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">File Type:</span>
+            <span id="fileType">-</span>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-primary" id="openBtn">📁 Open Another</button>
+          <button class="btn-secondary" id="downloadBtn">⬇️ Download</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const fileInput = document.getElementById("fileInput");
+      const imageViewer = document.getElementById("imageViewer");
+      const imageDisplay = document.getElementById("imageDisplay");
+      const errorMessage = document.getElementById("errorMessage");
+      const fileInputLabel = document.querySelector(".file-input-label");
+      const openBtn = document.getElementById("openBtn");
+      const downloadBtn = document.getElementById("downloadBtn");
+
+      let currentFile = null;
+
+      // File input change event
+      fileInput.addEventListener("change", handleFileSelect);
+
+      // Drag and drop events
+      fileInputLabel.addEventListener("dragover", handleDragOver);
+      fileInputLabel.addEventListener("dragleave", handleDragLeave);
+      fileInputLabel.addEventListener("drop", handleDrop);
+
+      // Button events
+      openBtn.addEventListener("click", () => fileInput.click());
+      downloadBtn.addEventListener("click", downloadImage);
+
+      function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (file) {
+          openImage(file);
+        }
+      }
+
+      function handleDragOver(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        fileInputLabel.style.background = "#eef0ff";
+        fileInputLabel.style.borderColor = "#764ba2";
+      }
+
+      function handleDragLeave(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        fileInputLabel.style.background = "#f8f9ff";
+        fileInputLabel.style.borderColor = "#667eea";
+      }
+
+      function handleDrop(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        fileInputLabel.style.background = "#f8f9ff";
+        fileInputLabel.style.borderColor = "#667eea";
+
+        const files = event.dataTransfer.files;
+        if (files.length > 0 && files[0].type.startsWith("image/")) {
+          openImage(files[0]);
+        } else {
+          showError("Please drop an image file.");
+        }
+      }
+
+      function openImage(file) {
+        try {
+          currentFile = file;
+          const reader = new FileReader();
+
+          reader.onload = (e) => {
+            try {
+              imageViewer.onload = () => {
+                displayImageInfo();
+                imageDisplay.classList.add("active");
+                errorMessage.classList.remove("active");
+              };
+
+              imageViewer.onerror = () => {
+                showError("Failed to load image. Please try another file.");
+              };
+
+              imageViewer.src = e.target.result;
+            } catch (error) {
+              showError("Error loading image: " + error.message);
+            }
+          };
+
+          reader.onerror = () => {
+            showError("Error reading file: " + reader.error);
+          };
+
+          reader.readAsDataURL(file);
+        } catch (error) {
+          showError("Error: " + error.message);
+        }
+      }
+
+      function displayImageInfo() {
+        document.getElementById("fileName").textContent = currentFile.name;
+        document.getElementById("fileSize").textContent = formatFileSize(
+          currentFile.size
+        );
+        document.getElementById("imageDimensions").textContent =
+          imageViewer.naturalWidth + " × " + imageViewer.naturalHeight + " px";
+        document.getElementById("fileType").textContent =
+          currentFile.type || "Unknown";
+      }
+
+      function formatFileSize(bytes) {
+        if (bytes === 0) return "0 Bytes";
+        const k = 1024;
+        const sizes = ["Bytes", "KB", "MB", "GB"];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return (
+          Math.round((bytes / Math.pow(k, i)) * 100) / 100 + " " + sizes[i]
+        );
+      }
+
+      function downloadImage() {
+        if (!currentFile) return;
+
+        const link = document.createElement("a");
+        link.href = imageViewer.src;
+        link.download = currentFile.name;
+        link.click();
+      }
+
+      function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.classList.add("active");
+        imageDisplay.classList.remove("active");
+      }
+    </script>
+  </body>
+</html>

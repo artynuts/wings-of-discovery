@@ -603,6 +603,14 @@
           return false;
         }
 
+        console.log("📋 fileInput properties:");
+        console.log("  - Type:", fileInput.type);
+        console.log("  - ID:", fileInput.id);
+        console.log("  - Accept:", fileInput.accept);
+        console.log("  - Multiple:", fileInput.multiple);
+        console.log("  - Disabled:", fileInput.disabled);
+        console.log("  - Value:", fileInput.value || "(empty)");
+
         console.log("✅ DOM elements initialized successfully");
         return true;
       }
@@ -644,14 +652,97 @@
           return;
         }
 
-        fileInput.addEventListener("change", handleFileSelect);
-        fileInputLabel.addEventListener("dragover", handleDragOver);
-        fileInputLabel.addEventListener("dragleave", handleDragLeave);
-        fileInputLabel.addEventListener("drop", handleDrop);
-        analyzeBtn.addEventListener("click", analyzeImage);
-        clearBtn.addEventListener("click", clearAll);
+        try {
+          console.log("🔹 Attaching fileInput change listener...");
+          fileInput.addEventListener("change", (event) => {
+            console.log("🔹 change event fired on fileInput");
+            try {
+              handleFileSelect(event);
+            } catch (err) {
+              console.error("🔴 Crash in change event handler:", err.message);
+              console.error("Stack:", err.stack);
+              showError("Error: " + err.message);
+            }
+          });
+          console.log("✅ fileInput change listener attached");
+        } catch (err) {
+          console.error("🔴 Failed to attach fileInput listener:", err.message);
+        }
 
-        console.log("✅ Event listeners attached");
+        try {
+          console.log("🔹 Attaching fileInputLabel dragover listener...");
+          fileInputLabel.addEventListener("dragover", (event) => {
+            try {
+              handleDragOver(event);
+            } catch (err) {
+              console.error("🔴 Crash in dragover handler:", err.message);
+            }
+          });
+          console.log("✅ fileInputLabel dragover listener attached");
+        } catch (err) {
+          console.error("🔴 Failed to attach dragover listener:", err.message);
+        }
+
+        try {
+          console.log("🔹 Attaching fileInputLabel dragleave listener...");
+          fileInputLabel.addEventListener("dragleave", (event) => {
+            try {
+              handleDragLeave(event);
+            } catch (err) {
+              console.error("🔴 Crash in dragleave handler:", err.message);
+            }
+          });
+          console.log("✅ fileInputLabel dragleave listener attached");
+        } catch (err) {
+          console.error("🔴 Failed to attach dragleave listener:", err.message);
+        }
+
+        try {
+          console.log("🔹 Attaching fileInputLabel drop listener...");
+          fileInputLabel.addEventListener("drop", (event) => {
+            console.log("🔹 drop event fired on fileInputLabel");
+            try {
+              handleDrop(event);
+            } catch (err) {
+              console.error("🔴 Crash in drop event handler:", err.message);
+              console.error("Stack:", err.stack);
+              showError("Error: " + err.message);
+            }
+          });
+          console.log("✅ fileInputLabel drop listener attached");
+        } catch (err) {
+          console.error("🔴 Failed to attach drop listener:", err.message);
+        }
+
+        try {
+          console.log("🔹 Attaching analyzeBtn click listener...");
+          analyzeBtn.addEventListener("click", (event) => {
+            try {
+              analyzeImage(event);
+            } catch (err) {
+              console.error("🔴 Crash in analyze handler:", err.message);
+            }
+          });
+          console.log("✅ analyzeBtn click listener attached");
+        } catch (err) {
+          console.error("🔴 Failed to attach analyze listener:", err.message);
+        }
+
+        try {
+          console.log("🔹 Attaching clearBtn click listener...");
+          clearBtn.addEventListener("click", (event) => {
+            try {
+              clearAll(event);
+            } catch (err) {
+              console.error("🔴 Crash in clear handler:", err.message);
+            }
+          });
+          console.log("✅ clearBtn click listener attached");
+        } catch (err) {
+          console.error("🔴 Failed to attach clear listener:", err.message);
+        }
+
+        console.log("✅ All event listeners attached successfully");
       }
 
       function handleFileSelect(event) {
