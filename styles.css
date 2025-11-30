@@ -79,7 +79,7 @@ h6 {
 
 /* QC Logo Styling */
 .qc-logo {
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 }
 
