@@ -567,6 +567,10 @@
           for (let i = 1; i < polygonPoints.length; i++) {
             ctx.lineTo(polygonPoints[i].x, polygonPoints[i].y);
           }
+          // Close the polygon by connecting back to the first point
+          if (polygonPoints.length > 2) {
+            ctx.lineTo(polygonPoints[0].x, polygonPoints[0].y);
+          }
           ctx.stroke();
 
           // Draw distance labels between points
