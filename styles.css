@@ -38,7 +38,7 @@ h6 {
 }
 
 .logo-the {
-  font-size: 14px;
+  font-size: 8px;
   letter-spacing: 0.1em;
   color: #00e6ff; /* cyan */
   text-align: left;
@@ -46,14 +46,14 @@ h6 {
 }
 
 .logo-quantum {
-  font-size: 36px;
+  font-size: 20px;
   font-weight: 400;
   letter-spacing: 0.1em;
   color: #00e6ff; /* cyan */
 }
 
 .logo-crystals {
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 200;
   letter-spacing: 0.2em;
   color: #ffffff; /* white */
@@ -63,6 +63,22 @@ h6 {
 .logo-block {
   display: inline-block;
   text-align: left;
+}
+
+/* QC Logo Styling */
+.qc-logo {
+  object-fit: cover;
+  object-position: center;
+}
+
+.qc-logo-team {
+  height: 60px;
+  width: 60px;
+}
+
+.qc-logo-landing {
+  height: 50px;
+  width: 50px;
 }
 
 /* Colors - Wings Palette */
@@ -75,22 +91,6 @@ h6 {
   --color-white: white;
   --color-dark-text: #333;
   --color-light-text: #666;
-}
-
-/* QC Logo Styling */
-.qc-logo {
-  object-fit: cover;
-  object-position: center;
-}
-
-.qc-logo-team {
-  height: 120px;
-  width: 120px;
-}
-
-.qc-logo-landing {
-  height: 100px;
-  width: 100px;
 }
 
 /* Buttons */
