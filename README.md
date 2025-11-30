@@ -32,7 +32,8 @@ A simple, kid-friendly web application for detecting and categorizing image arti
 2. Open `index.html` in your web browser
 3. Update the `MODEL_URL` in the script with your Teachable Machine model URL:
    ```javascript
-   const MODEL_URL = "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/";
+   const MODEL_URL =
+     "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/";
    ```
 
 ### Using Your Teachable Machine Model
@@ -76,17 +77,20 @@ wings-of-discovery/
 ## Troubleshooting
 
 ### Model Won't Load
+
 - Check that your model URL is correct
 - Ensure the model is set to **Public** in Teachable Machine
 - Check your internet connection
 - Look at the error message in the debug console (green box at bottom)
 
 ### Image Won't Upload
+
 - Make sure the file is a valid image format
 - Check file size (extremely large files may be slow)
 - Try a different browser if it persists
 
 ### Analysis Fails
+
 - Ensure the model has finished loading
 - Try a different image
 - Check the debug console for error details
