@@ -187,7 +187,7 @@
       }
 
       .result-card.high {
-        border-left-color: #e74c3c;
+        border-left-color: #27ae60;
       }
 
       .result-card.medium {
@@ -195,7 +195,7 @@
       }
 
       .result-card.low {
-        border-left-color: #27ae60;
+        border-left-color: #bdc3c7;
       }
 
       .category-name {
@@ -955,15 +955,15 @@
           const percentage = (prediction.probability * 100).toFixed(1);
           const confidence = prediction.probability;
 
-          // Determine risk level based on confidence
+          // Determine confidence level and emoji
           let riskLevel = "low";
-          let emoji = "✅";
+          let emoji = "◯";
           if (confidence > 0.7) {
             riskLevel = "high";
-            emoji = "⚠️";
+            emoji = "✅";
           } else if (confidence > 0.4) {
             riskLevel = "medium";
-            emoji = "⚡";
+            emoji = "◯";
           }
 
           const card = document.createElement("div");
