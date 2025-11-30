@@ -44,10 +44,14 @@ button,
   border: none;
   border-radius: 10px;
   padding: 12px 24px;
+  font-family: "Nunito", sans-serif;
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 button:hover,
@@ -66,9 +70,6 @@ button:active,
 /* Back Button */
 .back-button {
   display: inline-block;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 20px;
   background: #8a3edb;
   color: white;
   padding: 10px 20px;
@@ -83,6 +84,35 @@ button:active,
 .back-button:hover {
   background: #4b1f69;
   transform: translateY(-2px);
+}
+
+/* Back Button Header with Branding */
+.back-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+.wings-branding {
+  text-align: right;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1em;
+  letter-spacing: 0.4px;
+  display: flex;
+  font-family: "Nunito", sans-serif;
+  align-items: center;
+  gap: 0px;
+}
+
+.wings-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 /* Cards */
