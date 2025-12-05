@@ -525,6 +525,13 @@
         <button class="analyze-btn" id="analyzeBtn">
           🔍 Analyze with Model
         </button>
+        <button
+          class="analyze-btn"
+          id="clearBtn"
+          style="background: #e74c3c; margin-left: 10px"
+        >
+          🗑️ Clear All
+        </button>
       </div>
 
       <div class="loading" id="loading">
@@ -593,6 +600,7 @@
       fileInputLabel.addEventListener("dragleave", handleDragLeave);
       fileInputLabel.addEventListener("drop", handleDrop);
       analyzeBtn.addEventListener("click", analyzeAllImages);
+      clearBtn.addEventListener("click", clearAllImages);
       closeModal.addEventListener("click", closeImageModal);
       modal.addEventListener("click", (e) => {
         if (e.target === modal) closeImageModal();
@@ -860,6 +868,24 @@
         }
       }
 
+      function clearAllImages() {
+        // Clear file input
+        fileInput.value = "";
+
+        // Clear data
+        imageFiles = [];
+        results = [];
+        currentImageIndex = 0;
+
+        // Clear UI
+        gallery.innerHTML = "";
+        document.getElementById("resultsHeader").style.display = "none";
+        document.getElementById("resultsList").innerHTML = "";
+        analyzeBtn.disabled = true;
+        closeImageModal();
+
+        console.log("All images cleared");
+      }
       function displayAnalysisResults(results) {
         resultsGrid.innerHTML = "";
         let highCount = 0;
