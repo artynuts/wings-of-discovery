@@ -578,6 +578,7 @@
 
       let imageFiles = [];
       let currentImageIndex = 0;
+      let results = [];
 
       const imageExtensions = [
         ".jpg",
@@ -806,7 +807,7 @@
         resultsHeader.style.display = "none";
 
         try {
-          const results = [];
+          results = [];
 
           for (const file of imageFiles) {
             try {
@@ -876,6 +877,7 @@
       }
 
       function clearAllImages() {
+        console.log("Clear function called");
         // Clear file input
         fileInput.value = "";
 
@@ -900,7 +902,10 @@
         modal.classList.remove("active");
         emptyState.style.display = "block";
 
-        console.log("All images cleared");
+        console.log(
+          "All images cleared - analyzeBtn.disabled:",
+          analyzeBtn.disabled
+        );
       }
       function displayAnalysisResults(results) {
         resultsGrid.innerHTML = "";
