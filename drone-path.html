@@ -421,6 +421,14 @@
             >
               💻 Export Code
             </button>
+            <button
+              class="btn-primary"
+              id="blocksBtn"
+              onclick="generateDroneBlocksCode()"
+              style="display: none"
+            >
+              🧩 Export Blocks
+            </button>
           </div>
         </div>
 
@@ -837,6 +845,7 @@
 
           document.getElementById("results").classList.add("active");
           document.getElementById("codeBtn").style.display = "block";
+          document.getElementById("blocksBtn").style.display = "block";
           pathGenerated = true;
           drawCanvas();
         } catch (error) {
@@ -857,6 +866,7 @@
         document.getElementById("pointsList").style.display = "none";
         document.getElementById("codeSection").style.display = "none";
         document.getElementById("codeBtn").style.display = "none";
+        document.getElementById("blocksBtn").style.display = "none";
         drawCanvas();
       }
 
@@ -915,6 +925,98 @@
 
         // Display code
         document.getElementById("codeOutput").value = code;
+        document.getElementById("codeSection").style.display = "block";
+      }
+
+      function generateDroneBlocksCode() {
+        if (!pathGenerated || !generatedPath || !boundingRect) {
+          alert("Please generate a path first!");
+          return;
+        }
+
+        const scale = parseFloat(document.getElementById("scale").value);
+        const droneSpeed = parseFloat(
+          document.getElementById("droneSpeed").value
+        );
+
+        // Generate DroneBlocks XML format (visual blocks)
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+        xml += `<xml xmlns="https://developers.google.com/blockly/xml">\n`;
+        xml += `  <variables></variables>\n`;
+        xml += `  <block type="drone_event_launch" id="start" x="20" y="20">\n`;
+        xml += `    <next>\n`;
+        xml += `      <block type="drone_takeoff">\n`;
+        xml += `        <value name="ALTITUDE"><shadow type="math_number"><field name="NUM">2</field></shadow></value>\n`;
+        xml += `        <next>\n`;
+        xml += `          <block type="drone_move_to_position">\n`;
+        xml += `            <value name="X"><shadow type="math_number"><field name="NUM">${(
+          boundingRect.x * scale
+        ).toFixed(1)}</field></shadow></value>\n`;
+        xml += `            <value name="Y"><shadow type="math_number"><field name="NUM">${(
+          boundingRect.y * scale
+        ).toFixed(1)}</field></shadow></value>\n`;
+        xml += `            <value name="Z"><shadow type="math_number"><field name="NUM">10</field></shadow></value>\n`;
+        xml += `            <next>\n`;
+
+        // Add loops for each path line
+        let loopCount = 0;
+        generatedPath.forEach((line, index) => {
+          const x1 = (line.x1 * scale).toFixed(1);
+          const y1 = (line.y1 * scale).toFixed(1);
+          const x2 = (line.x2 * scale).toFixed(1);
+          const y2 = (line.y2 * scale).toFixed(1);
+
+          xml += `              <block type="drone_move_to_position">\n`;
+          xml += `                <value name="X"><shadow type="math_number"><field name="NUM">${x1}</field></shadow></value>\n`;
+          xml += `                <value name="Y"><shadow type="math_number"><field name="NUM">${y1}</field></shadow></value>\n`;
+          xml += `                <value name="Z"><shadow type="math_number"><field name="NUM">5</field></shadow></value>\n`;
+          xml += `                <next>\n`;
+          xml += `                  <block type="drone_move_to_position">\n`;
+          xml += `                    <value name="X"><shadow type="math_number"><field name="NUM">${x2}</field></shadow></value>\n`;
+          xml += `                    <value name="Y"><shadow type="math_number"><field name="NUM">${y2}</field></shadow></value>\n`;
+          xml += `                    <value name="Z"><shadow type="math_number"><field name="NUM">5</field></shadow></value>\n`;
+          xml += `                    <next>\n`;
+          xml += `                      <block type="drone_delay">\n`;
+          xml += `                        <value name="MILLISECONDS"><shadow type="math_number"><field name="NUM">500</field></shadow></value>\n`;
+          xml += `                        <next>\n`;
+          loopCount++;
+        });
+
+        // Close all the nested blocks
+        for (let i = 0; i < loopCount; i++) {
+          xml += `                        </next>\n`;
+          xml += `                      </block>\n`;
+          xml += `                    </next>\n`;
+          xml += `                  </block>\n`;
+          xml += `                </next>\n`;
+          xml += `              </block>\n`;
+        }
+
+        xml += `                        </next>\n`;
+        xml += `                      </block>\n`;
+        xml += `                      <block type="drone_move_to_position">\n`;
+        xml += `                        <value name="X"><shadow type="math_number"><field name="NUM">${(
+          boundingRect.x * scale
+        ).toFixed(1)}</field></shadow></value>\n`;
+        xml += `                        <value name="Y"><shadow type="math_number"><field name="NUM">${(
+          boundingRect.y * scale
+        ).toFixed(1)}</field></shadow></value>\n`;
+        xml += `                        <value name="Z"><shadow type="math_number"><field name="NUM">10</field></shadow></value>\n`;
+        xml += `                        <next>\n`;
+        xml += `                          <block type="drone_land">\n`;
+        xml += `                          </block>\n`;
+        xml += `                        </next>\n`;
+        xml += `                      </block>\n`;
+        xml += `            </next>\n`;
+        xml += `          </block>\n`;
+        xml += `        </next>\n`;
+        xml += `      </block>\n`;
+        xml += `    </next>\n`;
+        xml += `  </block>\n`;
+        xml += `</xml>\n`;
+
+        // Display code
+        document.getElementById("codeOutput").value = xml;
         document.getElementById("codeSection").style.display = "block";
       }
 
