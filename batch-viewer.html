@@ -892,8 +892,8 @@
         stats.style.display = "none";
         document.getElementById("totalImages").textContent = "0";
         document.getElementById("totalSize").textContent = "0 MB";
-        document.getElementById("resultsHeader").style.display = "none";
-        document.getElementById("resultsList").innerHTML = "";
+        resultsHeader.style.display = "none";
+        resultSummary.textContent = "";
         resultsGrid.innerHTML = "";
         loading.classList.remove("active");
         analyzeBtn.disabled = true;
