@@ -883,6 +883,7 @@
         imageFiles = [];
         results = [];
         currentImageIndex = 0;
+        isAnalyzing = false;
 
         // Clear UI
         gallery.innerHTML = "";
@@ -892,6 +893,7 @@
         document.getElementById("resultsHeader").style.display = "none";
         document.getElementById("resultsList").innerHTML = "";
         resultsGrid.innerHTML = "";
+        loading.classList.remove("active");
         analyzeBtn.disabled = true;
         analyzeBtn.classList.remove("active");
         clearBtn.classList.remove("active");
