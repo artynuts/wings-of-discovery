@@ -155,6 +155,27 @@
         font-size: 0.85em;
       }
 
+      .delete-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+        font-size: 1.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .delete-btn:hover {
+        background: #c0392b;
+        transform: scale(1.1);
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -705,7 +726,11 @@
           reader.onload = (e) => {
             const card = document.createElement("div");
             card.className = "image-card";
-            card.addEventListener("click", () => openModal(index));
+            card.addEventListener("click", (event) => {
+              // Don't open modal if delete button was clicked
+              if (event.target.classList.contains("delete-btn")) return;
+              openModal(index);
+            });
 
             const img = document.createElement("img");
             img.src = e.target.result;
@@ -732,6 +757,15 @@
             };
             info.appendChild(dimensionsEl);
 
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "delete-btn";
+            deleteBtn.textContent = "✕";
+            deleteBtn.addEventListener("click", (event) => {
+              event.stopPropagation();
+              deleteImage(index);
+            });
+            info.appendChild(deleteBtn);
+
             card.appendChild(img);
             card.appendChild(info);
             gallery.appendChild(card);
@@ -746,6 +780,30 @@
         document.getElementById("totalSize").textContent =
           formatFileSize(totalSize);
         stats.style.display = "block";
+      }
+
+      function deleteImage(index) {
+        imageFiles.splice(index, 1);
+
+        // If the deleted image was being viewed in modal, close it
+        if (currentImageIndex === index) {
+          modal.classList.remove("active");
+        } else if (currentImageIndex > index) {
+          currentImageIndex--;
+        }
+
+        // If there are still images, redisplay gallery and update stats
+        if (imageFiles.length > 0) {
+          displayGallery();
+          updateStats();
+        } else {
+          // If no images left, reset everything
+          gallery.innerHTML = "";
+          stats.style.display = "none";
+          document.getElementById("totalImages").textContent = "0";
+          document.getElementById("totalSize").textContent = "0 MB";
+          emptyState.style.display = "block";
+        }
       }
 
       function openModal(index) {
