@@ -886,8 +886,12 @@
 
         // Clear UI
         gallery.innerHTML = "";
+        stats.style.display = "none";
+        document.getElementById("totalImages").textContent = "0";
+        document.getElementById("totalSize").textContent = "0 MB";
         document.getElementById("resultsHeader").style.display = "none";
         document.getElementById("resultsList").innerHTML = "";
+        resultsGrid.innerHTML = "";
         analyzeBtn.disabled = true;
         analyzeBtn.classList.remove("active");
         clearBtn.classList.remove("active");
