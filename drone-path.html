@@ -338,6 +338,10 @@
                   draw a polygon
                 </li>
                 <li>
+                  <strong>Left-click on a point</strong> to delete it (with
+                  confirmation)
+                </li>
+                <li>
                   <strong>Right-click</strong> on the canvas to remove the last
                   point
                 </li>
@@ -515,8 +519,17 @@
           }
         }
 
-        // If not clicking on existing point, add new point
-        if (clickedPoint === -1) {
+        // If clicking on existing point, show delete confirmation
+        if (clickedPoint !== -1) {
+          const confirmDelete = confirm(`Delete point ${clickedPoint + 1}?`);
+          if (confirmDelete) {
+            polygonPoints.splice(clickedPoint, 1);
+            drawCanvas();
+            updatePointsList();
+            console.log(`Point ${clickedPoint + 1} deleted`);
+          }
+        } else {
+          // If not clicking on existing point, add new point
           polygonPoints.push({ x, y });
           drawCanvas();
           updatePointsList();
