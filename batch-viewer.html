@@ -897,7 +897,7 @@
             highCount++;
           } else if (confidence > 0.4) {
             riskLevel = "medium";
-            emoji = "◯";
+            emoji = "🤔";
             mediumCount++;
           } else {
             lowCount++;
@@ -914,7 +914,7 @@
             if (confidence > 0.7) {
               predEmoji = "✅";
             } else if (confidence > 0.4) {
-              predEmoji = "◯";
+              predEmoji = "🤔";
             }
 
             predictionsHtml += `
