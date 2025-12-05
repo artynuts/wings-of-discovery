@@ -891,7 +891,8 @@
         analyzeBtn.disabled = true;
         analyzeBtn.classList.remove("active");
         clearBtn.classList.remove("active");
-        closeImageModal();
+        modal.classList.remove("active");
+        emptyState.style.display = "block";
 
         console.log("All images cleared");
       }
