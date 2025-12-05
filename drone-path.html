@@ -500,8 +500,15 @@
       let generatedPath = null;
       let boundingRect = null;
       let draggedPointIndex = -1;
+      let pointWasDragged = false;
 
       canvas.addEventListener("click", (e) => {
+        // Don't process click if a point was just dragged
+        if (pointWasDragged) {
+          pointWasDragged = false;
+          return;
+        }
+
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
@@ -577,6 +584,7 @@
 
         // Drag point if one is being dragged
         if (draggedPointIndex >= 0) {
+          pointWasDragged = true;
           polygonPoints[draggedPointIndex].x = x;
           polygonPoints[draggedPointIndex].y = y;
           drawCanvas();
