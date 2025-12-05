@@ -684,6 +684,7 @@
           displayGallery();
           updateStats();
           analyzeBtn.classList.add("active");
+          clearBtn.classList.add("active");
           emptyState.style.display = "none";
           errorMessage.classList.remove("active");
         } catch (error) {
@@ -883,6 +884,8 @@
         document.getElementById("resultsHeader").style.display = "none";
         document.getElementById("resultsList").innerHTML = "";
         analyzeBtn.disabled = true;
+        analyzeBtn.classList.remove("active");
+        clearBtn.classList.remove("active");
         closeImageModal();
 
         console.log("All images cleared");
