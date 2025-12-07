@@ -249,7 +249,7 @@
       }
 
       .info-box {
-        background: #e3f2fd;
+        background: #f3e6ff;
         border-left: 5px solid #8a3edb;
         padding: 20px;
         border-radius: 8px;
@@ -409,33 +409,31 @@
     </div>
     <div class="container">
       <div class="header">
-        <h1>📍 Drone Path Planner</h1>
+        <h1>📍 Plan Drone Path</h1>
         <p>Draw a polygon, convert to rectangle, generate coverage path</p>
       </div>
 
       <!-- Instructions Block -->
-      <div class="content" style="margin-bottom: 20px; padding: 25px">
-        <h2>How to Use</h2>
-        <div class="info-box">
-          <ol style="margin: 0 0 0 20px; line-height: 1.6">
-            <li>
-              <strong>Draw Survey Area</strong> - Left-click on the canvas to
-              add points and create a polygon boundary
-            </li>
-            <li>
-              <strong>Adjust Settings</strong> - Set your scale, drone speed,
-              and field of view spacing
-            </li>
-            <li>
-              <strong>Generate Path</strong> - Click the "Generate Path" button
-              to create your flight plan
-            </li>
-            <li>
-              <strong>Export Code</strong> - Copy the JavaScript or XML code and
-              paste it into DroneBlocks
-            </li>
-          </ol>
-        </div>
+      <div class="info-box">
+        <h3>How to Use</h3>
+        <ol style="margin: 0 0 0 20px; line-height: 1.6">
+          <li>
+            <strong>Draw Survey Area</strong> - Left-click on the canvas to add
+            points and create a polygon boundary
+          </li>
+          <li>
+            <strong>Adjust Settings</strong> - Set your scale, drone speed, and
+            field of view spacing
+          </li>
+          <li>
+            <strong>Generate Path</strong> - Click the "Generate Path" button to
+            create your flight plan
+          </li>
+          <li>
+            <strong>Export Code</strong> - Copy the JavaScript or XML code and
+            paste it into DroneBlocks
+          </li>
+        </ol>
       </div>
 
       <div class="main-content">
@@ -444,7 +442,7 @@
           <div class="error-message" id="errorMessage"></div>
 
           <div class="section">
-            <h2>Settings</h2>
+            <h3>Settings</h3>
             <div class="settings-grid">
               <div class="input-group">
                 <label for="scale">Scale (feet per pixel):</label>
