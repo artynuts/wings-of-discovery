@@ -1014,8 +1014,9 @@
               : null;
 
           let confidence = topPrediction ? topPrediction.probability : 0;
-          let categoryName =
-            confidence >= 0.85 ? topPrediction.className : "Category Unknown";
+          let categoryName = topPrediction
+            ? topPrediction.className
+            : "Category Unknown";
           let riskLevel = "low";
           let emoji = "⊘";
 
@@ -1050,8 +1051,7 @@
               predEmoji = "🤔";
             }
 
-            const displayName =
-              confidence >= 0.85 ? pred.className : "Category Unknown";
+            const displayName = pred.className;
             predictionsHtml += `
               <div class="prediction-row">
                 <span class="prediction-label">${predEmoji} ${displayName}</span>
