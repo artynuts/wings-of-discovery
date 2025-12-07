@@ -21,18 +21,28 @@
         background: white;
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        padding: 40px;
+        padding: 20px;
         margin-bottom: 30px;
       }
 
       h1 {
         color: #333;
-        text-align: center;
-        margin-bottom: 30px;
+        text-align: left;
+        margin-bottom: 0;
         font-size: 2em;
       }
 
+      .header-content {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+      }
+
       .upload-section {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 40px;
         margin-bottom: 30px;
       }
 
@@ -470,6 +480,18 @@
         margin-bottom: 20px;
       }
 
+      .info-box {
+        background: #f3e6ff;
+        border-left: 5px solid #8a3edb;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .info-box strong {
+        color: #8a3edb;
+      }
+
       @media (max-width: 600px) {
         .header {
           padding: 20px;
@@ -507,23 +529,80 @@
   <body>
     <div class="container">
       <div class="header">
-        <h1>🔍 Batch Image Analyzer</h1>
+        <div class="header-content">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              gap: 10px;
+              flex-shrink: 0;
+              background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 50%);
+              padding: 10px 15px;
+              border-radius: 15px;
+              backdrop-filter: blur(100px);
+              border: 1px solid rgba(138, 62, 219, 0.4);
+            "
+          >
+            <img
+              src="images/QC-Logo/Transparent/Transparent-04.png"
+              alt="The Quantum Crystals Logo"
+              style="height: 40px; width: auto"
+            />
+            <div class="logo">
+              <div class="logo-container">
+                <div class="logo-block">
+                  <div class="logo-the">THE</div>
+                  <div class="logo-quantum">QUANTUM</div>
+                  <div class="logo-crystals">CRYSTALS</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h1>🔍 Find Artifacts</h1>
+        </div>
+      </div>
 
+      <!-- Instructions Block -->
+      <div class="info-box">
+        <h3>How to Use</h3>
+        <ol style="margin: 0 0 0 20px; line-height: 1.6">
+          <li>
+            <strong>Select Images</strong> - Click or drag & drop multiple
+            images to upload them for analysis
+          </li>
+          <li>
+            <strong>Review Gallery</strong> - Preview all selected images and
+            remove any you don't need
+          </li>
+          <li>
+            <strong>Analyze Images</strong> - Click the "Analyze with Model"
+            button to run AI detection
+          </li>
+          <li>
+            <strong>Review Results</strong> - View predictions and confidence
+            scores for each image
+          </li>
+        </ol>
+      </div>
+
+      <div class="upload-section">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #333">
+          Select Images
+        </h2>
         <div class="error-message" id="errorMessage"></div>
 
-        <div class="upload-section">
-          <div class="file-input-wrapper">
-            <label for="fileInput" class="file-input-label">
-              📁 Click to select multiple images or drag & drop
-            </label>
-            <input
-              type="file"
-              id="fileInput"
-              accept="image/*"
-              multiple
-              aria-label="Select multiple image files"
-            />
-          </div>
+        <div class="file-input-wrapper">
+          <label for="fileInput" class="file-input-label">
+            📁 Click to select multiple images or drag & drop
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            multiple
+            aria-label="Select multiple image files"
+          />
         </div>
         <div class="stats" id="stats" style="display: none">
           <div class="stat-item">
