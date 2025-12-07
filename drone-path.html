@@ -617,22 +617,6 @@
               >
                 🗑️ Delete
               </button>
-              <button
-                class="btn-primary"
-                id="codeBtn"
-                onclick="generateDroneBlocksJSCode()"
-                style="display: none"
-              >
-                💻 Export Code
-              </button>
-              <button
-                class="btn-primary"
-                id="blocksBtn"
-                onclick="generateDroneBlocksCode()"
-                style="display: none"
-              >
-                🧩 Export Blocks
-              </button>
             </div>
           </div>
         </div>
@@ -954,8 +938,6 @@
             coverageAreaSqFt.toFixed(1) + " sq ft";
 
           document.getElementById("results").classList.add("active");
-          document.getElementById("codeBtn").style.display = "block";
-          document.getElementById("blocksBtn").style.display = "block";
           pathGenerated = true;
           drawCanvas();
 
@@ -983,8 +965,6 @@
         document.getElementById("codeSection").classList.remove("active");
         document.getElementById("codeOutput").value = "";
         document.getElementById("blocksOutput").value = "";
-        document.getElementById("codeBtn").style.display = "none";
-        document.getElementById("blocksBtn").style.display = "none";
         drawCanvas();
       }
 
