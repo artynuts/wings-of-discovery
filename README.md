@@ -49,7 +49,7 @@ A comprehensive web-based tool designed to help archaeologists and field surveyo
 
 1. **Open the Application**
 
-   - Visit: [Wings of Discovery - Drone Path Planner](https://artynuts.github.io/wings-of-discovery/drone-path.html)
+   - Visit: [Wings of Discovery - Drone Path Planner](https://artynuts.github.io/wings-of-discovery/plan-path.html)
 
 2. **Define Your Survey Area**
 
@@ -99,7 +99,7 @@ The spacing between parallel flight lines based on your drone's camera field of 
 
 ```
 wings-of-discovery/
-├── drone-path.html          # Main drone path planner application
+├── plan-path.html          # Main drone path planner application
 ├── index.html               # Home/landing page
 ├── single-viewer.html       # Single image viewer for artifacts
 ├── find-artifacts.html        # Batch image viewer for artifacts
