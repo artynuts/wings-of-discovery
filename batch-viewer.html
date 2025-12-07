@@ -12,23 +12,32 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <title>Find Artifacts</title>
+    <title>Batch Image Analyzer</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <style>
       /* Batch Viewer Specific Styles */
-
-      .header-content {
-        display: flex;
-        align-items: center;
-        gap: 30px;
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
       }
 
-      .upload-section {
+      .header {
         background: white;
         border-radius: 20px;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         padding: 40px;
+        margin-bottom: 30px;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2em;
+      }
+
+      .upload-section {
         margin-bottom: 30px;
       }
 
@@ -59,6 +68,10 @@
         border-color: #4b1f69;
         color: #4b1f69;
         transform: translateY(-2px);
+      }
+
+      #folderInput {
+        display: none;
       }
 
       #fileInput {
@@ -280,17 +293,48 @@
         display: block;
       }
 
+      .analyze-btn {
+        background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 100%);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        border-radius: 10px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        display: none;
+      }
+
+      .analyze-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+      }
+
+      .analyze-btn.active {
+        display: block;
+      }
+
+      .analyze-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
       .button-group {
         display: flex;
         gap: 15px;
         justify-content: center;
         align-items: center;
-        margin-top: 30px;
-        flex-wrap: wrap;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        padding: 30px;
+      }
+
+      .clear-btn {
+        background: #e74c3c;
+        margin-left: 0px;
+      }
+
+      .clear-btn:hover:not(:disabled) {
+        box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
       }
 
       .loading {
@@ -301,6 +345,25 @@
 
       .loading.active {
         display: block;
+      }
+
+      .spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #8a3edb;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
       .results-grid {
@@ -412,140 +475,65 @@
         margin-bottom: 20px;
       }
 
-      .section-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 30px;
-        margin-bottom: 30px;
-      }
-
-      .section-container .info-box {
-        margin-bottom: 0;
-      }
-
-      .section-container .upload-section {
-        padding: 40px;
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        margin-bottom: 0;
-      }
-
-      @media (min-width: 768px) {
-        .section-container {
-          grid-template-columns: 1fr 1fr;
+      @media (max-width: 480px) {
+        .header {
+          padding: 20px;
         }
-      }
 
-      /* Mobile base styles */
-      h1 {
-        font-size: 1.5em;
-      }
-
-      .file-input-label {
-        padding: 30px;
-        font-size: 1em;
-      }
-
-      .gallery {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 15px;
-      }
-
-      .stat-item {
-        display: block;
-        margin: 10px 0;
-      }
-
-      .modal-close {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5em;
-        top: 10px;
-        right: 10px;
-      }
-
-      @media (min-width: 480px) {
         h1 {
-          font-size: 1.8em;
+          font-size: 1.5em;
         }
 
         .file-input-label {
-          padding: 50px;
-          font-size: 1.2em;
+          padding: 30px;
+          font-size: 1em;
         }
 
         .gallery {
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-          gap: 20px;
+          grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+          gap: 15px;
         }
 
         .stat-item {
-          display: inline-block;
-          margin: 0 20px;
+          display: block;
+          margin: 10px 0;
         }
 
         .modal-close {
-          width: 50px;
-          height: 50px;
-          font-size: 2em;
-          top: 20px;
-          right: 40px;
+          width: 40px;
+          height: 40px;
+          font-size: 1.5em;
+          top: 10px;
+          right: 10px;
         }
       }
     </style>
   </head>
   <body>
+    <div class="back-header">
+      <a href="index.html" class="back-button">← Back to Home</a>
+      <div class="wings-branding">
+        <img
+          src="images/WingsOfDiscovery-Logo.png"
+          alt="Wings of Discovery"
+          class="wings-logo"
+        />
+        The Wings of Discovery
+      </div>
+    </div>
     <div class="container">
       <div class="header">
         <div class="header-host">
           <div id="qc-logo-container"></div>
           <div>
-            <h1>🔍 Find Artifacts</h1>
-            <p>Upload images to analyze for artifacts using AI</p>
+            <h1>🔍 Batch Image Analyzer</h1>
+            <p>Upload multiple images to analyze for artifacts using AI</p>
           </div>
         </div>
-      </div>
 
-      <div class="section-container">
-        <!-- Instructions Block - Left Column -->
-        <div class="info-box">
-          <h3>How to Use</h3>
-          <ol style="margin: 0 0 0 20px; line-height: 1.6">
-            <li>
-              <strong>Select Images</strong> - Click or drag & drop multiple
-              images to upload them for analysis
-            </li>
-            <li>
-              <strong>Review Gallery</strong> - Preview all selected images and
-              remove any you don't need
-            </li>
-            <li>
-              <strong>Analyze Images</strong> - Click the "Analyze" button to
-              run AI detection
-            </li>
-            <li>
-              <strong>Review Results</strong> - View predictions and confidence
-              scores for each image
-            </li>
-          </ol>
-        </div>
+        <div class="error-message" id="errorMessage"></div>
 
-        <!-- Select Images - Right Column -->
         <div class="upload-section">
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              gap: 15px;
-              margin-bottom: 30px;
-            "
-          >
-            <div style="font-size: 1em">🖼️</div>
-            <h2 style="margin: 0; color: #333">Select Images</h2>
-          </div>
-          <div class="error-message" id="errorMessage"></div>
-
           <div class="file-input-wrapper">
             <label for="fileInput" class="file-input-label">
               📁 Click to select multiple images or drag & drop
@@ -558,28 +546,41 @@
               aria-label="Select multiple image files"
             />
           </div>
-          <div class="stats" id="stats" style="display: none">
-            <div class="stat-item">
-              <div class="stat-label">Total Images</div>
-              <div class="stat-value" id="totalImages">0</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-label">Total Size</div>
-              <div class="stat-value" id="totalSize">0 MB</div>
-            </div>
+        </div>
+        <div class="stats" id="stats" style="display: none">
+          <div class="stat-item">
+            <div class="stat-label">Total Images</div>
+            <div class="stat-value" id="totalImages">0</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-label">Total Size</div>
+            <div class="stat-value" id="totalSize">0 MB</div>
           </div>
         </div>
       </div>
 
-      <!-- Selected Images - Full Width Below -->
+      <div
+        class="empty-state"
+        id="emptyState"
+        style="
+          background: white;
+          border-radius: 20px;
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+          margin-bottom: 30px;
+        "
+      >
+        <div class="empty-state-icon">🖼️</div>
+        <p>Select images to start</p>
+      </div>
+
       <div class="gallery" id="gallery"></div>
 
-      <div class="canvas-buttons">
-        <button class="btn-primary analyze-btn" id="analyzeBtn">
-          🔍 Analyze
+      <div class="button-group">
+        <button class="analyze-btn" id="analyzeBtn">
+          🔍 Analyze with Model
         </button>
-        <button class="btn-secondary analyze-btn" id="clearBtn">
-          🗑️ Clear
+        <button class="analyze-btn clear-btn" id="clearBtn">
+          🗑️ Clear All
         </button>
       </div>
 
@@ -618,6 +619,7 @@
       const nextBtn = document.getElementById("nextBtn");
       const errorMessage = document.getElementById("errorMessage");
       const stats = document.getElementById("stats");
+      const emptyState = document.getElementById("emptyState");
 
       let imageFiles = [];
       let currentImageIndex = 0;
@@ -644,10 +646,6 @@
       const resultsHeader = document.getElementById("resultsHeader");
       const resultsGrid = document.getElementById("resultsGrid");
       const resultSummary = document.getElementById("resultSummary");
-
-      // Initialize buttons as disabled
-      analyzeBtn.disabled = true;
-      clearBtn.disabled = true;
 
       fileInput.addEventListener("change", handleFileSelect);
       fileInputLabel.addEventListener("dragover", handleDragOver);
@@ -728,6 +726,7 @@
 
           if (imageFiles.length === 0) {
             showError("No image files selected. Please select image files.");
+            emptyState.style.display = "block";
             gallery.innerHTML = "";
             stats.style.display = "none";
             return;
@@ -736,7 +735,9 @@
           displayGallery();
           updateStats();
           analyzeBtn.disabled = false;
-          clearBtn.disabled = false;
+          analyzeBtn.classList.add("active");
+          clearBtn.classList.add("active");
+          emptyState.style.display = "none";
           errorMessage.classList.remove("active");
         } catch (error) {
           showError("Error processing files: " + error.message);
@@ -826,6 +827,7 @@
           stats.style.display = "none";
           document.getElementById("totalImages").textContent = "0";
           document.getElementById("totalSize").textContent = "0 MB";
+          emptyState.style.display = "block";
         }
       }
 
@@ -978,8 +980,10 @@
         resultsGrid.innerHTML = "";
         loading.classList.remove("active");
         analyzeBtn.disabled = true;
-        clearBtn.disabled = true;
+        analyzeBtn.classList.remove("active");
+        clearBtn.classList.remove("active");
         modal.classList.remove("active");
+        emptyState.style.display = "block";
 
         console.log(
           "All images cleared - analyzeBtn.disabled:",
@@ -1083,6 +1087,12 @@
         errorMessage.classList.add("active");
       }
     </script>
-    <script src="shared-layout.js"></script>
+
+    <div class="footer">
+      <p>
+        © 2025 The Wings of Discovery. Created by
+        <strong>The Quantum Crystals</strong>. All rights reserved.
+      </p>
+    </div>
   </body>
 </html>

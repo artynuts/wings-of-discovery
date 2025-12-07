@@ -40,7 +40,7 @@
 
       .main-content > div:nth-child(4) {
         grid-column: 1;
-        grid-row: 2;
+        grid-row: auto;
       }
 
       @media (min-width: 1024px) {
@@ -302,9 +302,9 @@
   <body>
     <div class="container">
       <div class="header">
-        <div style="display: flex; align-items: center; gap: 30px">
+        <div class="header-host">
           <div id="qc-logo-container"></div>
-          <div style="text-align: left">
+          <div>
             <h1>📍 Plan Drone Path</h1>
             <p>Draw a polygon, convert to rectangle, generate coverage path</p>
           </div>

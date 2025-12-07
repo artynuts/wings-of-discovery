@@ -39,7 +39,7 @@ const SharedLayout = {
   getBackHeader() {
     return `
     <div class="back-header">
-      <a href="index.html" class="back-button">← Back to Home</a>
+      <a href="index.html" class="back-button">← Back Home</a>
       <div class="wings-branding">
         <img
           src="images/WingsOfDiscovery-Logo.png"

@@ -12,7 +12,7 @@ The `shared-layout.js` file provides reusable header and footer components that 
 
 The back header appears at the top of application pages (plan-path.html, find-artifacts.html, team.html) with:
 
-- "Back to Home" button
+- "Back Home" button
 - Wings of Discovery logo and branding
 
 ### Footer
