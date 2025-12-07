@@ -20,12 +20,18 @@
 
       .team-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: 1fr;
         gap: 30px;
         margin-bottom: 40px;
         margin-top: 40px;
         padding-top: 40px;
         border-top: 2px solid #f0f0f0;
+      }
+
+      @media (min-width: 768px) {
+        .team-grid {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
       }
 
       .team-member {
@@ -89,13 +95,13 @@
         opacity: 0.9;
       }
 
-      @media (max-width: 768px) {
-        .team-grid {
-          grid-template-columns: 1fr;
-        }
+      .content {
+        padding: 20px;
+      }
 
+      @media (min-width: 768px) {
         .content {
-          padding: 20px;
+          padding: 40px;
         }
       }
     </style>

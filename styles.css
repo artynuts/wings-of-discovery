@@ -374,10 +374,41 @@ select:focus {
   font-size: 0.8em;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Responsive Design - Mobile First */
+/* Base mobile styles (320px and up) */
+body {
+  font-size: 14px;
+}
+
+h1 {
+  font-size: 1.5em;
+}
+
+h2 {
+  font-size: 1.2em;
+}
+
+.header h1 {
+  font-size: 1.2em;
+}
+
+.option-card,
+.team-member,
+.content {
+  padding: 15px;
+}
+
+button,
+.btn,
+.option-button {
+  padding: 10px 20px;
+  font-size: 0.95em;
+}
+
+/* Tablet and up (768px and up) */
+@media (min-width: 768px) {
   body {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   h1 {
@@ -391,6 +422,7 @@ select:focus {
   .header h1 {
     font-size: 1.8em;
   }
+
   .option-card,
   .team-member,
   .content {
@@ -400,20 +432,32 @@ select:focus {
   button,
   .btn,
   .option-button {
-    padding: 10px 20px;
-    font-size: 0.95em;
+    padding: 12px 24px;
+    font-size: 1em;
   }
 }
 
-@media (max-width: 480px) {
+/* Desktop and up (1024px and up) */
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+
   h1 {
-    font-size: 1.5em;
+    font-size: 2em;
   }
+
+  h2 {
+    font-size: 1.6em;
+  }
+
   .header h1 {
-    font-size: 1.2em;
+    font-size: 1.8em;
   }
+
   .option-card,
-  .team-member {
-    padding: 15px;
+  .team-member,
+  .content {
+    padding: 30px;
   }
 }
