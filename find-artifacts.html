@@ -1017,6 +1017,7 @@
           let categoryName = topPrediction
             ? topPrediction.className
             : "Category Unknown";
+          let topMatchDisplay = confidence >= 0.85 ? categoryName : "Unknown";
           let riskLevel = "low";
           let emoji = "⊘";
 
@@ -1067,7 +1068,7 @@
                 : ""
             }
             <div class="result-filename">🖼️ ${result.filename}</div>
-            <div style="font-weight: 600; margin-bottom: 10px; color: #333;">Top Match: ${categoryName}</div>
+            <div style="font-weight: 600; margin-bottom: 10px; color: #333;">Top Match: ${topMatchDisplay}</div>
             <div class="result-predictions">${predictionsHtml}</div>
           `;
 
