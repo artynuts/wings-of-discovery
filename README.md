@@ -1,112 +1,174 @@
-# 🎨 Artifact Detector - Wings of Discovery
+# 🚁 Wings of Discovery - Drone Path Planner
 
-A simple, kid-friendly web application for detecting and categorizing image artifacts using Google's Teachable Machine AI model.
+A comprehensive web-based tool designed to help archaeologists and field surveyors plan efficient drone coverage paths for archaeological sites and surveys. Visualize your survey area, generate optimized flight paths, and export code ready for execution.
 
 ## Features
 
-- 📁 **Drag & Drop Upload** - Simply drag images onto the page or click to browse
-- 🤖 **AI-Powered Detection** - Uses a custom-trained Teachable Machine model
-- 📊 **Visual Results** - Color-coded confidence scores with progress bars
-- 🐛 **Debug Console** - Built-in debugging tools to monitor image processing
-- 📱 **Responsive Design** - Works on desktop, tablet, and mobile devices
-- ⚡ **No Server Required** - Runs entirely in the browser
+### 📍 Survey Area Planning
+- **Interactive Canvas** - Draw custom polygon boundaries for your survey area
+- **Automatic Rectangle Calculation** - Converts polygon boundaries to optimal rectangular coverage
+- **Real-time Visualization** - See your survey area, bounding rectangle, and flight path instantly
 
-## How It Works
+### 🚀 Path Generation
+- **Sector-Based Coverage** - Generates parallel flight lines with customizable spacing
+- **Smart Calculations** - Automatically computes coverage dimensions, path length, and estimated flight time
+- **Field of View Control** - Adjust spacing between flight lines based on your drone's camera FOV
 
-1. **Upload an Image** - Click the upload area or drag & drop a JPG, PNG, or other image file
-2. **Preview** - Your image appears immediately after selection
-3. **Analyze** - Click the "Analyze Image" button to run detection
-4. **View Results** - See artifact categories with confidence percentages
+### 💻 Code Export
+- **JavaScript Code** - Export ready-to-use JavaScript code for DroneBlocks JavaScript API
+- **Visual Blocks** - Export XML format compatible with DroneBlocks visual programming editor
+- **One-Click Copy** - Easily copy code to clipboard for immediate use
+
+### 📊 Real-time Metrics
+- Survey area dimensions in feet
+- Number of coverage sectors
+- Total flight path length
+- Estimated flight time
+- Total coverage area
+
+### 📱 User-Friendly Interface
+- Left panel for settings and results
+- Right panel for interactive canvas
+- Clean, intuitive button layout
+- Always-visible copy buttons (disabled until code is available)
 
 ## Getting Started
 
 ### Requirements
 
 - A modern web browser (Chrome, Firefox, Safari, Edge)
-- Internet connection (to load the Teachable Machine model)
-- Your Teachable Machine model URL
+- Internet connection (to load the application)
+- A drone compatible with DroneBlocks (DJI, Parrot, etc.)
 
-### Setup
+### Usage
 
-1. Clone or download this repository
-2. Open `single-viewer.html` in your web browser
-3. Update the `MODEL_URL` in the script with your Teachable Machine model URL:
-   ```javascript
-   const MODEL_URL =
-     "https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/";
-   ```
+1. **Open the Application**
+   - Visit: [Wings of Discovery - Drone Path Planner](https://artynuts.github.io/wings-of-discovery/drone-path.html)
 
-### Using Your Teachable Machine Model
+2. **Define Your Survey Area**
+   - Left-click on the canvas to add points and draw your polygon boundary
+   - Right-click to remove the last point
+   - Click on an existing point to delete it
 
-1. Go to [Teachable Machine](https://teachablemachine.withgoogle.com/)
-2. Create a new Image Project
-3. Train your model with artifact images
-4. Export your model as a "Teachable Machine" link
-5. Copy the model URL and paste it into the code (see Setup above)
+3. **Adjust Settings**
+   - **Scale**: Set the feet-per-pixel ratio for your canvas
+   - **Speed**: Enter your drone's flight speed (feet/second)
+   - **FOV**: Set field of view spacing between flight lines
+
+4. **Generate Path**
+   - Click the "Generate Path" button
+   - View coverage results (dimensions, sectors, flight time)
+   - See your flight path visualized on the canvas
+
+5. **Export Code**
+   - Click "Copy Code" to copy JavaScript code
+   - Click "Copy Blocks" to copy XML for visual blocks
+   - Paste into DroneBlocks platform
+
+## Understanding the Visualization
+
+- **Blue Lines**: Your survey area polygon boundary
+- **Orange Dashed Rectangle**: Optimal bounding rectangle for coverage
+- **Green Lines**: Your drone's flight path (coverage sectors)
+- **Red Labels**: Distance measurements between polygon points
+
+## Settings Guide
+
+### Scale (feet per pixel)
+Determines how many feet on the ground each pixel represents. Default is 0.1 feet/pixel.
+
+### Speed (feet/second)
+Your drone's expected cruising speed. Used to calculate estimated flight time. Default is 30 ft/s.
+
+### FOV (feet between lines)
+The spacing between parallel flight lines based on your drone's camera field of view. Default is 5 feet.
 
 ## Project Structure
 
 ```
 wings-of-discovery/
-├── single-viewer.html  # Single image artifact detector
-├── README.md          # This file
-└── .git/              # Version control
+├── drone-path.html          # Main drone path planner application
+├── index.html               # Home/landing page
+├── single-viewer.html       # Single image viewer for artifacts
+├── batch-viewer.html        # Batch image viewer for artifacts
+├── team.html                # Team information page
+├── styles.css               # Global styles
+├── README.md                # This file
+└── images/                  # Logo and asset files
+    └── QC-Logo/
 ```
-
-## File Format Support
-
-- JPG/JPEG
-- PNG
-- GIF
-- WebP
-- BMP
-- TIFF
-
-## Keyboard Shortcuts & Tips
-
-- **Debug Console** - Scroll to the bottom of the page to see live logs (green terminal)
-- **Test Mode** - Click "🐛 Test Image Loading" button to test with a sample image
-- **Clear** - Use the "🔄 Clear" button to reset and upload a new image
 
 ## Technical Stack
 
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **AI/ML**: TensorFlow.js + Google Teachable Machine
-- **Deployment**: Static file (no backend required)
+- **Canvas API**: For interactive drawing and visualization
+- **No Backend**: Completely client-side, runs entirely in the browser
+- **No Dependencies**: Pure vanilla JavaScript - no frameworks required
+
+## Code Generation Details
+
+### JavaScript Export
+Generates an async function compatible with DroneBlocks JavaScript API:
+```javascript
+async function executeCoveragePath() {
+  // Takeoff
+  await drone.takeoff();
+  
+  // Move to survey area
+  await drone.moveTo(startX, startY, 10);
+  
+  // Execute coverage path
+  for (let line of pathLines) {
+    await drone.moveTo(line.x1, line.y1, 5);
+    await drone.moveTo(line.x2, line.y2, 5);
+  }
+  
+  // Return and land
+  await drone.moveTo(startX, startY, 10);
+  await drone.land();
+}
+```
+
+### DroneBlocks XML Export
+Generates visual block format that can be imported into DroneBlocks editor for visual programming with drag-and-drop blocks.
 
 ## Troubleshooting
 
-### Model Won't Load
+### Drawing Issues
+- **Can't add points?** - Make sure you're left-clicking on the white canvas area
+- **Want to start over?** - Click the "Clear" button to reset everything
 
-- Check that your model URL is correct
-- Ensure the model is set to **Public** in Teachable Machine
-- Check your internet connection
-- Look at the error message in the debug console (green box at bottom)
+### Code Export Issues
+- **Copy buttons disabled?** - Generate a path first using the "Generate Path" button
+- **Code not showing?** - Ensure your browser allows clipboard access
 
-### Image Won't Upload
+### Calculation Issues
+- **Odd flight times?** - Double-check your speed and FOV settings
+- **Path looks wrong?** - Verify your polygon has at least 3 points
 
-- Make sure the file is a valid image format
-- Check file size (extremely large files may be slow)
-- Try a different browser if it persists
+## Tips for Archaeologists
 
-### Analysis Fails
+- **Ground Verification**: Always verify scale settings with ground measurements
+- **Drone Limitations**: Consider your drone's max flight time and altitude restrictions
+- **Weather**: Plan flights during stable weather conditions
+- **Permits**: Ensure you have proper permits and permissions for aerial surveys
+- **Overlap**: The default FOV creates good photo overlap for photogrammetry
+- **Multiple Passes**: Generate separate paths for different altitudes or camera angles
 
-- Ensure the model has finished loading
-- Try a different image
-- Check the debug console for error details
+## Made for Archaeologists 🏛️
 
-## Made for Kids 👶
-
-This project was created with educators and students in mind! The interface is simple, visual, and provides helpful feedback through the built-in debug console.
+This tool was created to make drone survey planning accessible and straightforward for field archaeologists, students, and researchers.
 
 ## License
 
 MIT License - Feel free to use and modify for educational purposes!
 
-## Contributing
+## Contact & Support
 
-Contributions welcome! Please feel free to submit pull requests or open issues.
+**Built by Artynuts for Wings of Discovery**
+
+For questions or suggestions, please open an issue on GitHub.
 
 ---
 
-**Built by Artynuts with ❤️ for Wings of Discovery**
+**Happy surveying! 🚁🏛️**
