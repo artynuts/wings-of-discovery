@@ -920,12 +920,12 @@
         code += `        drone.move_to(line["x1"], line["y1"], 5)\n`;
         code += `        drone.take_photo()\n`;
         code += `        photo_count += 1\n`;
-        code += `        time.sleep(1)  # Wait 1 second\n`;
+        code += `        time.sleep(0.5)  # Wait 0.5 seconds for photo to save\n`;
         code += `        \n`;
         code += `        drone.move_to(line["x2"], line["y2"], 5)\n`;
         code += `        drone.take_photo()\n`;
         code += `        photo_count += 1\n`;
-        code += `        time.sleep(1)  # Wait 1 second\n\n`;
+        code += `        time.sleep(0.5)  # Wait 0.5 seconds for photo to save\n\n`;
         code += `    print(f"Total photos taken: {photo_count}")\n\n`;
         code += `    # Return to start position\n`;
         code += `    drone.move_to(start_x, start_y, 10)\n`;
@@ -990,7 +990,7 @@
           xml += `                  <block type="db_hover">\n`;
           xml += `                    <value name="SECONDS">\n`;
           xml += `                      <shadow type="math_number">\n`;
-          xml += `                        <field name="NUM">1</field>\n`;
+          xml += `                        <field name="NUM">0.5</field>\n`;
           xml += `                      </shadow>\n`;
           xml += `                    </value>\n`;
           xml += `                    <next>\n`;
