@@ -262,6 +262,15 @@ select:focus {
   justify-content: space-between;
 }
 
+/* Footer */
+.footer {
+  text-align: center;
+  color: white;
+  margin-top: 30px;
+  opacity: 0.9;
+  font-size: 0.8em;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   body {
