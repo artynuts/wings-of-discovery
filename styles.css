@@ -24,6 +24,10 @@ h6 {
   font-family: "Nunito", sans-serif;
 }
 
+.container {
+  width: 100%;
+}
+
 .logo {
   margin: 0;
   display: flex;
