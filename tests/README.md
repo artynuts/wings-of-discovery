@@ -16,25 +16,37 @@ The test suite covers:
 
 ## Running Tests
 
-### Install Dependencies
+### Option 1: Browser-Based Testing (No Installation Required)
+
+Simply open `tests/test-runner.html` in your web browser. This will run all tests and display the results directly in the browser.
+
+**Advantages:**
+- No npm or Node.js installation required
+- Instant feedback
+- Works anywhere
+- Great for quick testing
+
+### Option 2: Jest (Requires Node.js/npm)
+
+#### Install Dependencies
 
 ```bash
 npm install
 ```
 
-### Run All Tests
+#### Run All Tests
 
 ```bash
 npm test
 ```
 
-### Run Tests in Watch Mode
+#### Run Tests in Watch Mode
 
 ```bash
 npm run test:watch
 ```
 
-### Run Tests with Coverage Report
+#### Run Tests with Coverage Report
 
 ```bash
 npm run test:coverage

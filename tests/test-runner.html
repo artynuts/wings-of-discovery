@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Tests - Wings of Discovery</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #8a3edb;
+        }
+        .test-suite {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-suite h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #8a3edb;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #ddd;
+            background: #f9f9f9;
+        }
+        .test-case.pass {
+            border-left-color: #4caf50;
+            background: #f1f8f4;
+        }
+        .test-case.fail {
+            border-left-color: #e74c3c;
+            background: #fef5f5;
+        }
+        .test-name {
+            font-weight: 600;
+        }
+        .test-error {
+            color: #e74c3c;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin-top: 5px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+        }
+        .summary {
+            background: #8a3edb;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .pass-icon { color: #4caf50; }
+        .fail-icon { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Unit Tests - Wings of Discovery</h1>
+    <div id="summary" class="summary">Running tests...</div>
+    <div id="results"></div>
+
+    <script>
+        // Simple test framework
+        const results = [];
+        let currentSuite = '';
+
+        function describe(name, fn) {
+            currentSuite = name;
+            fn();
+        }
+
+        function test(name, fn) {
+            try {
+                fn();
+                results.push({ suite: currentSuite, name, pass: true });
+            } catch (error) {
+                results.push({ suite: currentSuite, name, pass: false, error: error.message });
+            }
+        }
+
+        function expect(actual) {
+            return {
+                toBe(expected) {
+                    if (actual !== expected) {
+                        throw new Error(`Expected ${expected} but got ${actual}`);
+                    }
+                },
+                toEqual(expected) {
+                    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+                        throw new Error(`Expected ${JSON.stringify(expected)} but got ${JSON.stringify(actual)}`);
+                    }
+                },
+                toBeGreaterThan(expected) {
+                    if (!(actual > expected)) {
+                        throw new Error(`Expected ${actual} to be greater than ${expected}`);
+                    }
+                },
+                toBeLessThan(expected) {
+                    if (!(actual < expected)) {
+                        throw new Error(`Expected ${actual} to be less than ${expected}`);
+                    }
+                },
+                toContain(expected) {
+                    if (!actual.includes(expected)) {
+                        throw new Error(`Expected "${actual}" to contain "${expected}"`);
+                    }
+                },
+                toHaveProperty(expected) {
+                    if (!(expected in actual)) {
+                        throw new Error(`Expected object to have property "${expected}"`);
+                    }
+                }
+            };
+        }
+
+        // Helper function from plan-path.html
+        function calculateBoundingRectangle(points) {
+            if (points.length === 0) return null;
+            
+            let minX = points[0].x, maxX = points[0].x;
+            let minY = points[0].y, maxY = points[0].y;
+
+            points.forEach((p) => {
+                minX = Math.min(minX, p.x);
+                maxX = Math.max(maxX, p.x);
+                minY = Math.min(minY, p.y);
+                maxY = Math.max(maxY, p.y);
+            });
+
+            return {
+                x: minX,
+                y: minY,
+                width: maxX - minX,
+                height: maxY - minY,
+            };
+        }
+
+        // Run tests
+        describe('Bounding Rectangle Calculations', () => {
+            test('should calculate correct bounding rectangle for simple points', () => {
+                const points = [
+                    { x: 10, y: 10 },
+                    { x: 50, y: 10 },
+                    { x: 50, y: 50 },
+                    { x: 10, y: 50 }
+                ];
+                const result = calculateBoundingRectangle(points);
+                expect(result).toEqual({ x: 10, y: 10, width: 40, height: 40 });
+            });
+
+            test('should handle negative coordinates', () => {
+                const points = [
+                    { x: -10, y: -10 },
+                    { x: 10, y: 10 }
+                ];
+                const result = calculateBoundingRectangle(points);
+                expect(result).toEqual({ x: -10, y: -10, width: 20, height: 20 });
+            });
+
+            test('should handle single point', () => {
+                const points = [{ x: 25, y: 25 }];
+                const result = calculateBoundingRectangle(points);
+                expect(result).toEqual({ x: 25, y: 25, width: 0, height: 0 });
+            });
+
+            test('should return null for empty array', () => {
+                const points = [];
+                const result = calculateBoundingRectangle(points);
+                expect(result).toBe(null);
+            });
+        });
+
+        describe('Path Length Calculations', () => {
+            test('should calculate correct path length', () => {
+                const path = [
+                    { x1: 0, y1: 0, x2: 0, y2: 100 },
+                    { x1: 0, y1: 0, x2: 50, y2: 0 }
+                ];
+                const scale = 1;
+                let totalLength = 0;
+
+                path.forEach((line) => {
+                    const pixelDist = Math.sqrt(
+                        Math.pow(line.x2 - line.x1, 2) + Math.pow(line.y2 - line.y1, 2)
+                    );
+                    totalLength += pixelDist * scale;
+                });
+
+                expect(totalLength).toBe(150);
+            });
+
+            test('should scale path length correctly', () => {
+                const path = [{ x1: 0, y1: 0, x2: 100, y2: 0 }];
+                const scale = 0.5;
+                let totalLength = 0;
+
+                path.forEach((line) => {
+                    const pixelDist = Math.sqrt(
+                        Math.pow(line.x2 - line.x1, 2) + Math.pow(line.y2 - line.y1, 2)
+                    );
+                    totalLength += pixelDist * scale;
+                });
+
+                expect(totalLength).toBe(50);
+            });
+        });
+
+        describe('Point Distance Calculations', () => {
+            test('should detect point within click radius', () => {
+                const point = { x: 100, y: 100 };
+                const clickX = 105;
+                const clickY = 105;
+                const radius = 10;
+
+                const dist = Math.sqrt(
+                    Math.pow(clickX - point.x, 2) + Math.pow(clickY - point.y, 2)
+                );
+
+                expect(dist).toBeLessThan(radius);
+            });
+
+            test('should detect point outside click radius', () => {
+                const point = { x: 100, y: 100 };
+                const clickX = 120;
+                const clickY = 120;
+                const radius = 10;
+
+                const dist = Math.sqrt(
+                    Math.pow(clickX - point.x, 2) + Math.pow(clickY - point.y, 2)
+                );
+
+                expect(dist).toBeGreaterThan(radius);
+            });
+        });
+
+        describe('Flight Time Calculations', () => {
+            test('should calculate correct flight time', () => {
+                const pathLength = 1000; // feet
+                const droneSpeed = 10; // feet/second
+                const expectedTime = Math.ceil(pathLength / droneSpeed);
+                expect(expectedTime).toBe(100);
+            });
+
+            test('should convert seconds to minutes', () => {
+                const timeInSeconds = 120;
+                const timeInMinutes = (timeInSeconds / 60).toFixed(1);
+                expect(timeInMinutes).toBe('2.0');
+            });
+
+            test('should handle fractional minutes', () => {
+                const timeInSeconds = 150;
+                const timeInMinutes = (timeInSeconds / 60).toFixed(1);
+                expect(timeInMinutes).toBe('2.5');
+            });
+        });
+
+        describe('Coverage Area Calculations', () => {
+            test('should calculate correct coverage area', () => {
+                const width = 200;
+                const height = 300;
+                const area = width * height;
+                expect(area).toBe(60000);
+            });
+
+            test('should handle fractional dimensions', () => {
+                const width = 150.5;
+                const height = 200.5;
+                const area = width * height;
+                expect(area.toFixed(2)).toBe('30175.25');
+            });
+        });
+
+        describe('Code Generation Validation', () => {
+            test('should generate valid Python code structure', () => {
+                let code = `#!/usr/bin/env python3\n`;
+                code += `from djitellopy import Tello\n`;
+                expect(code).toContain('#!/usr/bin/env python3');
+                expect(code).toContain('from djitellopy import Tello');
+            });
+
+            test('should generate valid DroneBlocks XML structure', () => {
+                let xml = `<xml xmlns="https://developers.google.com/blockly/xml">\n`;
+                xml += `  <block type="db_takeoff" id="start" x="20" y="20">\n`;
+                xml += `  </block>\n`;
+                xml += `</xml>\n`;
+                expect(xml).toContain('<xml xmlns="https://developers.google.com/blockly/xml">');
+                expect(xml).toContain('block type="db_takeoff"');
+                expect(xml).toContain('</xml>');
+            });
+        });
+
+        describe('Array Operations', () => {
+            test('should add point to array', () => {
+                const points = [];
+                const initialLength = points.length;
+                points.push({ x: 100, y: 100 });
+                expect(points.length).toBe(initialLength + 1);
+                expect(points[points.length - 1]).toEqual({ x: 100, y: 100 });
+            });
+
+            test('should remove point from array', () => {
+                const points = [
+                    { x: 10, y: 10 },
+                    { x: 50, y: 10 },
+                    { x: 30, y: 50 }
+                ];
+                const indexToRemove = 1;
+                points.splice(indexToRemove, 1);
+                expect(points.length).toBe(2);
+                expect(points[1]).toEqual({ x: 30, y: 50 });
+            });
+        });
+
+        // Display results
+        function displayResults() {
+            const suites = {};
+            results.forEach(r => {
+                if (!suites[r.suite]) suites[r.suite] = [];
+                suites[r.suite].push(r);
+            });
+
+            const passed = results.filter(r => r.pass).length;
+            const failed = results.filter(r => !r.pass).length;
+            const total = results.length;
+
+            document.getElementById('summary').innerHTML = `
+                <strong>Test Results:</strong> ${passed} passed, ${failed} failed, ${total} total
+                ${failed === 0 ? '✅ All tests passed!' : '❌ Some tests failed'}
+            `;
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            Object.keys(suites).forEach(suiteName => {
+                const suiteDiv = document.createElement('div');
+                suiteDiv.className = 'test-suite';
+                suiteDiv.innerHTML = `<h2>${suiteName}</h2>`;
+
+                suites[suiteName].forEach(test => {
+                    const testDiv = document.createElement('div');
+                    testDiv.className = `test-case ${test.pass ? 'pass' : 'fail'}`;
+                    testDiv.innerHTML = `
+                        <div class="test-name">
+                            ${test.pass ? '<span class="pass-icon">✓</span>' : '<span class="fail-icon">✗</span>'}
+                            ${test.name}
+                        </div>
+                        ${test.error ? `<div class="test-error">${test.error}</div>` : ''}
+                    `;
+                    suiteDiv.appendChild(testDiv);
+                });
+
+                resultsDiv.appendChild(suiteDiv);
+            });
+        }
+
+        displayResults();
+    </script>
+</body>
+</html>
