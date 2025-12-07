@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <title>Batch Image Analyzer</title>
+    <title>Find Artifacts</title>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
     <style>
@@ -309,7 +309,13 @@
         cursor: pointer;
         transition: all 0.3s ease;
         margin-top: 20px;
-        display: none;
+        display: block;
+      }
+
+      .analyze-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: linear-gradient(135deg, #bbb 0%, #888 100%);
       }
 
       .analyze-btn:hover:not(:disabled) {
@@ -319,11 +325,6 @@
 
       .analyze-btn.active {
         display: block;
-      }
-
-      .analyze-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
       }
 
       .button-group {
@@ -340,6 +341,12 @@
 
       .clear-btn:hover:not(:disabled) {
         box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
+      }
+
+      .clear-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #bbb;
       }
 
       .loading {
@@ -614,9 +621,17 @@
 
         <!-- Select Images - Right Column -->
         <div class="upload-section">
-          <h2 style="text-align: center; margin-bottom: 30px; color: #333">
-            Select Images
-          </h2>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 15px;
+              margin-bottom: 30px;
+            "
+          >
+            <div style="font-size: 1em">🖼️</div>
+            <h2 style="margin: 0; color: #333">Select Images</h2>
+          </div>
           <div class="error-message" id="errorMessage"></div>
 
           <div class="file-input-wrapper">
@@ -645,29 +660,11 @@
       </div>
 
       <!-- Selected Images - Full Width Below -->
-      <div
-        class="empty-state"
-        id="emptyState"
-        style="
-          background: white;
-          border-radius: 20px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-          margin-bottom: 30px;
-        "
-      >
-        <div class="empty-state-icon">🖼️</div>
-        <p>Select images to start</p>
-      </div>
-
       <div class="gallery" id="gallery"></div>
 
       <div class="button-group">
-        <button class="analyze-btn" id="analyzeBtn">
-          🔍 Analyze with Model
-        </button>
-        <button class="analyze-btn clear-btn" id="clearBtn">
-          🗑️ Clear All
-        </button>
+        <button class="analyze-btn" id="analyzeBtn">🔍 Analyze</button>
+        <button class="analyze-btn clear-btn" id="clearBtn">🗑️ Clear</button>
       </div>
 
       <div class="loading" id="loading">
@@ -705,7 +702,6 @@
       const nextBtn = document.getElementById("nextBtn");
       const errorMessage = document.getElementById("errorMessage");
       const stats = document.getElementById("stats");
-      const emptyState = document.getElementById("emptyState");
 
       let imageFiles = [];
       let currentImageIndex = 0;
@@ -732,6 +728,10 @@
       const resultsHeader = document.getElementById("resultsHeader");
       const resultsGrid = document.getElementById("resultsGrid");
       const resultSummary = document.getElementById("resultSummary");
+
+      // Initialize buttons as disabled
+      analyzeBtn.disabled = true;
+      clearBtn.disabled = true;
 
       fileInput.addEventListener("change", handleFileSelect);
       fileInputLabel.addEventListener("dragover", handleDragOver);
@@ -812,7 +812,6 @@
 
           if (imageFiles.length === 0) {
             showError("No image files selected. Please select image files.");
-            emptyState.style.display = "block";
             gallery.innerHTML = "";
             stats.style.display = "none";
             return;
@@ -821,9 +820,7 @@
           displayGallery();
           updateStats();
           analyzeBtn.disabled = false;
-          analyzeBtn.classList.add("active");
-          clearBtn.classList.add("active");
-          emptyState.style.display = "none";
+          clearBtn.disabled = false;
           errorMessage.classList.remove("active");
         } catch (error) {
           showError("Error processing files: " + error.message);
@@ -913,7 +910,6 @@
           stats.style.display = "none";
           document.getElementById("totalImages").textContent = "0";
           document.getElementById("totalSize").textContent = "0 MB";
-          emptyState.style.display = "block";
         }
       }
 
@@ -1066,10 +1062,8 @@
         resultsGrid.innerHTML = "";
         loading.classList.remove("active");
         analyzeBtn.disabled = true;
-        analyzeBtn.classList.remove("active");
-        clearBtn.classList.remove("active");
+        clearBtn.disabled = true;
         modal.classList.remove("active");
-        emptyState.style.display = "block";
 
         console.log(
           "All images cleared - analyzeBtn.disabled:",
