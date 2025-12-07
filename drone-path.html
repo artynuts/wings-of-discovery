@@ -338,6 +338,36 @@
         padding: 8px 0;
       }
 
+      .code-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 15px;
+      }
+
+      .code-column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .code-column h3 {
+        color: #333;
+        font-size: 1em;
+        margin-bottom: 10px;
+        margin-top: 0;
+      }
+
+      .code-column textarea {
+        flex: 1;
+        font-family: monospace;
+        font-size: 11px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        resize: vertical;
+        min-height: 300px;
+      }
+
       @media (max-width: 1024px) {
         .main-content {
           grid-template-columns: 1fr;
@@ -541,34 +571,29 @@
         <!-- Export Code Section -->
         <div class="code-section" id="codeSection">
           <h2>Drone Code Export</h2>
-          <div
-            style="
-              background: #f5f5f5;
-              padding: 20px;
-              border-radius: 10px;
-              margin-bottom: 15px;
-            "
-          >
-            <textarea
-              id="codeOutput"
-              style="
-                width: 100%;
-                height: 300px;
-                font-family: monospace;
-                font-size: 12px;
-                padding: 10px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                resize: vertical;
-              "
-            ></textarea>
+          <div class="code-columns">
+            <div class="code-column">
+              <h3>💻 JavaScript Code</h3>
+              <textarea id="codeOutput" readonly></textarea>
+            </div>
+            <div class="code-column">
+              <h3>🧩 DroneBlocks XML</h3>
+              <textarea id="blocksOutput" readonly></textarea>
+            </div>
           </div>
           <button
             class="btn-primary"
             onclick="copyCodeToClipboard()"
+            style="width: 100%; margin-bottom: 10px"
+          >
+            📋 Copy JavaScript
+          </button>
+          <button
+            class="btn-primary"
+            onclick="copyBlocksToClipboard()"
             style="width: 100%"
           >
-            📋 Copy Code
+            📋 Copy Blocks XML
           </button>
         </div>
 
@@ -957,6 +982,7 @@
         }
         document.getElementById("codeSection").classList.remove("active");
         document.getElementById("codeOutput").value = "";
+        document.getElementById("blocksOutput").value = "";
         document.getElementById("codeBtn").style.display = "none";
         document.getElementById("blocksBtn").style.display = "none";
         drawCanvas();
@@ -1018,6 +1044,9 @@
         // Display code
         document.getElementById("codeOutput").value = code;
         document.getElementById("codeSection").classList.add("active");
+
+        // Also generate and display blocks code
+        generateDroneBlocksCode();
       }
 
       function generateDroneBlocksCode() {
@@ -1108,7 +1137,7 @@
         xml += `</xml>\n`;
 
         // Display code
-        document.getElementById("codeOutput").value = xml;
+        document.getElementById("blocksOutput").value = xml;
         document.getElementById("codeSection").classList.add("active");
       }
 
@@ -1116,7 +1145,14 @@
         const codeOutput = document.getElementById("codeOutput");
         codeOutput.select();
         document.execCommand("copy");
-        alert("Code copied to clipboard!");
+        alert("JavaScript code copied to clipboard!");
+      }
+
+      function copyBlocksToClipboard() {
+        const blocksOutput = document.getElementById("blocksOutput");
+        blocksOutput.select();
+        document.execCommand("copy");
+        alert("Blocks XML copied to clipboard!");
       }
 
       // Initial draw
