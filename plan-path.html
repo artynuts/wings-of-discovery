@@ -137,6 +137,12 @@
         transition: all 0.3s ease;
       }
 
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-color: #ccc !important;
+      }
+
       .canvas-container {
         background: white;
         border-radius: 20px;
@@ -493,7 +499,12 @@
               <button class="btn-secondary" onclick="clearCanvas()">
                 🔄 Clear
               </button>
-              <button class="btn-primary" onclick="generatePath()">
+              <button
+                class="btn-primary"
+                id="generatePathBtn"
+                onclick="generatePath()"
+                disabled
+              >
                 🚀 Generate Path
               </button>
               <button
@@ -568,6 +579,7 @@
             polygonPoints.splice(clickedPoint, 1);
             drawCanvas();
             updatePointsList();
+            updateGeneratePathButton();
             console.log(`Point ${clickedPoint + 1} deleted`);
           }
         } else {
@@ -575,6 +587,7 @@
           polygonPoints.push({ x, y });
           drawCanvas();
           updatePointsList();
+          updateGeneratePathButton();
           console.log(`Point ${polygonPoints.length} added`);
         }
       });
@@ -873,7 +886,17 @@
         document.getElementById("blocksOutput").value = "";
         document.getElementById("copyCodeBtn").disabled = true;
         document.getElementById("copyBlocksBtn").disabled = true;
+        updateGeneratePathButton();
         drawCanvas();
+      }
+
+      function updateGeneratePathButton() {
+        const generateBtn = document.getElementById("generatePathBtn");
+        if (polygonPoints.length >= 3) {
+          generateBtn.disabled = false;
+        } else {
+          generateBtn.disabled = true;
+        }
       }
 
       function generateDroneBlocksJSCode() {
