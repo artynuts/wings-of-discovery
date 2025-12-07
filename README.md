@@ -102,7 +102,7 @@ wings-of-discovery/
 ├── drone-path.html          # Main drone path planner application
 ├── index.html               # Home/landing page
 ├── single-viewer.html       # Single image viewer for artifacts
-├── batch-viewer.html        # Batch image viewer for artifacts
+├── find-artifacts.html        # Batch image viewer for artifacts
 ├── team.html                # Team information page
 ├── styles.css               # Global styles
 ├── README.md                # This file
