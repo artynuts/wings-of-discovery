@@ -1038,6 +1038,11 @@
             const percent = (pred.probability * 100).toFixed(1);
             const confidence = pred.probability;
 
+            // Skip categories with 0% match
+            if (percent == 0) {
+              return;
+            }
+
             let predEmoji = "⊘";
             if (confidence > 0.7) {
               predEmoji = "✅";
