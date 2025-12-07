@@ -933,6 +933,9 @@
           document.getElementById("blocksBtn").style.display = "block";
           pathGenerated = true;
           drawCanvas();
+
+          // Automatically generate both JavaScript and Blocks code
+          generateDroneBlocksJSCode();
         } catch (error) {
           const errorMsg = document.getElementById("errorMessage");
           errorMsg.textContent = "❌ " + error.message;
