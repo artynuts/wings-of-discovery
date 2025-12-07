@@ -89,19 +89,6 @@
         opacity: 0.9;
       }
 
-      .qc-section-team {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
-        flex-shrink: 0;
-        background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 50%);
-        padding: 10px 15px;
-        border-radius: 15px;
-        backdrop-filter: blur(100px);
-        border: 1px solid rgba(138, 62, 219, 0.4);
-      }
-
       @media (max-width: 768px) {
         .team-grid {
           grid-template-columns: 1fr;
@@ -117,22 +104,7 @@
     <div class="container">
       <div class="header">
         <div class="header-host">
-          <div class="qc-section-team">
-            <img
-              src="images/QC-Logo/Transparent/Transparent-04.png"
-              alt="The Quantum Crystals Logo"
-              class="qc-logo qc-logo-team"
-            />
-            <div class="logo">
-              <div class="logo-container">
-                <div class="logo-block">
-                  <div class="logo-the">THE</div>
-                  <div class="logo-quantum">QUANTUM</div>
-                  <div class="logo-crystals">CRYSTALS</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div id="qc-logo-container"></div>
           <div>
             <h1>Meet Our Team</h1>
             <p>

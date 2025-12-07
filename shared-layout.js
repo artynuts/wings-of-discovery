@@ -2,6 +2,39 @@
 // This file provides reusable header and footer components
 
 const SharedLayout = {
+  // QC Logo component with Quantum Crystals branding
+  getQCLogo(size = "40px") {
+    return `
+      <div style="
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 50%);
+        padding: 10px 15px;
+        border-radius: 15px;
+        backdrop-filter: blur(100px);
+        border: 1px solid rgba(138, 62, 219, 0.4);
+      ">
+        <img
+          src="images/QC-Logo/Transparent/Transparent-04.png"
+          alt="The Quantum Crystals Logo"
+          style="height: ${size}; width: auto"
+        />
+        <div class="logo">
+          <div class="logo-container">
+            <div class="logo-block">
+              <div class="logo-the">THE</div>
+              <div class="logo-quantum">QUANTUM</div>
+              <div class="logo-crystals">CRYSTALS</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
   // Back header with navigation and branding
   getBackHeader() {
     return `
@@ -54,6 +87,12 @@ const SharedLayout = {
 
 // Auto-initialize when DOM is loaded if not already present
 document.addEventListener("DOMContentLoaded", function () {
+  // Inject QC logo if container exists
+  const qcContainer = document.getElementById("qc-logo-container");
+  if (qcContainer) {
+    qcContainer.innerHTML = SharedLayout.getQCLogo("40px");
+  }
+
   // Check if back-header already exists
   if (!document.querySelector(".back-header")) {
     SharedLayout.injectBackHeader();
