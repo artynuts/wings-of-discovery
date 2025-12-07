@@ -581,20 +581,6 @@
               <textarea id="blocksOutput" readonly></textarea>
             </div>
           </div>
-          <button
-            class="btn-primary"
-            onclick="copyCodeToClipboard()"
-            style="width: 100%; margin-bottom: 10px"
-          >
-            📋 Copy JavaScript
-          </button>
-          <button
-            class="btn-primary"
-            onclick="copyBlocksToClipboard()"
-            style="width: 100%"
-          >
-            📋 Copy Blocks XML
-          </button>
         </div>
 
         <!-- Right Panel: Canvas -->
@@ -616,6 +602,22 @@
                 id="deleteBtn"
               >
                 🗑️ Delete
+              </button>
+              <button
+                class="btn-primary"
+                id="copyCodeBtn"
+                onclick="copyCodeToClipboard()"
+                style="display: none"
+              >
+                📋 Copy Code
+              </button>
+              <button
+                class="btn-primary"
+                id="copyBlocksBtn"
+                onclick="copyBlocksToClipboard()"
+                style="display: none"
+              >
+                📋 Copy Blocks
               </button>
             </div>
           </div>
@@ -938,6 +940,8 @@
             coverageAreaSqFt.toFixed(1) + " sq ft";
 
           document.getElementById("results").classList.add("active");
+          document.getElementById("copyCodeBtn").style.display = "block";
+          document.getElementById("copyBlocksBtn").style.display = "block";
           pathGenerated = true;
           drawCanvas();
 
@@ -965,6 +969,8 @@
         document.getElementById("codeSection").classList.remove("active");
         document.getElementById("codeOutput").value = "";
         document.getElementById("blocksOutput").value = "";
+        document.getElementById("copyCodeBtn").style.display = "none";
+        document.getElementById("copyBlocksBtn").style.display = "none";
         drawCanvas();
       }
 
