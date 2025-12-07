@@ -490,10 +490,10 @@
               <button
                 class="btn-primary"
                 id="copyCodeBtn"
-                onclick="copyCodeToClipboard()"
+                onclick="saveCodeToFile()"
                 disabled
               >
-                📋 Copy Code
+                💾 Save Python Script
               </button>
               <button
                 class="btn-primary"
@@ -1020,11 +1020,28 @@
         document.getElementById("codeSection").classList.add("active");
       }
 
-      function copyCodeToClipboard() {
+      function saveCodeToFile() {
         const codeOutput = document.getElementById("codeOutput");
-        codeOutput.select();
-        document.execCommand("copy");
-        alert("JavaScript code copied to clipboard!");
+        const code = codeOutput.value;
+        
+        // Create a blob with the code content
+        const blob = new Blob([code], { type: 'text/plain' });
+        
+        // Create a download link
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'drone_coverage_path.py';
+        
+        // Trigger download
+        document.body.appendChild(a);
+        a.click();
+        
+        // Clean up
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert("Python script saved to downloads!");
       }
 
       function copyBlocksToClipboard() {
