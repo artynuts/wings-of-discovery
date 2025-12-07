@@ -5,21 +5,25 @@ A comprehensive web-based tool designed to help archaeologists and field surveyo
 ## Features
 
 ### 📍 Survey Area Planning
+
 - **Interactive Canvas** - Draw custom polygon boundaries for your survey area
 - **Automatic Rectangle Calculation** - Converts polygon boundaries to optimal rectangular coverage
 - **Real-time Visualization** - See your survey area, bounding rectangle, and flight path instantly
 
 ### 🚀 Path Generation
+
 - **Sector-Based Coverage** - Generates parallel flight lines with customizable spacing
 - **Smart Calculations** - Automatically computes coverage dimensions, path length, and estimated flight time
 - **Field of View Control** - Adjust spacing between flight lines based on your drone's camera FOV
 
 ### 💻 Code Export
+
 - **JavaScript Code** - Export ready-to-use JavaScript code for DroneBlocks JavaScript API
 - **Visual Blocks** - Export XML format compatible with DroneBlocks visual programming editor
 - **One-Click Copy** - Easily copy code to clipboard for immediate use
 
 ### 📊 Real-time Metrics
+
 - Survey area dimensions in feet
 - Number of coverage sectors
 - Total flight path length
@@ -27,6 +31,7 @@ A comprehensive web-based tool designed to help archaeologists and field surveyo
 - Total coverage area
 
 ### 📱 User-Friendly Interface
+
 - Left panel for settings and results
 - Right panel for interactive canvas
 - Clean, intuitive button layout
@@ -43,19 +48,23 @@ A comprehensive web-based tool designed to help archaeologists and field surveyo
 ### Usage
 
 1. **Open the Application**
+
    - Visit: [Wings of Discovery - Drone Path Planner](https://artynuts.github.io/wings-of-discovery/drone-path.html)
 
 2. **Define Your Survey Area**
+
    - Left-click on the canvas to add points and draw your polygon boundary
    - Right-click to remove the last point
    - Click on an existing point to delete it
 
 3. **Adjust Settings**
+
    - **Scale**: Set the feet-per-pixel ratio for your canvas
    - **Speed**: Enter your drone's flight speed (feet/second)
    - **FOV**: Set field of view spacing between flight lines
 
 4. **Generate Path**
+
    - Click the "Generate Path" button
    - View coverage results (dimensions, sectors, flight time)
    - See your flight path visualized on the canvas
@@ -75,12 +84,15 @@ A comprehensive web-based tool designed to help archaeologists and field surveyo
 ## Settings Guide
 
 ### Scale (feet per pixel)
+
 Determines how many feet on the ground each pixel represents. Default is 0.1 feet/pixel.
 
 ### Speed (feet/second)
+
 Your drone's expected cruising speed. Used to calculate estimated flight time. Default is 30 ft/s.
 
 ### FOV (feet between lines)
+
 The spacing between parallel flight lines based on your drone's camera field of view. Default is 5 feet.
 
 ## Project Structure
@@ -108,21 +120,23 @@ wings-of-discovery/
 ## Code Generation Details
 
 ### JavaScript Export
+
 Generates an async function compatible with DroneBlocks JavaScript API:
+
 ```javascript
 async function executeCoveragePath() {
   // Takeoff
   await drone.takeoff();
-  
+
   // Move to survey area
   await drone.moveTo(startX, startY, 10);
-  
+
   // Execute coverage path
   for (let line of pathLines) {
     await drone.moveTo(line.x1, line.y1, 5);
     await drone.moveTo(line.x2, line.y2, 5);
   }
-  
+
   // Return and land
   await drone.moveTo(startX, startY, 10);
   await drone.land();
@@ -130,19 +144,23 @@ async function executeCoveragePath() {
 ```
 
 ### DroneBlocks XML Export
+
 Generates visual block format that can be imported into DroneBlocks editor for visual programming with drag-and-drop blocks.
 
 ## Troubleshooting
 
 ### Drawing Issues
+
 - **Can't add points?** - Make sure you're left-clicking on the white canvas area
 - **Want to start over?** - Click the "Clear" button to reset everything
 
 ### Code Export Issues
+
 - **Copy buttons disabled?** - Generate a path first using the "Generate Path" button
 - **Code not showing?** - Ensure your browser allows clipboard access
 
 ### Calculation Issues
+
 - **Odd flight times?** - Double-check your speed and FOV settings
 - **Path looks wrong?** - Verify your polygon has at least 3 points
 
