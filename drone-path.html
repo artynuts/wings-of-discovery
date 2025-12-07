@@ -135,6 +135,7 @@
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         padding: 40px;
         margin-bottom: 30px;
+        position: relative;
       }
 
       canvas {
@@ -144,6 +145,31 @@
         border-radius: 5px;
         display: block;
         cursor: crosshair;
+      }
+
+      .canvas-buttons {
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        background: white;
+        padding: 15px 20px;
+        border-radius: 50px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 10;
+      }
+
+      .canvas-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9em;
+        transition: all 0.3s ease;
+        white-space: nowrap;
       }
 
       .results {
@@ -423,12 +449,6 @@
           </div>
 
           <div class="button-group">
-            <button class="btn-primary" onclick="generatePath()">
-              🚀 Generate Path
-            </button>
-            <button class="btn-secondary" onclick="clearCanvas()">
-              🔄 Clear
-            </button>
             <button
               class="btn-primary"
               id="codeBtn"
@@ -453,6 +473,17 @@
           <div class="canvas-container">
             <h2 style="margin-bottom: 20px">Survey Area</h2>
             <canvas id="pathCanvas" width="600" height="600"></canvas>
+            <div class="canvas-buttons">
+              <button class="btn-primary" onclick="generatePath()">
+                🚀 Generate Path
+              </button>
+              <button class="btn-secondary" onclick="clearCanvas()">
+                🔄 Clear
+              </button>
+              <button class="btn-secondary" onclick="deleteLastPoint()" style="display: none;" id="deleteBtn">
+                🗑️ Delete
+              </button>
+            </div>
           </div>
 
           <div class="results" id="results">
