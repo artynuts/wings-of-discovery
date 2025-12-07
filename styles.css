@@ -270,6 +270,60 @@ select:focus {
   justify-content: space-between;
 }
 
+.canvas-buttons {
+  position: relative;
+  display: flex;
+  gap: 10px;
+  background: white;
+  padding: 10px 15px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.canvas-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85em;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  min-width: 140px;
+}
+
+.canvas-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.canvas-buttons button:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
 /* Footer */
 .footer {
   text-align: center;
