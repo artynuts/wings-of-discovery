@@ -206,6 +206,17 @@
         font-size: 0.85em;
         transition: all 0.3s ease;
         white-space: nowrap;
+        min-width: 140px;
+      }
+
+      .canvas-buttons button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .canvas-buttons button:disabled:hover {
+        transform: none;
+        box-shadow: none;
       }
 
       .results {
@@ -586,13 +597,13 @@
         <div>
           <div class="canvas-container">
             <h2 style="margin-bottom: 20px">Survey Area</h2>
-            <canvas id="pathCanvas" width="480" height="480"></canvas>
+            <canvas id="pathCanvas" width="600" height="600"></canvas>
             <div class="canvas-buttons">
-              <button class="btn-primary" onclick="generatePath()">
-                🚀 Generate Path
-              </button>
               <button class="btn-secondary" onclick="clearCanvas()">
                 🔄 Clear
+              </button>
+              <button class="btn-primary" onclick="generatePath()">
+                🚀 Generate Path
               </button>
               <button
                 class="btn-secondary"
@@ -606,7 +617,7 @@
                 class="btn-primary"
                 id="copyCodeBtn"
                 onclick="copyCodeToClipboard()"
-                style="display: none"
+                disabled
               >
                 📋 Copy Code
               </button>
@@ -614,7 +625,7 @@
                 class="btn-primary"
                 id="copyBlocksBtn"
                 onclick="copyBlocksToClipboard()"
-                style="display: none"
+                disabled
               >
                 📋 Copy Blocks
               </button>
@@ -939,8 +950,8 @@
             coverageAreaSqFt.toFixed(1) + " sq ft";
 
           document.getElementById("results").classList.add("active");
-          document.getElementById("copyCodeBtn").style.display = "block";
-          document.getElementById("copyBlocksBtn").style.display = "block";
+          document.getElementById("copyCodeBtn").disabled = false;
+          document.getElementById("copyBlocksBtn").disabled = false;
           pathGenerated = true;
           drawCanvas();
 
@@ -968,8 +979,8 @@
         document.getElementById("codeSection").classList.remove("active");
         document.getElementById("codeOutput").value = "";
         document.getElementById("blocksOutput").value = "";
-        document.getElementById("copyCodeBtn").style.display = "none";
-        document.getElementById("copyBlocksBtn").style.display = "none";
+        document.getElementById("copyCodeBtn").disabled = true;
+        document.getElementById("copyBlocksBtn").disabled = true;
         drawCanvas();
       }
 
