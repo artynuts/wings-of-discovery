@@ -298,55 +298,17 @@
         display: block;
       }
 
-      .analyze-btn {
-        background: linear-gradient(135deg, #8a3edb 0%, #4b1f69 100%);
-        color: white;
-        border: none;
-        padding: 15px 40px;
-        border-radius: 10px;
-        font-size: 1.1em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 20px;
-        display: block;
-      }
-
-      .analyze-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        background: linear-gradient(135deg, #bbb 0%, #888 100%);
-      }
-
-      .analyze-btn:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-      }
-
-      .analyze-btn.active {
-        display: block;
-      }
-
       .button-group {
         display: flex;
         gap: 15px;
         justify-content: center;
         align-items: center;
-      }
-
-      .clear-btn {
-        background: #e74c3c;
-        margin-left: 0px;
-      }
-
-      .clear-btn:hover:not(:disabled) {
-        box-shadow: 0 10px 20px rgba(231, 76, 60, 0.3);
-      }
-
-      .clear-btn:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-        background: #bbb;
+        margin-top: 30px;
+        flex-wrap: wrap;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 30px;
       }
 
       .loading {
@@ -609,8 +571,8 @@
               remove any you don't need
             </li>
             <li>
-              <strong>Analyze Images</strong> - Click the "Analyze with Model"
-              button to run AI detection
+              <strong>Analyze Images</strong> - Click the "Analyze" button to
+              run AI detection
             </li>
             <li>
               <strong>Review Results</strong> - View predictions and confidence
@@ -662,9 +624,13 @@
       <!-- Selected Images - Full Width Below -->
       <div class="gallery" id="gallery"></div>
 
-      <div class="button-group">
-        <button class="analyze-btn" id="analyzeBtn">🔍 Analyze</button>
-        <button class="analyze-btn clear-btn" id="clearBtn">🗑️ Clear</button>
+      <div class="canvas-buttons">
+        <button class="btn-primary analyze-btn" id="analyzeBtn">
+          🔍 Analyze
+        </button>
+        <button class="btn-secondary analyze-btn" id="clearBtn">
+          🗑️ Clear
+        </button>
       </div>
 
       <div class="loading" id="loading">
