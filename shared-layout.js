@@ -40,13 +40,13 @@ const SharedLayout = {
     return `
     <div class="back-header">
       <a href="index.html" class="back-button">← Back Home</a>
-      <div class="wings-branding">
+      <div class="wings-host">
         <img
           src="images/WingsOfDiscovery-Logo.png"
           alt="Wings of Discovery"
           class="wings-logo"
         />
-        The Wings of Discovery
+        <div class="wings-text">Wings of Discovery</div>
       </div>
     </div>
     `;

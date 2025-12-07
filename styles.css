@@ -159,6 +159,7 @@ button:active,
   color: #333;
   font-size: 1.4em;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .header p {
@@ -218,7 +219,7 @@ button:active,
   margin-bottom: 20px;
 }
 
-.wings-branding {
+.wings-host {
   text-align: right;
   color: white;
   font-weight: 600;
@@ -226,7 +227,7 @@ button:active,
   letter-spacing: 0.4px;
   display: flex;
   font-family: "Nunito", sans-serif;
-  align-items: center;
+  align-items: flex-end;
   gap: 0px;
 }
 
