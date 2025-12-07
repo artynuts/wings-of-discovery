@@ -331,12 +331,12 @@
             create your flight plan
           </li>
           <li>
-            <strong>Export Code</strong> - Save the Tello Python script or copy
-            the DroneBlocks XML code for your drone
+            <strong>Save Scripts</strong> - Download both the Tello coverage path
+            script and the image extraction script to your computer
           </li>
           <li>
-            <strong>Get Images</strong> - Download a Python script to extract
-            photos from your Tello drone to your computer
+            <strong>Copy Blocks</strong> - Copy the DroneBlocks XML code to
+            paste into DroneBlocks
           </li>
         </ol>
       </div>
@@ -496,11 +496,11 @@
               </button>
               <button
                 class="btn-primary"
-                id="copyCodeBtn"
-                onclick="saveCodeToFile()"
+                id="saveScriptsBtn"
+                onclick="saveAllScripts()"
                 disabled
               >
-                💾 Save Script
+                💾 Save Scripts
               </button>
               <button
                 class="btn-primary"
@@ -509,12 +509,6 @@
                 disabled
               >
                 📋 Copy Blocks
-              </button>
-              <button
-                class="btn-primary"
-                onclick="saveImageExtractionScript()"
-              >
-                📥 Get Images
               </button>
             </div>
           </div>
@@ -840,7 +834,7 @@
             coverageAreaSqFt.toFixed(1) + " sq ft";
 
           document.getElementById("results").classList.add("active");
-          document.getElementById("copyCodeBtn").disabled = false;
+          document.getElementById("saveScriptsBtn").disabled = false;
           document.getElementById("copyBlocksBtn").disabled = false;
           pathGenerated = true;
           drawCanvas();
@@ -869,7 +863,7 @@
         document.getElementById("codeSection").classList.remove("active");
         document.getElementById("codeOutput").value = "";
         document.getElementById("blocksOutput").value = "";
-        document.getElementById("copyCodeBtn").disabled = true;
+        document.getElementById("saveScriptsBtn").disabled = true;
         document.getElementById("copyBlocksBtn").disabled = true;
         updateGeneratePathButton();
         drawCanvas();
@@ -1052,32 +1046,42 @@
         document.getElementById("codeSection").classList.add("active");
       }
 
-      function saveCodeToFile() {
+      function saveAllScripts() {
+        // Save the coverage path script
         const codeOutput = document.getElementById("codeOutput");
-        const code = codeOutput.value;
+        const coverageCode = codeOutput.value;
         
-        // Create a blob with the code content
-        const blob = new Blob([code], { type: 'text/plain' });
+        const blob1 = new Blob([coverageCode], { type: 'text/plain' });
+        const url1 = URL.createObjectURL(blob1);
+        const a1 = document.createElement('a');
+        a1.href = url1;
+        a1.download = 'drone_coverage_path.py';
+        document.body.appendChild(a1);
+        a1.click();
+        document.body.removeChild(a1);
+        URL.revokeObjectURL(url1);
         
-        // Create a download link
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'drone_coverage_path.py';
-        
-        // Trigger download
-        document.body.appendChild(a);
-        a.click();
-        
-        // Clean up
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        alert("Python script saved to downloads!");
+        // Wait a moment before downloading the second file
+        setTimeout(() => {
+          // Save the image extraction script
+          const imageCode = getImageExtractionScriptCode();
+          
+          const blob2 = new Blob([imageCode], { type: 'text/plain' });
+          const url2 = URL.createObjectURL(blob2);
+          const a2 = document.createElement('a');
+          a2.href = url2;
+          a2.download = 'get_images.py';
+          document.body.appendChild(a2);
+          a2.click();
+          document.body.removeChild(a2);
+          URL.revokeObjectURL(url2);
+          
+          alert("Both scripts saved to downloads!");
+        }, 500);
       }
-
-      function saveImageExtractionScript() {
-        const code = `#!/usr/bin/env python3
+      
+      function getImageExtractionScriptCode() {
+        return `#!/usr/bin/env python3
 """
 Tello Drone Image Extraction Script
 Downloads all photos from the Tello drone to local storage
@@ -1174,25 +1178,6 @@ def main():
 if __name__ == "__main__":
     main()
 `;
-        
-        // Create a blob with the code content
-        const blob = new Blob([code], { type: 'text/plain' });
-        
-        // Create a download link
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'get_images.py';
-        
-        // Trigger download
-        document.body.appendChild(a);
-        a.click();
-        
-        // Clean up
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        alert("Image extraction script saved to downloads!");
       }
 
       function copyBlocksToClipboard() {
