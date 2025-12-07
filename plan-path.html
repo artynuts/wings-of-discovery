@@ -107,7 +107,7 @@
         color: #333;
         font-weight: 600;
         margin-bottom: 5px;
-        font-size: 0.95em;
+        font-size: 0.8em;
       }
 
       .input-group input {
@@ -778,7 +778,8 @@
           errorMsg.classList.remove("active");
 
           if (polygonPoints.length < 3) {
-            throw new Error("Please draw a polygon with at least 3 points");
+            // Silently return if not enough points - user can adjust settings before drawing
+            return;
           }
 
           const scale = parseFloat(document.getElementById("scale").value);
