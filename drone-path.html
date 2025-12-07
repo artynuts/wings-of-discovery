@@ -433,6 +433,69 @@
                 oninput="generatePath()"
               />
             </div>
+
+            <div class="results" id="results" style="margin-top: 30px">
+              <h3>Coverage Path Results</h3>
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 10px;
+                  font-size: 0.9em;
+                "
+              >
+                <div class="result-item" style="margin-bottom: 0">
+                  <div class="result-label">Dimensions:</div>
+                  <div
+                    class="result-value"
+                    id="dimensions"
+                    style="font-size: 0.95em"
+                  >
+                    0 ft × 0 ft
+                  </div>
+                </div>
+                <div class="result-item" style="margin-bottom: 0">
+                  <div class="result-label">Sectors:</div>
+                  <div
+                    class="result-value"
+                    id="numSectors"
+                    style="font-size: 0.95em"
+                  >
+                    0
+                  </div>
+                </div>
+                <div class="result-item" style="margin-bottom: 0">
+                  <div class="result-label">Path Length:</div>
+                  <div
+                    class="result-value"
+                    id="pathLength"
+                    style="font-size: 0.95em"
+                  >
+                    0 ft
+                  </div>
+                </div>
+                <div class="result-item" style="margin-bottom: 0">
+                  <div class="result-label">Flight Time:</div>
+                  <div
+                    class="result-value"
+                    id="flightTime"
+                    style="font-size: 0.95em"
+                  >
+                    0 sec
+                  </div>
+                </div>
+                <div class="result-item" style="margin-bottom: 0">
+                  <div class="result-label">Coverage:</div>
+                  <div
+                    class="result-value"
+                    id="coverageArea"
+                    style="font-size: 0.95em"
+                  >
+                    0 sq ft
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -472,30 +535,6 @@
               >
                 🧩 Export Blocks
               </button>
-            </div>
-          </div>
-
-          <div class="results" id="results">
-            <h2>Coverage Path Results</h2>
-            <div class="result-item">
-              <div class="result-label">Rectangle Dimensions:</div>
-              <div class="result-value" id="dimensions">0 ft × 0 ft</div>
-            </div>
-            <div class="result-item">
-              <div class="result-label">Number of Sectors:</div>
-              <div class="result-value" id="numSectors">0</div>
-            </div>
-            <div class="result-item">
-              <div class="result-label">Total Path Length:</div>
-              <div class="result-value" id="pathLength">0 ft</div>
-            </div>
-            <div class="result-item">
-              <div class="result-label">Estimated Flight Time:</div>
-              <div class="result-value" id="flightTime">0 seconds</div>
-            </div>
-            <div class="result-item">
-              <div class="result-label">Coverage Area:</div>
-              <div class="result-value" id="coverageArea">0 sq ft</div>
             </div>
           </div>
 
