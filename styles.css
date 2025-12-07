@@ -136,9 +136,9 @@ button:active,
   background: white;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-  margin-bottom: 30px;
-  text-align: left;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .header-host {
@@ -150,13 +150,13 @@ button:active,
 
 .header h1 {
   color: #333;
-  font-size: 2.5em;
+  font-size: 1.8em;
   margin-bottom: 10px;
 }
 
 .header p {
   color: #666;
-  font-size: 1.1em;
+  font-size: 0.95em;
 }
 
 /* Back Button */
@@ -374,6 +374,9 @@ select:focus {
     font-size: 1.5em;
   }
 
+  .header h1 {
+    font-size: 1.8em;
+  }
   .option-card,
   .team-member,
   .content {
@@ -392,7 +395,9 @@ select:focus {
   h1 {
     font-size: 1.5em;
   }
-
+  .header h1 {
+    font-size: 1.2em;
+  }
   .option-card,
   .team-member {
     padding: 15px;
