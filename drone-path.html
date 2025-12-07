@@ -835,38 +835,8 @@
       }
 
       function updatePointsList() {
-        const container = document.getElementById("pointsContainer");
-        const pointsList = document.getElementById("pointsList");
-
-        if (polygonPoints.length === 0) {
-          pointsList.style.display = "none";
-          return;
-        }
-
-        pointsList.style.display = "block";
-        container.innerHTML = "";
-        const scale = parseFloat(document.getElementById("scale").value);
-
-        polygonPoints.forEach((point, index) => {
-          // Calculate distance to next point
-          const nextPoint = polygonPoints[(index + 1) % polygonPoints.length];
-          const pixelDist = Math.sqrt(
-            Math.pow(nextPoint.x - point.x, 2) +
-              Math.pow(nextPoint.y - point.y, 2)
-          );
-          const feetDist = pixelDist * scale;
-
-          const pointItem = document.createElement("div");
-          pointItem.className = "point-item";
-          pointItem.innerHTML = `
-            <div style="grid-column: 1 / -1;">
-              <div class="point-label">Point ${index + 1} to Point ${
-            ((index + 1) % polygonPoints.length) + 1
-          }: ${feetDist.toFixed(1)} ft (drag points to adjust)</div>
-            </div>
-          `;
-          container.appendChild(pointItem);
-        });
+        // This function is kept for compatibility but the points list UI
+        // is now displayed directly on the canvas as distance labels
       }
 
       function calculateBoundingRectangle(points) {
