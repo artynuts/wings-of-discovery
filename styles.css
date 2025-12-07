@@ -132,6 +132,33 @@ button:active,
   transform: translateY(0);
 }
 
+.header {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.header-host {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 30px;
+}
+
+.header h1 {
+  color: #333;
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.header p {
+  color: #666;
+  font-size: 1.1em;
+}
+
 /* Back Button */
 .back-button {
   display: inline-block;
