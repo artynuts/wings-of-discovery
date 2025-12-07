@@ -978,7 +978,10 @@
         boundingRect = null;
         document.getElementById("results").classList.remove("active");
         document.getElementById("errorMessage").classList.remove("active");
-        document.getElementById("pointsList").style.display = "none";
+        const pointsList = document.getElementById("pointsList");
+        if (pointsList) {
+          pointsList.style.display = "none";
+        }
         document.getElementById("codeSection").classList.remove("active");
         document.getElementById("codeOutput").value = "";
         document.getElementById("codeBtn").style.display = "none";
