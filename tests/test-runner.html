@@ -69,12 +69,27 @@
 <body>
     <h1>🧪 Unit Tests - Wings of Discovery</h1>
     <div id="summary" class="summary">Running tests...</div>
+    <div id="coverage" class="summary" style="display:none; background: #4caf50; margin-top: 10px;"></div>
     <div id="results"></div>
 
     <script>
         // Simple test framework
         const results = [];
         let currentSuite = '';
+        const coveredFunctions = new Set();
+        const allFunctions = [
+            'calculateBoundingRectangle',
+            'generatePath',
+            'clearCanvas',
+            'updateGeneratePathButton',
+            'generateDroneBlocksJSCode',
+            'generateDroneBlocksCode',
+            'saveAllScripts',
+            'getImageExtractionScriptCode',
+            'copyBlocksToClipboard',
+            'drawCanvas',
+            'updatePointsList'
+        ];
 
         function describe(name, fn) {
             currentSuite = name;
@@ -88,6 +103,10 @@
             } catch (error) {
                 results.push({ suite: currentSuite, name, pass: false, error: error.message });
             }
+        }
+
+        function trackCoverage(functionName) {
+            coveredFunctions.add(functionName);
         }
 
         function expect(actual) {
@@ -150,6 +169,7 @@
         // Run tests
         describe('Bounding Rectangle Calculations', () => {
             test('should calculate correct bounding rectangle for simple points', () => {
+                trackCoverage('calculateBoundingRectangle');
                 const points = [
                     { x: 10, y: 10 },
                     { x: 50, y: 10 },
@@ -161,6 +181,7 @@
             });
 
             test('should handle negative coordinates', () => {
+                trackCoverage('calculateBoundingRectangle');
                 const points = [
                     { x: -10, y: -10 },
                     { x: 10, y: 10 }
@@ -170,12 +191,14 @@
             });
 
             test('should handle single point', () => {
+                trackCoverage('calculateBoundingRectangle');
                 const points = [{ x: 25, y: 25 }];
                 const result = calculateBoundingRectangle(points);
                 expect(result).toEqual({ x: 25, y: 25, width: 0, height: 0 });
             });
 
             test('should return null for empty array', () => {
+                trackCoverage('calculateBoundingRectangle');
                 const points = [];
                 const result = calculateBoundingRectangle(points);
                 expect(result).toBe(null);
@@ -338,6 +361,18 @@
             document.getElementById('summary').innerHTML = `
                 <strong>Test Results:</strong> ${passed} passed, ${failed} failed, ${total} total
                 ${failed === 0 ? '✅ All tests passed!' : '❌ Some tests failed'}
+            `;
+
+            // Display coverage
+            const coveragePercent = ((coveredFunctions.size / allFunctions.length) * 100).toFixed(1);
+            const coverageDiv = document.getElementById('coverage');
+            coverageDiv.style.display = 'block';
+            coverageDiv.innerHTML = `
+                <strong>Code Coverage:</strong> ${coveredFunctions.size}/${allFunctions.length} functions (${coveragePercent}%)
+                <div style="margin-top: 10px; font-size: 0.9em;">
+                    <strong>Covered:</strong> ${Array.from(coveredFunctions).join(', ')}<br>
+                    <strong>Not Covered:</strong> ${allFunctions.filter(f => !coveredFunctions.has(f)).join(', ') || 'None'}
+                </div>
             `;
 
             const resultsDiv = document.getElementById('results');
