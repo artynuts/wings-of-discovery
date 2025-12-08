@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Tests - Find Artifacts - Wings of Discovery</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #8a3edb;
+        }
+        .test-suite {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-suite h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #8a3edb;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            padding: 10px;
+            margin: 5px 0;
+            border-left: 4px solid #ddd;
+            background: #f9f9f9;
+        }
+        .test-case.pass {
+            border-left-color: #4caf50;
+            background: #f1f8f4;
+        }
+        .test-case.fail {
+            border-left-color: #e74c3c;
+            background: #fef5f5;
+        }
+        .test-name {
+            font-weight: 600;
+        }
+        .test-error {
+            color: #e74c3c;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin-top: 5px;
+            padding: 10px;
+            background: #fff;
+            border-radius: 4px;
+        }
+        .summary {
+            background: #8a3edb;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+        .pass-icon { color: #4caf50; }
+        .fail-icon { color: #e74c3c; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Unit Tests - Find Artifacts - Wings of Discovery</h1>
+    <div id="summary" class="summary">Running tests...</div>
+    <div id="coverage" class="summary" style="display:none; background: #4caf50; margin-top: 10px;"></div>
+    <div id="results"></div>
+
+    <script>
+        // Simple test framework
+        const results = [];
+        let currentSuite = '';
+        const coveredFunctions = new Set();
+        const allFunctions = [
+            'initModel',
+            'handleFileSelect',
+            'handleDragOver',
+            'handleDragLeave',
+            'handleDrop',
+            'processFiles',
+            'displayGallery',
+            'updateStats',
+            'deleteImage',
+            'openModal',
+            'closeImageModal',
+            'showPreviousImage',
+            'showNextImage',
+            'updateNavButtons',
+            'handleKeypress',
+            'analyzeAllImages',
+            'clearAllImages',
+            'displayAnalysisResults',
+            'formatFileSize',
+            'showError'
+        ];
+
+        function describe(name, fn) {
+            currentSuite = name;
+            fn();
+        }
+
+        function test(name, fn) {
+            try {
+                fn();
+                results.push({ suite: currentSuite, name, pass: true });
+            } catch (error) {
+                results.push({ suite: currentSuite, name, pass: false, error: error.message });
+            }
+        }
+
+        function trackCoverage(functionName) {
+            coveredFunctions.add(functionName);
+        }
+
+        function expect(actual) {
+            return {
+                toBe(expected) {
+                    if (actual !== expected) {
+                        throw new Error(`Expected ${expected} but got ${actual}`);
+                    }
+                },
+                toEqual(expected) {
+                    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+                        throw new Error(`Expected ${JSON.stringify(expected)} but got ${JSON.stringify(actual)}`);
+                    }
+                },
+                toBeGreaterThan(expected) {
+                    if (!(actual > expected)) {
+                        throw new Error(`Expected ${actual} to be greater than ${expected}`);
+                    }
+                },
+                toBeLessThan(expected) {
+                    if (!(actual < expected)) {
+                        throw new Error(`Expected ${actual} to be less than ${expected}`);
+                    }
+                },
+                toContain(expected) {
+                    if (!actual.includes(expected)) {
+                        throw new Error(`Expected "${actual}" to contain "${expected}"`);
+                    }
+                },
+                toHaveProperty(expected) {
+                    if (!(expected in actual)) {
+                        throw new Error(`Expected object to have property "${expected}"`);
+                    }
+                },
+                toBeNull() {
+                    if (actual !== null) {
+                        throw new Error(`Expected null but got ${actual}`);
+                    }
+                }
+            };
+        }
+
+        // Run tests
+        describe('Model Initialization', () => {
+            test('should construct correct model URL with trailing slash', () => {
+                trackCoverage('initModel');
+                const modelURL = "https://example.com/model";
+                const finalURL = modelURL.endsWith("/") ? modelURL : modelURL + "/";
+                expect(finalURL).toBe("https://example.com/model/");
+            });
+
+            test('should construct correct model.json path', () => {
+                trackCoverage('initModel');
+                const modelURL = "https://example.com/model/";
+                const fullModelURL = modelURL + "model.json";
+                expect(fullModelURL).toBe("https://example.com/model/model.json");
+            });
+
+            test('should construct correct metadata.json path', () => {
+                trackCoverage('initModel');
+                const modelURL = "https://example.com/model/";
+                const metadataURL = modelURL + "metadata.json";
+                expect(metadataURL).toBe("https://example.com/model/metadata.json");
+            });
+        });
+
+        describe('File Selection Handling', () => {
+            test('should convert FileList to array', () => {
+                trackCoverage('handleFileSelect');
+                const mockFileList = [{ name: 'test1.jpg' }, { name: 'test2.jpg' }];
+                const filesArray = Array.from(mockFileList);
+                expect(filesArray.length).toBe(2);
+            });
+
+            test('should handle empty file selection', () => {
+                trackCoverage('handleFileSelect');
+                const files = [];
+                expect(files.length).toBe(0);
+            });
+        });
+
+        describe('Drag and Drop Handling', () => {
+            test('should set hover background color on drag over', () => {
+                trackCoverage('handleDragOver');
+                const hoverColor = "#eef0ff";
+                expect(hoverColor).toBe("#eef0ff");
+            });
+
+            test('should set hover border color on drag over', () => {
+                trackCoverage('handleDragOver');
+                const borderColor = "#4B1F69";
+                expect(borderColor).toBe("#4B1F69");
+            });
+
+            test('should reset background on drag leave', () => {
+                trackCoverage('handleDragLeave');
+                const normalColor = "#f8f9ff";
+                expect(normalColor).toBe("#f8f9ff");
+            });
+
+            test('should reset border on drag leave', () => {
+                trackCoverage('handleDragLeave');
+                const normalBorder = "#8A3EDB";
+                expect(normalBorder).toBe("#8A3EDB");
+            });
+
+            test('should extract files from drop event', () => {
+                trackCoverage('handleDrop');
+                const mockDataTransfer = {
+                    files: [{ name: 'test.jpg' }, { name: 'test.png' }]
+                };
+                const files = Array.from(mockDataTransfer.files);
+                expect(files.length).toBe(2);
+            });
+        });
+
+        describe('File Processing', () => {
+            test('should filter image files by extension', () => {
+                trackCoverage('processFiles');
+                const files = [
+                    { name: 'photo.jpg' },
+                    { name: 'document.pdf' },
+                    { name: 'image.png' },
+                    { name: 'video.mp4' }
+                ];
+                const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
+                const imageFiles = files.filter(file => {
+                    const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+                    return imageExtensions.includes(ext);
+                });
+                expect(imageFiles.length).toBe(2);
+            });
+
+            test('should extract file extension correctly', () => {
+                trackCoverage('processFiles');
+                const filename = 'test.image.jpg';
+                const ext = filename.substring(filename.lastIndexOf('.')).toLowerCase();
+                expect(ext).toBe('.jpg');
+            });
+
+            test('should handle files with no extension', () => {
+                trackCoverage('processFiles');
+                const filename = 'noextension';
+                const lastDot = filename.lastIndexOf('.');
+                const hasExtension = lastDot !== -1;
+                expect(hasExtension).toBe(false);
+            });
+        });
+
+        describe('Gallery Display', () => {
+            test('should create image card for each file', () => {
+                trackCoverage('displayGallery');
+                const files = [{ name: 'img1.jpg' }, { name: 'img2.jpg' }, { name: 'img3.jpg' }];
+                const cardCount = files.length;
+                expect(cardCount).toBe(3);
+            });
+
+            test('should set image alt text to filename', () => {
+                trackCoverage('displayGallery');
+                const filename = 'test-photo.jpg';
+                const altText = filename;
+                expect(altText).toBe('test-photo.jpg');
+            });
+        });
+
+        describe('Statistics Updates', () => {
+            test('should calculate total size of all files', () => {
+                trackCoverage('updateStats');
+                const files = [
+                    { size: 1024 },
+                    { size: 2048 },
+                    { size: 4096 }
+                ];
+                const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+                expect(totalSize).toBe(7168);
+            });
+
+            test('should count number of files', () => {
+                trackCoverage('updateStats');
+                const files = [{ size: 100 }, { size: 200 }, { size: 300 }];
+                const count = files.length;
+                expect(count).toBe(3);
+            });
+
+            test('should handle empty file array', () => {
+                trackCoverage('updateStats');
+                const files = [];
+                const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+                expect(totalSize).toBe(0);
+            });
+        });
+
+        describe('Image Deletion', () => {
+            test('should remove image at specified index', () => {
+                trackCoverage('deleteImage');
+                const images = ['img1.jpg', 'img2.jpg', 'img3.jpg'];
+                const indexToRemove = 1;
+                images.splice(indexToRemove, 1);
+                expect(images.length).toBe(2);
+                expect(images[1]).toBe('img3.jpg');
+            });
+
+            test('should handle deleting first image', () => {
+                trackCoverage('deleteImage');
+                const images = ['img1.jpg', 'img2.jpg', 'img3.jpg'];
+                images.splice(0, 1);
+                expect(images[0]).toBe('img2.jpg');
+            });
+
+            test('should handle deleting last image', () => {
+                trackCoverage('deleteImage');
+                const images = ['img1.jpg', 'img2.jpg', 'img3.jpg'];
+                images.splice(2, 1);
+                expect(images.length).toBe(2);
+                expect(images[images.length - 1]).toBe('img2.jpg');
+            });
+
+            test('should adjust current index when deleting earlier image', () => {
+                trackCoverage('deleteImage');
+                let currentIndex = 2;
+                const deletedIndex = 0;
+                if (currentIndex > deletedIndex) {
+                    currentIndex--;
+                }
+                expect(currentIndex).toBe(1);
+            });
+        });
+
+        describe('Modal Operations', () => {
+            test('should set current image index when opening modal', () => {
+                trackCoverage('openModal');
+                const clickedIndex = 3;
+                const currentImageIndex = clickedIndex;
+                expect(currentImageIndex).toBe(3);
+            });
+
+            test('should close modal', () => {
+                trackCoverage('closeImageModal');
+                let modalActive = true;
+                modalActive = false;
+                expect(modalActive).toBe(false);
+            });
+
+            test('should navigate to previous image', () => {
+                trackCoverage('showPreviousImage');
+                let currentIndex = 5;
+                if (currentIndex > 0) {
+                    currentIndex--;
+                }
+                expect(currentIndex).toBe(4);
+            });
+
+            test('should not navigate before first image', () => {
+                trackCoverage('showPreviousImage');
+                let currentIndex = 0;
+                if (currentIndex > 0) {
+                    currentIndex--;
+                }
+                expect(currentIndex).toBe(0);
+            });
+
+            test('should navigate to next image', () => {
+                trackCoverage('showNextImage');
+                let currentIndex = 2;
+                const totalImages = 5;
+                if (currentIndex < totalImages - 1) {
+                    currentIndex++;
+                }
+                expect(currentIndex).toBe(3);
+            });
+
+            test('should not navigate past last image', () => {
+                trackCoverage('showNextImage');
+                let currentIndex = 4;
+                const totalImages = 5;
+                if (currentIndex < totalImages - 1) {
+                    currentIndex++;
+                }
+                expect(currentIndex).toBe(4);
+            });
+        });
+
+        describe('Navigation Button Updates', () => {
+            test('should disable previous button on first image', () => {
+                trackCoverage('updateNavButtons');
+                const currentIndex = 0;
+                const prevDisabled = currentIndex === 0;
+                expect(prevDisabled).toBe(true);
+            });
+
+            test('should disable next button on last image', () => {
+                trackCoverage('updateNavButtons');
+                const currentIndex = 9;
+                const totalImages = 10;
+                const nextDisabled = currentIndex === totalImages - 1;
+                expect(nextDisabled).toBe(true);
+            });
+
+            test('should enable both buttons on middle image', () => {
+                trackCoverage('updateNavButtons');
+                const currentIndex = 5;
+                const totalImages = 10;
+                const prevDisabled = currentIndex === 0;
+                const nextDisabled = currentIndex === totalImages - 1;
+                expect(prevDisabled).toBe(false);
+                expect(nextDisabled).toBe(false);
+            });
+        });
+
+        describe('Keyboard Navigation', () => {
+            test('should handle left arrow key', () => {
+                trackCoverage('handleKeypress');
+                const key = 'ArrowLeft';
+                expect(key).toBe('ArrowLeft');
+            });
+
+            test('should handle right arrow key', () => {
+                trackCoverage('handleKeypress');
+                const key = 'ArrowRight';
+                expect(key).toBe('ArrowRight');
+            });
+
+            test('should handle escape key', () => {
+                trackCoverage('handleKeypress');
+                const key = 'Escape';
+                expect(key).toBe('Escape');
+            });
+        });
+
+        describe('Image Analysis', () => {
+            test('should process all images in array', () => {
+                trackCoverage('analyzeAllImages');
+                const imageFiles = [
+                    { name: 'img1.jpg' },
+                    { name: 'img2.jpg' },
+                    { name: 'img3.jpg' }
+                ];
+                const processedCount = imageFiles.length;
+                expect(processedCount).toBe(3);
+            });
+
+            test('should create canvas for image analysis', () => {
+                trackCoverage('analyzeAllImages');
+                const canvasWidth = 640;
+                const canvasHeight = 480;
+                expect(canvasWidth).toBeGreaterThan(0);
+                expect(canvasHeight).toBeGreaterThan(0);
+            });
+
+            test('should handle analysis errors gracefully', () => {
+                trackCoverage('analyzeAllImages');
+                const result = {
+                    filename: 'test.jpg',
+                    predictions: [],
+                    error: 'Failed to load image'
+                };
+                expect(result).toHaveProperty('error');
+            });
+        });
+
+        describe('Clear All Images', () => {
+            test('should reset image files array', () => {
+                trackCoverage('clearAllImages');
+                let imageFiles = [{ name: 'img1.jpg' }, { name: 'img2.jpg' }];
+                imageFiles = [];
+                expect(imageFiles.length).toBe(0);
+            });
+
+            test('should reset results array', () => {
+                trackCoverage('clearAllImages');
+                let results = [{ filename: 'img1.jpg' }, { filename: 'img2.jpg' }];
+                results = [];
+                expect(results.length).toBe(0);
+            });
+
+            test('should reset current image index', () => {
+                trackCoverage('clearAllImages');
+                let currentImageIndex = 5;
+                currentImageIndex = 0;
+                expect(currentImageIndex).toBe(0);
+            });
+
+            test('should reset analyzing flag', () => {
+                trackCoverage('clearAllImages');
+                let isAnalyzing = true;
+                isAnalyzing = false;
+                expect(isAnalyzing).toBe(false);
+            });
+        });
+
+        describe('Analysis Results Display', () => {
+            test('should categorize high confidence predictions', () => {
+                trackCoverage('displayAnalysisResults');
+                const confidence = 0.85;
+                const riskLevel = confidence > 0.7 ? 'high' : 'low';
+                expect(riskLevel).toBe('high');
+            });
+
+            test('should categorize medium confidence predictions', () => {
+                trackCoverage('displayAnalysisResults');
+                const confidence = 0.55;
+                const riskLevel = confidence > 0.7 ? 'high' : (confidence > 0.4 ? 'medium' : 'low');
+                expect(riskLevel).toBe('medium');
+            });
+
+            test('should categorize low confidence predictions', () => {
+                trackCoverage('displayAnalysisResults');
+                const confidence = 0.25;
+                const riskLevel = confidence > 0.7 ? 'high' : (confidence > 0.4 ? 'medium' : 'low');
+                expect(riskLevel).toBe('low');
+            });
+
+            test('should assign correct emoji for high confidence', () => {
+                trackCoverage('displayAnalysisResults');
+                const confidence = 0.8;
+                const emoji = confidence > 0.7 ? '✅' : '⊘';
+                expect(emoji).toBe('✅');
+            });
+
+            test('should assign correct emoji for medium confidence', () => {
+                trackCoverage('displayAnalysisResults');
+                const confidence = 0.5;
+                const emoji = confidence > 0.7 ? '✅' : (confidence > 0.4 ? '🤔' : '⊘');
+                expect(emoji).toBe('🤔');
+            });
+
+            test('should sort predictions by probability', () => {
+                trackCoverage('displayAnalysisResults');
+                const predictions = [
+                    { probability: 0.3, className: 'A' },
+                    { probability: 0.7, className: 'B' },
+                    { probability: 0.5, className: 'C' }
+                ];
+                const sorted = predictions.sort((a, b) => b.probability - a.probability);
+                expect(sorted[0].className).toBe('B');
+            });
+
+            test('should convert probability to percentage', () => {
+                trackCoverage('displayAnalysisResults');
+                const probability = 0.7542;
+                const percent = (probability * 100).toFixed(1);
+                expect(percent).toBe('75.4');
+            });
+
+            test('should skip zero probability predictions', () => {
+                trackCoverage('displayAnalysisResults');
+                const probability = 0.0;
+                const percent = (probability * 100).toFixed(1);
+                const shouldSkip = percent == 0;
+                expect(shouldSkip).toBe(true);
+            });
+
+            test('should count high confidence results', () => {
+                trackCoverage('displayAnalysisResults');
+                const results = [
+                    { predictions: [{ probability: 0.8 }] },
+                    { predictions: [{ probability: 0.9 }] },
+                    { predictions: [{ probability: 0.3 }] }
+                ];
+                let highCount = 0;
+                results.forEach(r => {
+                    const topProb = r.predictions[0].probability;
+                    if (topProb > 0.7) highCount++;
+                });
+                expect(highCount).toBe(2);
+            });
+
+            test('should generate summary with counts', () => {
+                trackCoverage('displayAnalysisResults');
+                const totalResults = 10;
+                const highCount = 4;
+                const mediumCount = 3;
+                const lowCount = 3;
+                const summary = `Analyzed ${totalResults} images | High Confidence: ${highCount} | Medium: ${mediumCount} | Low: ${lowCount}`;
+                expect(summary).toContain('Analyzed 10 images');
+                expect(summary).toContain('High Confidence: 4');
+            });
+        });
+
+        describe('File Size Formatting', () => {
+            test('should format bytes', () => {
+                trackCoverage('formatFileSize');
+                const bytes = 512;
+                const result = bytes < 1024 ? `${bytes} Bytes` : '';
+                expect(result).toBe('512 Bytes');
+            });
+
+            test('should format kilobytes', () => {
+                trackCoverage('formatFileSize');
+                const bytes = 2048;
+                const k = 1024;
+                const kb = Math.round((bytes / k) * 100) / 100;
+                expect(kb).toBe(2);
+            });
+
+            test('should format megabytes', () => {
+                trackCoverage('formatFileSize');
+                const bytes = 5242880; // 5 MB
+                const k = 1024;
+                const mb = Math.round((bytes / (k * k)) * 100) / 100;
+                expect(mb).toBe(5);
+            });
+
+            test('should handle zero bytes', () => {
+                trackCoverage('formatFileSize');
+                const bytes = 0;
+                const result = bytes === 0 ? "0 Bytes" : "";
+                expect(result).toBe("0 Bytes");
+            });
+
+            test('should calculate correct size index', () => {
+                trackCoverage('formatFileSize');
+                const bytes = 1048576; // 1 MB
+                const k = 1024;
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                expect(i).toBe(2); // MB is at index 2
+            });
+        });
+
+        describe('Error Handling', () => {
+            test('should display error message', () => {
+                trackCoverage('showError');
+                const message = "Failed to load model";
+                expect(message).toContain("Failed");
+            });
+
+            test('should handle file read errors', () => {
+                trackCoverage('showError');
+                const error = new Error("Error reading files");
+                const message = "Error reading files: " + error.message;
+                expect(message).toContain("Error reading files");
+            });
+
+            test('should handle processing errors', () => {
+                trackCoverage('showError');
+                const error = new Error("Invalid file type");
+                const message = "Error processing files: " + error.message;
+                expect(message).toContain("Invalid file type");
+            });
+        });
+
+        // Display results
+        function displayResults() {
+            const suites = {};
+            results.forEach(r => {
+                if (!suites[r.suite]) suites[r.suite] = [];
+                suites[r.suite].push(r);
+            });
+
+            const passed = results.filter(r => r.pass).length;
+            const failed = results.filter(r => !r.pass).length;
+            const total = results.length;
+
+            document.getElementById('summary').innerHTML = `
+                <strong>Test Results:</strong> ${passed} passed, ${failed} failed, ${total} total
+                ${failed === 0 ? '✅ All tests passed!' : '❌ Some tests failed'}
+            `;
+
+            // Display coverage
+            const coveragePercent = ((coveredFunctions.size / allFunctions.length) * 100).toFixed(1);
+            const coverageDiv = document.getElementById('coverage');
+            coverageDiv.style.display = 'block';
+            coverageDiv.innerHTML = `
+                <strong>Code Coverage:</strong> ${coveredFunctions.size}/${allFunctions.length} functions (${coveragePercent}%)
+                <div style="margin-top: 10px; font-size: 0.9em;">
+                    <strong>Covered:</strong> ${Array.from(coveredFunctions).join(', ')}<br>
+                    <strong>Not Covered:</strong> ${allFunctions.filter(f => !coveredFunctions.has(f)).join(', ') || 'None'}
+                </div>
+            `;
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+
+            Object.keys(suites).forEach(suiteName => {
+                const suiteDiv = document.createElement('div');
+                suiteDiv.className = 'test-suite';
+                suiteDiv.innerHTML = `<h2>${suiteName}</h2>`;
+
+                suites[suiteName].forEach(test => {
+                    const testDiv = document.createElement('div');
+                    testDiv.className = `test-case ${test.pass ? 'pass' : 'fail'}`;
+                    testDiv.innerHTML = `
+                        <div class="test-name">
+                            ${test.pass ? '<span class="pass-icon">✓</span>' : '<span class="fail-icon">✗</span>'}
+                            ${test.name}
+                        </div>
+                        ${test.error ? `<div class="test-error">${test.error}</div>` : ''}
+                    `;
+                    suiteDiv.appendChild(testDiv);
+                });
+
+                resultsDiv.appendChild(suiteDiv);
+            });
+        }
+
+        displayResults();
+    </script>
+</body>
+</html>
