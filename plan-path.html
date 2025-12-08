@@ -147,13 +147,25 @@
       }
 
       canvas {
-        width: 480px;
-        height: 480px;
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+        aspect-ratio: 1 / 1;
         border: 2px solid #e0e0e0;
         border-radius: 5px;
         display: block;
         cursor: crosshair;
-        max-width: 480px;
+      }
+
+      @media (max-width: 768px) {
+        .canvas-container {
+          padding: 20px;
+        }
+
+        canvas {
+          width: 100%;
+          max-width: 100%;
+        }
       }
 
       .results {
