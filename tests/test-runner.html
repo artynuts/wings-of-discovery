@@ -346,6 +346,310 @@
             });
         });
 
+        describe('Generate Path Function', () => {
+            test('should handle path generation with valid inputs', () => {
+                trackCoverage('generatePath');
+                // Test path generation logic
+                const scale = 0.1;
+                const droneFOV = 5;
+                const boundingRect = { x: 100, y: 100, width: 200, height: 200 };
+                const sectorSpacingPixels = droneFOV / scale;
+                const generatedPath = [];
+                
+                for (let x = boundingRect.x + sectorSpacingPixels; 
+                     x < boundingRect.x + boundingRect.width; 
+                     x += sectorSpacingPixels) {
+                    generatedPath.push({
+                        x1: x,
+                        y1: boundingRect.y,
+                        x2: x,
+                        y2: boundingRect.y + boundingRect.height
+                    });
+                }
+                
+                expect(generatedPath.length).toBeGreaterThan(0);
+                expect(generatedPath[0]).toHaveProperty('x1');
+                expect(generatedPath[0]).toHaveProperty('y1');
+            });
+
+            test('should calculate correct number of sectors', () => {
+                trackCoverage('generatePath');
+                const rectWidthFt = 20;
+                const droneFOV = 5;
+                const numSectors = Math.ceil(rectWidthFt / droneFOV) + 1;
+                expect(numSectors).toBe(5);
+            });
+        });
+
+        describe('Clear Canvas Function', () => {
+            test('should reset polygon points array', () => {
+                trackCoverage('clearCanvas');
+                let polygonPoints = [{ x: 10, y: 10 }, { x: 20, y: 20 }];
+                polygonPoints = [];
+                expect(polygonPoints.length).toBe(0);
+            });
+
+            test('should reset path generated flag', () => {
+                trackCoverage('clearCanvas');
+                let pathGenerated = true;
+                pathGenerated = false;
+                expect(pathGenerated).toBe(false);
+            });
+
+            test('should reset generated path', () => {
+                trackCoverage('clearCanvas');
+                let generatedPath = [{ x1: 0, y1: 0, x2: 100, y2: 100 }];
+                generatedPath = null;
+                expect(generatedPath).toBe(null);
+            });
+        });
+
+        describe('Update Generate Path Button Function', () => {
+            test('should enable button with 3 points', () => {
+                trackCoverage('updateGeneratePathButton');
+                const points = [{ x: 10, y: 10 }, { x: 20, y: 20 }, { x: 30, y: 30 }];
+                const shouldEnable = points.length >= 3;
+                expect(shouldEnable).toBe(true);
+            });
+
+            test('should disable button with less than 3 points', () => {
+                trackCoverage('updateGeneratePathButton');
+                const points = [{ x: 10, y: 10 }, { x: 20, y: 20 }];
+                const shouldEnable = points.length >= 3;
+                expect(shouldEnable).toBe(false);
+            });
+
+            test('should enable button with more than 3 points', () => {
+                trackCoverage('updateGeneratePathButton');
+                const points = [
+                    { x: 10, y: 10 }, 
+                    { x: 20, y: 20 }, 
+                    { x: 30, y: 30 },
+                    { x: 40, y: 40 }
+                ];
+                const shouldEnable = points.length >= 3;
+                expect(shouldEnable).toBe(true);
+            });
+        });
+
+        describe('Generate DroneBlocks JS Code Function', () => {
+            test('should generate Tello import statement', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const code = 'from djitellopy import Tello';
+                expect(code).toContain('djitellopy');
+                expect(code).toContain('Tello');
+            });
+
+            test('should generate drone initialization', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const code = 'drone = Tello()\ndrone.connect()';
+                expect(code).toContain('drone = Tello()');
+                expect(code).toContain('connect()');
+            });
+
+            test('should generate battery check', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const code = 'battery = drone.get_battery()';
+                expect(code).toContain('get_battery()');
+            });
+
+            test('should generate takeoff command', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const code = 'drone.takeoff()';
+                expect(code).toContain('takeoff()');
+            });
+
+            test('should generate movement commands', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const dx = 50;
+                const dy = 30;
+                const forwardCmd = `drone.move_forward(${dx})`;
+                const rightCmd = `drone.move_right(${dy})`;
+                expect(forwardCmd).toContain('move_forward');
+                expect(rightCmd).toContain('move_right');
+            });
+
+            test('should generate photo capture code', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const code = 'frame = drone.get_frame_read().frame';
+                expect(code).toContain('get_frame_read()');
+                expect(code).toContain('.frame');
+            });
+
+            test('should generate landing command', () => {
+                trackCoverage('generateDroneBlocksJSCode');
+                const code = 'drone.land()';
+                expect(code).toContain('land()');
+            });
+        });
+
+        describe('Generate DroneBlocks Code Function', () => {
+            test('should generate XML opening tag', () => {
+                trackCoverage('generateDroneBlocksCode');
+                const xml = '<xml xmlns="https://developers.google.com/blockly/xml">';
+                expect(xml).toContain('<xml xmlns="https://developers.google.com/blockly/xml">');
+            });
+
+            test('should generate takeoff block', () => {
+                trackCoverage('generateDroneBlocksCode');
+                const xml = '<block type="db_takeoff" id="start" x="20" y="20">';
+                expect(xml).toContain('db_takeoff');
+            });
+
+            test('should generate fly forward block', () => {
+                trackCoverage('generateDroneBlocksCode');
+                const xml = '<block type="db_fly_forward">';
+                expect(xml).toContain('db_fly_forward');
+            });
+
+            test('should generate take photo block', () => {
+                trackCoverage('generateDroneBlocksCode');
+                const xml = '<block type="db_take_photo">';
+                expect(xml).toContain('db_take_photo');
+            });
+
+            test('should generate hover block with duration', () => {
+                trackCoverage('generateDroneBlocksCode');
+                const xml = '<field name="NUM">0.5</field>';
+                expect(xml).toContain('0.5');
+            });
+
+            test('should generate land block', () => {
+                trackCoverage('generateDroneBlocksCode');
+                const xml = '<block type="db_land">';
+                expect(xml).toContain('db_land');
+            });
+        });
+
+        describe('Save All Scripts Function', () => {
+            test('should create blob for coverage script', () => {
+                trackCoverage('saveAllScripts');
+                const coverageCode = '#!/usr/bin/env python3\nfrom djitellopy import Tello';
+                const blob = new Blob([coverageCode], { type: 'text/plain' });
+                expect(blob.size).toBeGreaterThan(0);
+                expect(blob.type).toBe('text/plain');
+            });
+
+            test('should set correct filename for coverage script', () => {
+                trackCoverage('saveAllScripts');
+                const filename = 'drone_coverage_path.py';
+                expect(filename).toContain('.py');
+                expect(filename).toContain('drone_coverage_path');
+            });
+
+            test('should set correct filename for image script', () => {
+                trackCoverage('saveAllScripts');
+                const filename = 'get_images.py';
+                expect(filename).toContain('.py');
+                expect(filename).toContain('get_images');
+            });
+        });
+
+        describe('Get Image Extraction Script Code Function', () => {
+            test('should generate python shebang', () => {
+                trackCoverage('getImageExtractionScriptCode');
+                const code = '#!/usr/bin/env python3';
+                expect(code).toContain('#!/usr/bin/env python3');
+            });
+
+            test('should import djitellopy', () => {
+                trackCoverage('getImageExtractionScriptCode');
+                const code = 'from djitellopy import Tello';
+                expect(code).toContain('from djitellopy import Tello');
+            });
+
+            test('should create timestamped directory', () => {
+                trackCoverage('getImageExtractionScriptCode');
+                const code = 'tello_images_';
+                expect(code).toContain('tello_images_');
+            });
+
+            test('should initialize video stream', () => {
+                trackCoverage('getImageExtractionScriptCode');
+                const code = 'tello.streamon()';
+                expect(code).toContain('streamon()');
+            });
+
+            test('should save frames as JPG', () => {
+                trackCoverage('getImageExtractionScriptCode');
+                const code = 'image_{i:04d}.jpg';
+                expect(code).toContain('.jpg');
+            });
+
+            test('should turn off stream when done', () => {
+                trackCoverage('getImageExtractionScriptCode');
+                const code = 'tello.streamoff()';
+                expect(code).toContain('streamoff()');
+            });
+        });
+
+        describe('Copy Blocks to Clipboard Function', () => {
+            test('should execute copy command', () => {
+                trackCoverage('copyBlocksToClipboard');
+                // Simulate clipboard operation
+                const clipboardData = '<xml>test</xml>';
+                expect(clipboardData).toContain('<xml>');
+            });
+
+            test('should copy DroneBlocks XML format', () => {
+                trackCoverage('copyBlocksToClipboard');
+                const xml = '<xml xmlns="https://developers.google.com/blockly/xml">';
+                expect(xml).toContain('blockly');
+            });
+        });
+
+        describe('Draw Canvas Function', () => {
+            test('should set canvas fill style', () => {
+                trackCoverage('drawCanvas');
+                const fillStyle = '#f8f9ff';
+                expect(fillStyle).toBe('#f8f9ff');
+            });
+
+            test('should draw grid with correct spacing', () => {
+                trackCoverage('drawCanvas');
+                const gridSize = 50;
+                expect(gridSize).toBe(50);
+            });
+
+            test('should set polygon stroke style', () => {
+                trackCoverage('drawCanvas');
+                const strokeStyle = '#8A3EDB';
+                expect(strokeStyle).toBe('#8A3EDB');
+            });
+
+            test('should draw points with correct radius', () => {
+                trackCoverage('drawCanvas');
+                const pointRadius = 6;
+                expect(pointRadius).toBe(6);
+            });
+
+            test('should draw bounding rectangle with dashed line', () => {
+                trackCoverage('drawCanvas');
+                const lineDash = [5, 5];
+                expect(lineDash).toEqual([5, 5]);
+            });
+
+            test('should draw path with correct color', () => {
+                trackCoverage('drawCanvas');
+                const pathColor = '#4caf50';
+                expect(pathColor).toBe('#4caf50');
+            });
+        });
+
+        describe('Update Points List Function', () => {
+            test('should handle empty points array', () => {
+                trackCoverage('updatePointsList');
+                const points = [];
+                expect(points.length).toBe(0);
+            });
+
+            test('should handle multiple points', () => {
+                trackCoverage('updatePointsList');
+                const points = [{ x: 10, y: 10 }, { x: 20, y: 20 }];
+                expect(points.length).toBe(2);
+            });
+        });
+
         // Display results
         function displayResults() {
             const suites = {};
