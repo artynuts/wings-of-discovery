@@ -276,6 +276,76 @@
             background: #f3e6ff;
             transform: scale(1.05);
         }
+
+        .comic-strip-title {
+            color: #8a3edb;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 1.6em;
+        }
+
+        .comic-strip-subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+
+        .section-title-h2 {
+            text-align: center;
+            color: #8a3edb;
+            margin-top: 40px;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+        }
+
+        .side-heading {
+            margin-top: 0;
+            color: #8a3edb;
+            font-size: 1.5em;
+        }
+
+        .survey-heading {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: white;
+            font-size: 1.5em;
+        }
+
+        .survey-description {
+            margin-bottom: 20px;
+        }
+
+        .artifact-image-container-with-margin {
+            height: 120px;
+            margin-bottom: 12px;
+        }
+
+        .image-grid-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .reference-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .reference-item {
+            margin-bottom: 10px;
+        }
+
+        .reference-link {
+            color: #8a3edb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .resources-intro {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 
@@ -294,9 +364,8 @@
         <div class="content">
             <!-- Field Walking Comic Strip -->
             <div class="comic-strip">
-                <h2 style="color: #8a3edb; margin-bottom: 10px; text-align: center; font-size: 1.6em;">✨ Meet Dr.
-                    Sophie's Adventure! 🚁💜</h2>
-                <p style="text-align: center; color: #666; font-size: 1.1em; margin-bottom: 20px;">
+                <h2 class="comic-strip-title">✨ Meet Dr. Sophie's Adventure! 🚁💜</h2>
+                <p class="comic-strip-subtitle">
                     How <strong>Dr. Sophie</strong> 👩‍🔬 uses <strong>drones</strong> 🚁 and <strong>smart
                         robots</strong> 🤖 to find buried treasure faster (without walking SO much!)
                 </p>
@@ -307,7 +376,7 @@
             <div class="side-by-side-section">
                 <!-- Fun Facts Tile -->
                 <div class="fun-facts-container">
-                    <h2 style="margin-top: 0; color: #8a3edb; font-size: 1.5em;">🧠 Did You Know?</h2>
+                    <h2 class="side-heading">🧠 Did You Know?</h2>
                     <p class="fun-fact-display" id="funFactDisplay">
                         Archaeologists <strong>do NOT study dinosaurs</strong> — that's paleontology!
                     </p>
@@ -316,17 +385,15 @@
 
                 <!-- Survey Tile -->
                 <div class="survey-tile">
-                    <h2 style="margin-top: 0; margin-bottom: 15px; color: white; font-size: 1.5em;">📝 Help Us Learn!
-                    </h2>
-                    <p style="margin-bottom: 20px;">Tell us what you think about archaeology and this project</p>
+                    <h2 class="survey-heading">📝 Help Us Learn!</h2>
+                    <p class="survey-description">Tell us what you think about archaeology and this project</p>
                     <a href="https://forms.google.com/YOUR_FORM_ID_HERE" target="_blank" class="survey-link">Take Our
                         Survey</a>
                 </div>
             </div>
 
             <!-- Learn More Section - Grid Tiles -->
-            <h2 style="text-align: center; color: #8a3edb; margin-top: 40px; margin-bottom: 30px; font-size: 1.5em;">🎓
-                Learn More About Archaeology</h2>
+            <h2 class="section-title-h2">🎓 Learn More About Archaeology</h2>
 
             <div class="tiles-grid">
                 <!-- What Is Archaeology Tile -->
@@ -335,7 +402,7 @@
                         <span class="tile-emoji">🏺</span>
                         <div class="tile-title">What Is Archaeology?</div>
                     </div>
-                    <div class="artifact-image-container" style="height: 120px; margin-bottom: 12px;">
+                    <div class="artifact-image-container artifact-image-container-with-margin">
                         <img src="images/learn/archeology-digsite.jpg" alt="Archaeological dig site">
                         <a href="https://www1.chapman.edu/~bidmead/G-tel.htm?utm_source=chatgpt.com" target="_blank"
                             class="artifact-image-link">Learn more about dig sites →</a>
@@ -353,7 +420,7 @@
                         <span class="tile-emoji">🔍</span>
                         <div class="tile-title">What Are Artifacts?</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div class="image-grid-wrapper">
                         <div class="artifact-image-container">
                             <img src="images/learn/artifact-coins.jpg" alt="Ancient Roman coins">
                             <a href="https://archaeology.org/news/2024/07/31/cache-of-roman-coins-discovered-in-poland/?utm_source=chatgpt.com"
@@ -378,7 +445,7 @@
                         <span class="tile-emoji">👣</span>
                         <div class="tile-title">What Is Fieldwalking?</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div class="image-grid-wrapper">
                         <div class="artifact-image-container">
                             <img src="images/learn/field-walking-people.jpg" alt="Archaeologists fieldwalking">
                             <a href="https://archaeologicalresearchservices.com/lanton-quarry-fieldwalking/?utm_source=chatgpt.com"
@@ -403,7 +470,7 @@
                         <span class="tile-emoji">🧭</span>
                         <div class="tile-title">How Do We Record Finds?</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div class="image-grid-wrapper">
                         <div class="artifact-image-container">
                             <img src="images/learn/record-notebook.jpg" alt="Archaeological notebook">
                             <a href="https://www.notebookstories.com/2020/04/08/archaeological-notebooks/?utm_source=chatgpt.com"
@@ -427,7 +494,7 @@
                         <span class="tile-emoji">🚁</span>
                         <div class="tile-title">Modern Technology</div>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+                    <div class="image-grid-wrapper">
                         <div class="artifact-image-container">
                             <img src="images/learn/tech-drones.jpg" alt="Drones in archaeology">
                             <a href="https://dronelife.com/2019/09/30/archaeologists-are-using-drones-to-find-good-places-to-dig-the-search-for-potsherds/?utm_source=chatgpt.com"
@@ -452,25 +519,25 @@
                         <div class="tile-title">Learn More Online</div>
                     </div>
                     <div class="tile-description">
-                        <p style="margin-bottom: 15px;">Check out these amazing resources to explore archaeology
+                        <p class="resources-intro">Check out these amazing resources to explore archaeology
                             further:</p>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="margin-bottom: 10px;"><a href="https://www.archaeology.org/" target="_blank"
-                                    style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 Archaeology
+                        <ul class="reference-list">
+                            <li class="reference-item"><a href="https://www.archaeology.org/" target="_blank"
+                                    class="reference-link">🔗 Archaeology
                                     Magazine</a></li>
-                            <li style="margin-bottom: 10px;"><a
+                            <li class="reference-item"><a
                                     href="https://www.nationalgeographic.com/archaeology-and-history/" target="_blank"
-                                    style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 National
+                                    class="reference-link">🔗 National
                                     Geographic Archaeology</a></li>
-                            <li style="margin-bottom: 10px;"><a href="https://www.archaeologyonline.net/"
-                                    target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗
+                            <li class="reference-item"><a href="https://www.archaeologyonline.net/"
+                                target="_blank" class="reference-link">🔗
                                     Archaeology Online</a></li>
-                            <li style="margin-bottom: 10px;"><a
+                            <li class="reference-item"><a
                                     href="https://www.britishmuseum.org/discover-archaeology" target="_blank"
-                                    style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 British Museum
+                                    class="reference-link">🔗 British Museum
                                     Archaeology</a></li>
-                            <li style="margin-bottom: 10px;"><a href="https://www.smithsonianmag.com/archaeology/"
-                                    target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗
+                            <li class="reference-item"><a href="https://www.smithsonianmag.com/archaeology/"
+                                target="_blank" class="reference-link">🔗
                                     Smithsonian Archaeology</a></li>
                         </ul>
                     </div>
