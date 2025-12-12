@@ -356,6 +356,88 @@
         border-radius: 15px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
       }
+
+      .fun-facts-container {
+        background: #f3e6ff;
+        border: 2px solid #8a3edb;
+        border-radius: 15px;
+        padding: 25px;
+        margin: 30px 0;
+        text-align: center;
+      }
+
+      .fun-fact-display {
+        font-size: 1.3em;
+        color: #333;
+        margin-bottom: 20px;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.6;
+      }
+
+      .fun-fact-button {
+        background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1em;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .fun-fact-button:hover {
+        background: linear-gradient(135deg, #6a2eab 0%, #4b1f69 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(138, 62, 219, 0.4);
+      }
+
+      .survey-tile {
+        background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
+        border-radius: 15px;
+        padding: 40px 25px;
+        text-align: center;
+        margin: 30px 0;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+      }
+
+      .survey-tile:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      }
+
+      .survey-tile h3 {
+        color: white;
+        font-size: 1.8em;
+        margin-bottom: 15px;
+      }
+
+      .survey-tile p {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.1em;
+        margin-bottom: 25px;
+      }
+
+      .survey-link {
+        display: inline-block;
+        background: white;
+        color: #8a3edb;
+        padding: 15px 40px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.2em;
+        transition: all 0.3s ease;
+      }
+
+      .survey-link:hover {
+        background: #f3e6ff;
+        transform: scale(1.05);
+      }
     </style>
   </head>
   <body>
@@ -378,6 +460,22 @@
           How <strong>Dr. Sophie</strong> 👩‍🔬 uses <strong>drones</strong> 🚁 and <strong>smart robots</strong> 🤖 to find buried treasure faster (without walking SO much!)
         </p>
         <img src="images/field-walking-comic-strip.png" alt="Dr. Sophie and The Quantum Crystal Comic Strip" />
+      </div>
+
+      <!-- Fun Facts Tile -->
+      <div class="fun-facts-container">
+        <h2 style="margin-top: 0; color: #8a3edb;">🧠 Did You Know?</h2>
+        <div class="fun-fact-display" id="funFactDisplay">
+          Archaeologists <strong>do NOT study dinosaurs</strong> — that's paleontology!
+        </div>
+        <button class="fun-fact-button" onclick="nextFunFact()">Next Fact →</button>
+      </div>
+
+      <!-- Survey Tile -->
+      <div class="survey-tile">
+        <h3>📝 Help Us Learn!</h3>
+        <p>Tell us what you think about archaeology and this project</p>
+        <a href="https://forms.google.com/YOUR_FORM_ID_HERE" target="_blank" class="survey-link">Take Our Survey</a>
       </div>
 
       <!-- Learn More Section - Grid Tiles -->
@@ -483,18 +581,20 @@
           </div>
         </div>
 
-        <!-- Fun Facts Tile -->
+        <!-- Resources & References Tile -->
         <div class="info-tile">
           <div class="tile-header">
-            <span class="tile-emoji">🧠</span>
-            <div class="tile-title">Fun Archaeology Facts!</div>
+            <span class="tile-emoji">📚</span>
+            <div class="tile-title">Learn More Online</div>
           </div>
           <div class="tile-description">
-            <ul>
-              <li>Archaeologists do NOT study dinosaurs!</li>
-              <li>Broken artifacts are valuable too</li>
-              <li>It's about careful thinking</li>
-              <li>Kids can be archaeologists!</li>
+            <p style="margin-bottom: 15px;">Check out these amazing resources to explore archaeology further:</p>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: 10px;"><a href="https://www.archaeology.org/" target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 Archaeology Magazine</a></li>
+              <li style="margin-bottom: 10px;"><a href="https://www.nationalgeographic.com/archaeology-and-history/" target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 National Geographic Archaeology</a></li>
+              <li style="margin-bottom: 10px;"><a href="https://www.archaeologyonline.net/" target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 Archaeology Online</a></li>
+              <li style="margin-bottom: 10px;"><a href="https://www.britishmuseum.org/discover-archaeology" target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 British Museum Archaeology</a></li>
+              <li style="margin-bottom: 10px;"><a href="https://www.smithsonianmag.com/archaeology/" target="_blank" style="color: #8a3edb; text-decoration: none; font-weight: 600;">🔗 Smithsonian Archaeology</a></li>
             </ul>
           </div>
         </div>
@@ -502,6 +602,42 @@
     </div>
 
     <script>
+      const funFacts = [
+        "Archaeologists <strong>do NOT study dinosaurs</strong> — that's paleontology!",
+        "Some artifacts are <strong>thousands of years old</strong>, even older than pyramids!",
+        "People lived in cities <strong>before writing existed</strong>.",
+        "Broken artifacts can be <strong>more important than whole ones</strong>.",
+        "Old food remains help archaeologists learn <strong>what people ate</strong>.",
+        "Archaeologists clean artifacts with <strong>tiny brushes</strong>, not big tools.",
+        "A small stone tool can tell a <strong>huge story</strong>.",
+        "Archaeologists often find sites just by <strong>walking and looking</strong>.",
+        "Where something is found matters <strong>more than what it is</strong>.",
+        "Archaeologists don't take things home — <strong>artifacts belong to history</strong>!",
+        "They record <strong>every step and location</strong>.",
+        "Drones help archaeologists see sites <strong>from the sky</strong>.",
+        "Satellites can find <strong>ancient roads and cities</strong>!",
+        "Computers can help spot <strong>patterns humans might miss</strong>.",
+        "Some sites are discovered <strong>without digging at all</strong>.",
+        "Archaeologists are like <strong>history detectives</strong>.",
+        "They ask questions like <strong>'Why?' and 'How?'</strong> all the time.",
+        "Archaeology is about <strong>thinking carefully</strong>, not treasure hunting.",
+        "Every artifact has a <strong>story and context</strong>.",
+        "Kids can help archaeologists by learning history and observing carefully.",
+        "Many archaeologists decided to do this <strong>when they were kids</strong>!",
+        "You don't need muscles — you need <strong>curiosity</strong>.",
+        "Digging without permission can <strong>damage history forever</strong>.",
+        "Archaeology helps protect places for <strong>future generations</strong>.",
+        "Archaeologists work with <strong>local communities</strong>.",
+        "Museums help <strong>keep artifacts safe</strong>."
+      ];
+
+      let currentFactIndex = 0;
+
+      function nextFunFact() {
+        currentFactIndex = (currentFactIndex + 1) % funFacts.length;
+        document.getElementById('funFactDisplay').innerHTML = funFacts[currentFactIndex];
+      }
+
       function toggleAccordion(button) {
         // Get the next sibling which is the content div
         const content = button.nextElementSibling;
