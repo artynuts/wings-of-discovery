@@ -194,6 +194,53 @@
         font-size: 0.9em;
       }
 
+      .artifact-image-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 120px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .artifact-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s ease, filter 0.3s ease;
+      }
+
+      .artifact-image-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(138, 62, 219, 0.85);
+        color: white;
+        text-decoration: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.85em;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .artifact-image-container:hover img {
+        transform: scale(1.05);
+        filter: brightness(0.7);
+      }
+
+      .artifact-image-container:hover .artifact-image-link {
+        opacity: 1;
+      }
+
       .image-gallery {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -333,6 +380,10 @@
         <!-- What Is Archaeology Tile -->
         <div class="info-tile">
           <span class="tile-emoji">🏺</span>
+          <div class="artifact-image-container" style="height: 120px; margin-bottom: 12px;">
+            <img src="images/learn/digsite.jpg" alt="Archaeological dig site">
+            <a href="https://www1.chapman.edu/~bidmead/G-tel.htm?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Learn more about dig sites →</a>
+          </div>
           <div class="tile-title">What Is Archaeology?</div>
           <div class="tile-description">
             Archaeology is the study of people from the past by looking at things they left behind—called artifacts. Archaeologists learn about how people lived, what they ate, what tools they used, and how they built homes and cities.
@@ -342,6 +393,16 @@
         <!-- What Are Artifacts Tile -->
         <div class="info-tile">
           <span class="tile-emoji">🔍</span>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
+            <div class="artifact-image-container">
+              <img src="images/learn/artifact-coins.jpg" alt="Ancient Roman coins">
+              <a href="https://archaeology.org/news/2024/07/31/cache-of-roman-coins-discovered-in-poland/?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Roman coins discovery →</a>
+            </div>
+            <div class="artifact-image-container">
+              <img src="images/learn/artifact-bronze-jewelry.jpg" alt="Bronze Age jewelry">
+              <a href="https://www.livescience.com/archaeology/stash-of-eye-catching-bronze-age-jewelry-discovered-by-metal-detectorist-in-swiss-carrot-field?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Bronze jewelry discovery →</a>
+            </div>
+          </div>
           <div class="tile-title">What Are Artifacts?</div>
           <div class="tile-description">
             Artifacts are objects made or used by humans. Examples include pottery pieces, coins, tools, jewelry, bones, and old building materials. Even broken artifacts can be just as valuable as whole ones!
