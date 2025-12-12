@@ -164,17 +164,24 @@
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
       }
 
+      .tile-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 15px;
+      }
+
       .tile-emoji {
         font-size: 2.5em;
-        margin-bottom: 15px;
         display: block;
+        flex-shrink: 0;
       }
 
       .tile-title {
         font-size: 1.3em;
         color: #8a3edb;
         font-weight: 700;
-        margin-bottom: 12px;
+        margin: 0;
       }
 
       .tile-description {
@@ -379,12 +386,14 @@
       <div class="tiles-grid">
         <!-- What Is Archaeology Tile -->
         <div class="info-tile">
-          <span class="tile-emoji">🏺</span>
+          <div class="tile-header">
+            <span class="tile-emoji">🏺</span>
+            <div class="tile-title">What Is Archaeology?</div>
+          </div>
           <div class="artifact-image-container" style="height: 120px; margin-bottom: 12px;">
             <img src="images/learn/archeology-digsite.jpg" alt="Archaeological dig site">
             <a href="https://www1.chapman.edu/~bidmead/G-tel.htm?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Learn more about dig sites →</a>
           </div>
-          <div class="tile-title">What Is Archaeology?</div>
           <div class="tile-description">
             Archaeology is the study of people from the past by looking at things they left behind—called artifacts. Archaeologists learn about how people lived, what they ate, what tools they used, and how they built homes and cities.
           </div>
@@ -392,7 +401,10 @@
 
         <!-- What Are Artifacts Tile -->
         <div class="info-tile">
-          <span class="tile-emoji">🔍</span>
+          <div class="tile-header">
+            <span class="tile-emoji">🔍</span>
+            <div class="tile-title">What Are Artifacts?</div>
+          </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
             <div class="artifact-image-container">
               <img src="images/learn/artifact-coins.jpg" alt="Ancient Roman coins">
@@ -403,7 +415,6 @@
               <a href="https://www.livescience.com/archaeology/stash-of-eye-catching-bronze-age-jewelry-discovered-by-metal-detectorist-in-swiss-carrot-field?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Bronze jewelry discovery →</a>
             </div>
           </div>
-          <div class="tile-title">What Are Artifacts?</div>
           <div class="tile-description">
             Artifacts are objects made or used by humans. Examples include pottery pieces, coins, tools, jewelry, bones, and old building materials. Even broken artifacts can be just as valuable as whole ones!
           </div>
@@ -411,7 +422,10 @@
 
         <!-- What Is Fieldwalking Tile -->
         <div class="info-tile">
-          <span class="tile-emoji">👣</span>
+          <div class="tile-header">
+            <span class="tile-emoji">👣</span>
+            <div class="tile-title">What Is Fieldwalking?</div>
+          </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
             <div class="artifact-image-container">
               <img src="images/learn/field-walking-people.jpg" alt="Archaeologists fieldwalking">
@@ -422,7 +436,6 @@
               <a href="https://rossnareedig.wordpress.com/2010/07/01/the-low-tech-art-of-fieldwalking-surface-collection-survey/?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Grid survey method →</a>
             </div>
           </div>
-          <div class="tile-title">What Is Fieldwalking?</div>
           <div class="tile-description">
             Fieldwalking is a method archaeologists use to find artifacts without digging. They walk across land in straight lines, look carefully at the ground, and record what they find and where they find it.
           </div>
@@ -430,7 +443,10 @@
 
         <!-- Recording Finds Tile -->
         <div class="info-tile">
-          <span class="tile-emoji">🧭</span>
+          <div class="tile-header">
+            <span class="tile-emoji">🧭</span>
+            <div class="tile-title">How Do We Record Finds?</div>
+          </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
             <div class="artifact-image-container">
               <img src="images/learn/record-notebook.jpg" alt="Archaeological notebook">
@@ -441,7 +457,6 @@
               <a href="https://crowcanyon.org/global-positioning-systems/?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">GPS mapping →</a>
             </div>
           </div>
-          <div class="tile-title">How Do We Record Finds?</div>
           <div class="tile-description">
             Archaeologists use GPS coordinates, maps, photos, and notes to record discoveries. Recording exact locations is very important so that history is not lost!
           </div>
@@ -449,7 +464,10 @@
 
         <!-- Modern Technology Tile -->
         <div class="info-tile">
-          <span class="tile-emoji">🚁</span>
+          <div class="tile-header">
+            <span class="tile-emoji">🚁</span>
+            <div class="tile-title">Modern Technology</div>
+          </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">
             <div class="artifact-image-container">
               <img src="images/learn/tech-drones.jpg" alt="Drones in archaeology">
@@ -460,7 +478,6 @@
               <a href="https://www.archaeological-surveys.co.uk/29/Ground-penetrating-radar/?utm_source=chatgpt.com" target="_blank" class="artifact-image-link">Ground radar →</a>
             </div>
           </div>
-          <div class="tile-title">Modern Technology</div>
           <div class="tile-description">
             Today, archaeologists use drones, satellites, ground-penetrating radar, and AI to work faster and protect sites. Technology helps us discover more with less digging!
           </div>
@@ -468,8 +485,10 @@
 
         <!-- Fun Facts Tile -->
         <div class="info-tile">
-          <span class="tile-emoji">🧠</span>
-          <div class="tile-title">Fun Archaeology Facts!</div>
+          <div class="tile-header">
+            <span class="tile-emoji">🧠</span>
+            <div class="tile-title">Fun Archaeology Facts!</div>
+          </div>
           <div class="tile-description">
             <ul>
               <li>Archaeologists do NOT study dinosaurs!</li>
