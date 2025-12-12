@@ -15,6 +15,7 @@
     />
     <link rel="stylesheet" href="styles.css" />
     <title>Learn About Archaeology - Wings of Discovery</title>
+    <script src="shared-layout.js"></script>
     <style>
       body {
         background: url("images/Wings.png") center/cover no-repeat;
@@ -61,6 +62,10 @@
       .back-button:hover {
         background: #6a2eab;
         transform: translateY(-2px);
+      }
+
+      .content {
+        padding: 20px;
       }
 
       /* Accordion Styles */
@@ -233,15 +238,41 @@
           height: 200px;
         }
       }
+
+      /* Comic Strip Styles */
+      .comic-strip {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .comic-strip img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <a href="index.html" class="back-button">← Back Home</a>
-
       <div class="header">
-        <h1>🌍 Learn About Archaeology</h1>
-        <p>Discover how archaeologists uncover the secrets of the past</p>
+        <div class="header-host">
+          <div id="qc-logo-container"></div>
+          <div>
+            <h1>Learn About Archaeology</h1>
+            <p>Discover how archaeologists uncover the secrets of the past</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+      <!-- Field Walking Comic Strip -->
+      <div class="comic-strip">
+        <h2 style="color: #8a3edb; margin-bottom: 10px; text-align: center; font-size: 1.6em;">✨ Meet Dr. Sophie's Adventure! 🚁💜</h2>
+        <p style="text-align: center; color: #666; font-size: 1.1em; margin-bottom: 20px;">
+          How <strong>Dr. Sophie</strong> 👩‍🔬 uses <strong>drones</strong> 🚁 and <strong>smart robots</strong> 🤖 to find buried treasure faster (without walking SO much!)
+        </p>
+        <img src="images/field-walking-comic-strip.png" alt="Dr. Sophie and The Quantum Crystal Comic Strip" />
       </div>
 
       <!-- What Is Archaeology -->
@@ -471,6 +502,7 @@
           © 2025 The Wings of Discovery. Created by
           <strong>The Quantum Crystal</strong>. All rights reserved.
         </p>
+      </div>
       </div>
     </div>
 
