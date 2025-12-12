@@ -68,7 +68,6 @@
         padding: 20px;
       }
 
-      /* Accordion Styles */
       .accordion-header {
         background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
         color: white;
@@ -141,6 +140,58 @@
 
       .accordion-header.active .accordion-arrow {
         transform: rotate(180deg);
+      }
+
+      /* Grid Tiles Styles */
+      .tiles-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .info-tile {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-left: 5px solid #8a3edb;
+      }
+
+      .info-tile:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .tile-emoji {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .tile-title {
+        font-size: 1.3em;
+        color: #8a3edb;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+
+      .tile-description {
+        font-size: 0.95em;
+        color: #555;
+        line-height: 1.6;
+      }
+
+      .tile-description ul {
+        margin-left: 20px;
+        margin-top: 10px;
+      }
+
+      .tile-description li {
+        margin-bottom: 8px;
+        color: #666;
+        font-size: 0.9em;
       }
 
       .image-gallery {
@@ -275,224 +326,67 @@
         <img src="images/field-walking-comic-strip.png" alt="Dr. Sophie and The Quantum Crystal Comic Strip" />
       </div>
 
-      <!-- What Is Archaeology -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🏺 What Is Archaeology?</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>
-          Archaeology is the study of <strong>people from the past</strong> by
-          looking at things they left behind—called <strong>artifacts</strong>.
-        </p>
-        <p>Archaeologists learn about:</p>
-        <ul>
-          <li>How people lived</li>
-          <li>What they ate</li>
-          <li>What tools they used</li>
-          <li>How they built homes and cities</li>
-        </ul>
-        <div class="highlight">
-          ✨ <strong>Archaeology helps us understand human history and protect it for the future.</strong>
+      <!-- Learn More Section - Grid Tiles -->
+      <h2 style="text-align: center; color: #8a3edb; margin-top: 40px; margin-bottom: 30px; font-size: 1.5em;">🎓 Learn More About Archaeology</h2>
+      
+      <div class="tiles-grid">
+        <!-- What Is Archaeology Tile -->
+        <div class="info-tile">
+          <span class="tile-emoji">🏺</span>
+          <div class="tile-title">What Is Archaeology?</div>
+          <div class="tile-description">
+            Archaeology is the study of people from the past by looking at things they left behind—called artifacts. Archaeologists learn about how people lived, what they ate, what tools they used, and how they built homes and cities.
+          </div>
         </div>
-      </div>
 
-      <!-- What Are Artifacts -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🔍 What Are Artifacts?</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>
-          Artifacts are <strong>objects made or used by humans</strong>.
-        </p>
-        <p>Examples include:</p>
-        <ul>
-          <li>Pottery pieces</li>
-          <li>Coins</li>
-          <li>Tools</li>
-          <li>Jewelry</li>
-          <li>Bones</li>
-          <li>Old building materials</li>
-        </ul>
-        <div class="image-gallery">
-          <img
-            src="https://countryroadsmagazine.com/downloads/14552/download/McMains-collection-pottery-shards-2.jpg?cb=0ab3c7f16110530c98ec43e89e8071ba"
-            alt="Pottery shards"
-          />
-          <img
-            src="https://archaeology.org/wp-content/uploads/2024/07/News-20240731-Poland-Antoninus-Pius-Silver-Coin-e1722968227893.jpg"
-            alt="Ancient coin"
-          />
-          <img
-            src="https://cdn.sci.news/images/enlarge7/image_8667_2e-Chiquihuite-Cave.jpg"
-            alt="Ancient tools"
-          />
+        <!-- What Are Artifacts Tile -->
+        <div class="info-tile">
+          <span class="tile-emoji">🔍</span>
+          <div class="tile-title">What Are Artifacts?</div>
+          <div class="tile-description">
+            Artifacts are objects made or used by humans. Examples include pottery pieces, coins, tools, jewelry, bones, and old building materials. Even broken artifacts can be just as valuable as whole ones!
+          </div>
         </div>
-      </div>
 
-      <!-- What Is Fieldwalking -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>👣 What Is Fieldwalking?</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>
-          <strong>Fieldwalking</strong> is a method archaeologists use to find
-          artifacts <strong>without digging</strong>.
-        </p>
-        <p><strong>How it works:</strong></p>
-        <ol>
-          <li>Archaeologists walk across land in straight lines</li>
-          <li>They look carefully at the ground</li>
-          <li>They record what they find and where they find it</li>
-        </ol>
-        <p>This helps archaeologists:</p>
-        <ul>
-          <li>Discover new sites</li>
-          <li>Decide where to dig</li>
-          <li>Protect important areas</li>
-        </ul>
-        <div class="image-gallery">
-          <img
-            src="https://archaeologicalresearchservices.com/wp-content/uploads/2018/01/fieldwalking1_big.jpg"
-            alt="Fieldwalking in progress"
-          />
-          <img
-            src="https://rossnareedig.wordpress.com/wp-content/uploads/2010/07/fwgrid1.jpg"
-            alt="Fieldwalking grid"
-          />
+        <!-- What Is Fieldwalking Tile -->
+        <div class="info-tile">
+          <span class="tile-emoji">👣</span>
+          <div class="tile-title">What Is Fieldwalking?</div>
+          <div class="tile-description">
+            Fieldwalking is a method archaeologists use to find artifacts without digging. They walk across land in straight lines, look carefully at the ground, and record what they find and where they find it.
+          </div>
         </div>
-      </div>
 
-      <!-- How Do Archaeologists Record Finds -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🧭 How Do Archaeologists Record Finds?</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>Archaeologists use:</p>
-        <ul>
-          <li>📍 GPS coordinates</li>
-          <li>🗺 Maps</li>
-          <li>📸 Photos</li>
-          <li>📝 Notes and drawings</li>
-        </ul>
-        <div class="highlight">
-          Recording <strong>exact locations</strong> is very important so history
-          is not lost.
+        <!-- Recording Finds Tile -->
+        <div class="info-tile">
+          <span class="tile-emoji">🧭</span>
+          <div class="tile-title">How Do We Record Finds?</div>
+          <div class="tile-description">
+            Archaeologists use GPS coordinates, maps, photos, and notes to record discoveries. Recording exact locations is very important so that history is not lost!
+          </div>
         </div>
-      </div>
 
-      <!-- Modern Technology in Archaeology -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🚁 Modern Technology in Archaeology</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>
-          Today, archaeologists use <strong>technology</strong> to work faster
-          and protect sites.
-        </p>
-        <p>Some tools include:</p>
-        <ul>
-          <li>Drones</li>
-          <li>Satellites</li>
-          <li>Ground-penetrating radar</li>
-          <li>AI and image recognition</li>
-        </ul>
-        <div class="image-gallery">
-          <img
-            src="https://www.ancient-origins.net/sites/default/files/field/image/Drones.jpg"
-            alt="Drone archaeology"
-          />
-          <img
-            src="https://images.ctfassets.net/go54bjdzbrgi/6Si1I9G2Vae020eGaceOCU/17cb38984da20b9bdf6dd4dcc27fc8d0/Trans_Sahara_Project_GeoDrone_Pix4D.jpg?fm=jpg&q=80&w=1200"
-            alt="Aerial drone survey"
-          />
-          <img
-            src="https://www.archaeological-surveys.co.uk/uploads/slideshow/UTSI_GPR.jpg"
-            alt="Ground-penetrating radar"
-          />
+        <!-- Modern Technology Tile -->
+        <div class="info-tile">
+          <span class="tile-emoji">🚁</span>
+          <div class="tile-title">Modern Technology</div>
+          <div class="tile-description">
+            Today, archaeologists use drones, satellites, ground-penetrating radar, and AI to work faster and protect sites. Technology helps us discover more with less digging!
+          </div>
         </div>
-      </div>
 
-      <!-- How Our Team Helps Archaeologists -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🤖 How Our Team Helps Archaeologists</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>
-          <strong>The Quantum Crystal</strong> is building a solution that:
-        </p>
-        <ol>
-          <li>Helps archaeologists map an area</li>
-          <li>Uses drones to take photos from above</li>
-          <li>Uses AI to identify possible artifacts</li>
-          <li>Saves time and reduces digging</li>
-        </ol>
-        <div class="highlight">
-          ✨ This allows archaeologists to:
-          <ul style="margin-bottom: 0; margin-left: 20px;">
-            <li>Protect sites</li>
-            <li>Work more safely</li>
-            <li>Focus on the most important locations</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Fun Archaeology Facts -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🧠 Fun Archaeology Facts</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <div class="fact-box">
-          💡 Archaeologists do <strong>NOT</strong> study dinosaurs (that's
-          paleontology!)
-        </div>
-        <div class="fact-box">
-          💡 Broken artifacts can be just as valuable as whole ones
-        </div>
-        <div class="fact-box">
-          💡 Archaeology is about <strong>careful thinking</strong>, not treasure
-          hunting
-        </div>
-        <div class="fact-box">
-          💡 Kids can become archaeologists too!
-        </div>
-      </div>
-
-      <!-- Try It Yourself -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>🧩 Try It Yourself!</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>
-          You could explore archaeology by trying these activities:
-        </p>
-        <ul>
-          <li>Take a mini quiz about artifacts</li>
-          <li>Play an "Artifact or Not?" game</li>
-          <li>Try to spot artifacts in images</li>
-          <li>Watch videos explaining archaeology</li>
-        </ul>
-      </div>
-
-      <!-- Learn More Links -->
-      <button class="accordion-header" onclick="toggleAccordion(this)">
-        <span>📚 Learn More</span>
-        <span class="accordion-arrow">▼</span>
-      </button>
-      <div class="accordion-content">
-        <p>Explore these resources to learn more about archaeology:</p>
-        <div class="links-section" style="background: none; border: none; padding: 0;">
-          <a href="https://www.nationalgeographic.com/archaeology/" target="_blank">National Geographic Archaeology</a>
-          <a href="https://americanhistory.si.edu/" target="_blank">Smithsonian Museums</a>
-          <a href="https://www.britannica.com/topic/archaeology" target="_blank">Britannica Encyclopedia</a>
-          <a href="https://www.archaeologyuk.org/" target="_blank">Archaeology UK</a>
+        <!-- Fun Facts Tile -->
+        <div class="info-tile">
+          <span class="tile-emoji">🧠</span>
+          <div class="tile-title">Fun Archaeology Facts!</div>
+          <div class="tile-description">
+            <ul>
+              <li>Archaeologists do NOT study dinosaurs!</li>
+              <li>Broken artifacts are valuable too</li>
+              <li>It's about careful thinking</li>
+              <li>Kids can be archaeologists!</li>
+            </ul>
+          </div>
         </div>
       </div>
 
