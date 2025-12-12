@@ -384,13 +384,10 @@
       .fun-fact-display {
         font-size: 1.2em;
         color: #333;
-        margin-bottom: 20px;
-        min-height: 80px;
+        margin: 20px 0;
         line-height: 1.6;
         flex-grow: 1;
-        display: flex;
         align-items: center;
-        justify-content: center;
         text-align: center;
       }
 
@@ -398,8 +395,8 @@
         background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
         color: white;
         border: none;
-        padding: 12px 30px;
-        font-size: 1.1em;
+        padding: 10px 20px;
+        font-size: 0.95em;
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.3s ease;
@@ -445,11 +442,11 @@
         display: inline-block;
         background: white;
         color: #8a3edb;
-        padding: 15px 40px;
+        padding: 10px 20px;
         border-radius: 10px;
         text-decoration: none;
         font-weight: 700;
-        font-size: 1.2em;
+        font-size: 0.95em;
         transition: all 0.3s ease;
       }
 
@@ -485,16 +482,16 @@
       <div class="side-by-side-section">
         <!-- Fun Facts Tile -->
         <div class="fun-facts-container">
-          <h2 style="margin-top: 0; color: #8a3edb;">🧠 Did You Know?</h2>
-          <div class="fun-fact-display" id="funFactDisplay">
+          <h2 style="margin-top: 0; color: #8a3edb; font-size: 1.5em;">🧠 Did You Know?</h2>
+          <p class="fun-fact-display" id="funFactDisplay">
             Archaeologists <strong>do NOT study dinosaurs</strong> — that's paleontology!
-          </div>
+          </p>
           <button class="fun-fact-button" onclick="nextFunFact()">Next Fact →</button>
         </div>
 
         <!-- Survey Tile -->
         <div class="survey-tile">
-          <h3 style="margin-top: 0; margin-bottom: 15px;">📝 Help Us Learn!</h3>
+          <h2 style="margin-top: 0; margin-bottom: 15px; color: white; font-size: 1.5em;">📝 Help Us Learn!</h2>
           <p style="margin-bottom: 20px;">Tell us what you think about archaeology and this project</p>
           <a href="https://forms.google.com/YOUR_FORM_ID_HERE" target="_blank" class="survey-link">Take Our Survey</a>
         </div>
