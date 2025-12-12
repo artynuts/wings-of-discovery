@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Learn About Archaeology - Wings of Discovery</title>
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px 0;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+      }
+
+      .header h1 {
+        font-size: 2.5em;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .header p {
+        font-size: 1.2em;
+        color: #666;
+      }
+
+      .back-button {
+        display: inline-block;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        background: #8a3edb;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .back-button:hover {
+        background: #6a2eab;
+        transform: translateY(-2px);
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+
+      .section h2 {
+        font-size: 1.8em;
+        color: #8a3edb;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section p {
+        font-size: 1.1em;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 15px;
+      }
+
+      .section ul {
+        font-size: 1.05em;
+        color: #555;
+        margin-left: 20px;
+        margin-bottom: 15px;
+        line-height: 2;
+      }
+
+      .section li {
+        margin-bottom: 10px;
+      }
+
+      .section ul li::marker {
+        color: #8a3edb;
+        font-weight: bold;
+      }
+
+      .highlight {
+        background: #f3e6ff;
+        padding: 20px;
+        border-left: 4px solid #8a3edb;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+
+      .highlight strong {
+        color: #8a3edb;
+      }
+
+      .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .image-gallery img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease;
+      }
+
+      .image-gallery img:hover {
+        transform: scale(1.05);
+      }
+
+      .fact-box {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px;
+        margin: 10px 0;
+        border-radius: 8px;
+        font-size: 1.05em;
+        color: #333;
+      }
+
+      .activity-box {
+        background: #d4edda;
+        border-left: 4px solid #28a745;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+
+      .activity-box h3 {
+        color: #28a745;
+        margin-top: 0;
+      }
+
+      .links-section {
+        background: #e8f4f8;
+        border-left: 4px solid #17a2b8;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+
+      .links-section a {
+        display: inline-block;
+        margin: 5px 10px 5px 0;
+        padding: 10px 15px;
+        background: #17a2b8;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .links-section a:hover {
+        background: #117a8b;
+        transform: translateY(-2px);
+      }
+
+      .emoji-large {
+        font-size: 2em;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+        }
+
+        .header h1 {
+          font-size: 1.8em;
+        }
+
+        .section h2 {
+          font-size: 1.4em;
+        }
+
+        .section p,
+        .section ul {
+          font-size: 1em;
+        }
+
+        .image-gallery {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="index.html" class="back-button">← Back Home</a>
+
+      <div class="header">
+        <h1>🌍 Learn About Archaeology</h1>
+        <p>Discover how archaeologists uncover the secrets of the past</p>
+      </div>
+
+      <!-- What Is Archaeology -->
+      <div class="section">
+        <h2><span class="emoji-large">🏺</span> What Is Archaeology?</h2>
+        <p>
+          Archaeology is the study of <strong>people from the past</strong> by
+          looking at things they left behind—called <strong>artifacts</strong>.
+        </p>
+        <p>Archaeologists learn about:</p>
+        <ul>
+          <li>How people lived</li>
+          <li>What they ate</li>
+          <li>What tools they used</li>
+          <li>How they built homes and cities</li>
+        </ul>
+        <div class="highlight">
+          ✨ <strong>Archaeology helps us understand human history and protect it for the future.</strong>
+        </div>
+      </div>
+
+      <!-- What Are Artifacts -->
+      <div class="section">
+        <h2><span class="emoji-large">🔍</span> What Are Artifacts?</h2>
+        <p>
+          Artifacts are <strong>objects made or used by humans</strong>.
+        </p>
+        <p>Examples include:</p>
+        <ul>
+          <li>Pottery pieces</li>
+          <li>Coins</li>
+          <li>Tools</li>
+          <li>Jewelry</li>
+          <li>Bones</li>
+          <li>Old building materials</li>
+        </ul>
+        <div class="image-gallery">
+          <img
+            src="https://countryroadsmagazine.com/downloads/14552/download/McMains-collection-pottery-shards-2.jpg?cb=0ab3c7f16110530c98ec43e89e8071ba"
+            alt="Pottery shards"
+          />
+          <img
+            src="https://archaeology.org/wp-content/uploads/2024/07/News-20240731-Poland-Antoninus-Pius-Silver-Coin-e1722968227893.jpg"
+            alt="Ancient coin"
+          />
+          <img
+            src="https://cdn.sci.news/images/enlarge7/image_8667_2e-Chiquihuite-Cave.jpg"
+            alt="Ancient tools"
+          />
+        </div>
+      </div>
+
+      <!-- What Is Fieldwalking -->
+      <div class="section">
+        <h2><span class="emoji-large">👣</span> What Is Fieldwalking?</h2>
+        <p>
+          <strong>Fieldwalking</strong> is a method archaeologists use to find
+          artifacts <strong>without digging</strong>.
+        </p>
+        <p><strong>How it works:</strong></p>
+        <ol>
+          <li>Archaeologists walk across land in straight lines</li>
+          <li>They look carefully at the ground</li>
+          <li>They record what they find and where they find it</li>
+        </ol>
+        <p>This helps archaeologists:</p>
+        <ul>
+          <li>Discover new sites</li>
+          <li>Decide where to dig</li>
+          <li>Protect important areas</li>
+        </ul>
+        <div class="image-gallery">
+          <img
+            src="https://archaeologicalresearchservices.com/wp-content/uploads/2018/01/fieldwalking1_big.jpg"
+            alt="Fieldwalking in progress"
+          />
+          <img
+            src="https://rossnareedig.wordpress.com/wp-content/uploads/2010/07/fwgrid1.jpg"
+            alt="Fieldwalking grid"
+          />
+        </div>
+      </div>
+
+      <!-- How Do Archaeologists Record Finds -->
+      <div class="section">
+        <h2><span class="emoji-large">🧭</span> How Do Archaeologists Record Finds?</h2>
+        <p>Archaeologists use:</p>
+        <ul>
+          <li>📍 GPS coordinates</li>
+          <li>🗺 Maps</li>
+          <li>📸 Photos</li>
+          <li>📝 Notes and drawings</li>
+        </ul>
+        <div class="highlight">
+          Recording <strong>exact locations</strong> is very important so history
+          is not lost.
+        </div>
+      </div>
+
+      <!-- Modern Technology in Archaeology -->
+      <div class="section">
+        <h2><span class="emoji-large">🚁</span> Modern Technology in Archaeology</h2>
+        <p>
+          Today, archaeologists use <strong>technology</strong> to work faster
+          and protect sites.
+        </p>
+        <p>Some tools include:</p>
+        <ul>
+          <li>Drones</li>
+          <li>Satellites</li>
+          <li>Ground-penetrating radar</li>
+          <li>AI and image recognition</li>
+        </ul>
+        <div class="image-gallery">
+          <img
+            src="https://www.ancient-origins.net/sites/default/files/field/image/Drones.jpg"
+            alt="Drone archaeology"
+          />
+          <img
+            src="https://images.ctfassets.net/go54bjdzbrgi/6Si1I9G2Vae020eGaceOCU/17cb38984da20b9bdf6dd4dcc27fc8d0/Trans_Sahara_Project_GeoDrone_Pix4D.jpg?fm=jpg&q=80&w=1200"
+            alt="Aerial drone survey"
+          />
+          <img
+            src="https://www.archaeological-surveys.co.uk/uploads/slideshow/UTSI_GPR.jpg"
+            alt="Ground-penetrating radar"
+          />
+        </div>
+      </div>
+
+      <!-- How Our Team Helps Archaeologists -->
+      <div class="section">
+        <h2><span class="emoji-large">🤖</span> How Our Team Helps Archaeologists</h2>
+        <p>
+          <strong>The Qu@ntum Cryst@ls</strong> are building a solution that:
+        </p>
+        <ol>
+          <li>Helps archaeologists map an area</li>
+          <li>Uses drones to take photos from above</li>
+          <li>Uses AI to identify possible artifacts</li>
+          <li>Saves time and reduces digging</li>
+        </ol>
+        <div class="highlight">
+          ✨ This allows archaeologists to:
+          <ul style="margin-bottom: 0;">
+            <li>Protect sites</li>
+            <li>Work more safely</li>
+            <li>Focus on the most important locations</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Fun Archaeology Facts -->
+      <div class="section">
+        <h2><span class="emoji-large">🧠</span> Fun Archaeology Facts</h2>
+        <div class="fact-box">
+          💡 Archaeologists do <strong>NOT</strong> study dinosaurs (that's
+          paleontology!)
+        </div>
+        <div class="fact-box">
+          💡 Broken artifacts can be just as valuable as whole ones
+        </div>
+        <div class="fact-box">
+          💡 Archaeology is about <strong>careful thinking</strong>, not treasure
+          hunting
+        </div>
+        <div class="fact-box">
+          💡 Kids can become archaeologists too!
+        </div>
+      </div>
+
+      <!-- Try It Yourself -->
+      <div class="activity-box">
+        <h3><span class="emoji-large">🧩</span> Try It Yourself!</h3>
+        <p>
+          You could explore archaeology by trying these activities:
+        </p>
+        <ul>
+          <li>Take a mini quiz about artifacts</li>
+          <li>Play an "Artifact or Not?" game</li>
+          <li>Try to spot artifacts in images</li>
+          <li>Watch videos explaining archaeology</li>
+        </ul>
+      </div>
+
+      <!-- Learn More Links -->
+      <div class="links-section">
+        <h3><span class="emoji-large">📚</span> Learn More</h3>
+        <p>Explore these resources to learn more about archaeology:</p>
+        <div>
+          <a href="https://www.nationalgeographic.com/archaeology/" target="_blank">National Geographic Archaeology</a>
+          <a href="https://americanhistory.si.edu/" target="_blank">Smithsonian Museums</a>
+          <a href="https://www.britannica.com/topic/archaeology" target="_blank">Britannica Encyclopedia</a>
+          <a href="https://www.archaeologyuk.org/" target="_blank">Archaeology UK</a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd;">
+        <p style="color: #666;">
+          © 2025 The Wings of Discovery. Created by
+          <strong>The Quantum Crystals</strong>. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
