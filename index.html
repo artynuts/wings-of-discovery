@@ -145,6 +145,7 @@
         font-size: 1.1em;
         align-self: center;
         min-width: 200px;
+        text-align: center;
       }
 
       .feature-list {
@@ -289,20 +290,48 @@
 
       <div class="options-grid">
         <!-- Drone Path Planner Card -->
-        <a href="plan-path.html" class="option-card">
-          <div class="option-icon">📍</div>
-          <h2 class="option-title">Plan Drone Path</h2>
-          <p class="option-description">
-            Calculate efficient drone path through polygonal survey areas.
-          </p>
-          <button class="option-button">Plan Path</button>
-          <div class="feature-list">
-            <div class="feature-item">Polygon path calculation</div>
-            <div class="feature-item">Flight planning</div>
-            <div class="feature-item">Coverage visualization</div>
-            <div class="feature-item">Interactive mapping</div>
+        <div class="option-card">
+          <a
+            href="plan-path.html"
+            style="text-decoration: none; color: inherit; display: block"
+          >
+            <div class="option-icon">📍</div>
+            <h2 class="option-title">Plan Drone Path</h2>
+            <p class="option-description">
+              Calculate efficient drone path through polygonal survey areas.
+            </p>
+            <button class="option-button">Plan Path</button>
+            <div class="feature-list">
+              <div class="feature-item">Polygon path calculation</div>
+              <div class="feature-item">Flight planning</div>
+              <div class="feature-item">Coverage visualization</div>
+              <div class="feature-item">Interactive mapping</div>
+            </div>
+          </a>
+          <div
+            style="
+              margin-top: 12px;
+              text-align: center;
+              font-size: 0.85em;
+              border-top: 1px solid rgba(138, 62, 219, 0.2);
+              padding-top: 10px;
+            "
+          >
+            <a
+              href="drone-selection.html"
+              style="
+                color: #8a3edb;
+                text-decoration: none;
+                opacity: 0.7;
+                transition: opacity 0.3s ease;
+              "
+              onmouseover="this.style.opacity='1'"
+              onmouseout="this.style.opacity='0.7'"
+            >
+              Supported Drones
+            </a>
           </div>
-        </a>
+        </div>
 
         <!-- Batch Image Analyzer Card -->
         <a href="find-artifacts.html" class="option-card">
@@ -325,7 +354,8 @@
           <div class="option-icon">🧒🏛️</div>
           <h2 class="option-title">Kids 💖 Field Walking</h2>
           <p class="option-description">
-            Learn how young explorers can discover history through field walking and hands-on archaeological methods
+            Learn how young explorers can discover history through field walking
+            and hands-on archaeological methods
           </p>
           <button class="option-button">Learn More</button>
           <div class="feature-list">
