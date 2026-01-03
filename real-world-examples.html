@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Real World Examples - Wings of Discovery</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1000px;
+        width: 100%;
+        padding: 40px 20px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+        color: white;
+      }
+
+      .page-header h1 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .page-header p {
+        font-size: 1.1em;
+        opacity: 0.95;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .examples-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+
+      .example-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .example-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .example-icon {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .example-title {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 12px;
+        text-align: center;
+      }
+
+      .example-location {
+        font-size: 0.95em;
+        color: #666;
+        margin-bottom: 15px;
+        text-align: center;
+        font-style: italic;
+      }
+
+      .example-description {
+        font-size: 0.95em;
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        flex-grow: 1;
+      }
+
+      .example-button {
+        padding: 12px 20px;
+        background: linear-gradient(135deg, #8a3edb 0%, #6b2ba8 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+        transition: all 0.3s ease;
+        font-weight: 600;
+      }
+
+      .example-button:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+      }
+
+      .back-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 2px solid white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 1em;
+        transition: all 0.3s ease;
+        margin-bottom: 30px;
+        cursor: pointer;
+      }
+
+      .back-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          padding: 60px 40px;
+        }
+
+        .page-header h1 {
+          font-size: 3em;
+        }
+
+        .page-header p {
+          font-size: 1.2em;
+        }
+
+        .examples-grid {
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 30px;
+        }
+
+        .example-card {
+          padding: 30px;
+        }
+
+        .example-title {
+          font-size: 1.6em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="index.html" class="back-button">← Back to Home</a>
+
+      <div class="page-header">
+        <h1>Real World Examples</h1>
+        <p>
+          Explore archaeological field walking projects from around the world
+        </p>
+      </div>
+
+      <div class="examples-grid">
+        <!-- Pewsey & Wiltshire -->
+        <div class="example-card">
+          <div class="example-icon">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+          <h2 class="example-title">Pewsey & Wiltshire</h2>
+          <p class="example-location">England, United Kingdom</p>
+          <p class="example-description">
+            Discover field walking methodologies used in the chalk downlands of
+            Wiltshire, a region rich with Bronze Age and Iron Age settlements.
+          </p>
+          <a
+            href="https://ivypanda.com/essays/fieldwalking-in-archaeology/"
+            target="_blank"
+            class="example-button"
+          >
+            Read Case Study
+          </a>
+        </div>
+
+        <!-- Mediterranean -->
+        <div class="example-card">
+          <div class="example-icon">🏛️</div>
+          <h2 class="example-title">Mediterranean</h2>
+          <p class="example-location">Mediterranean Region</p>
+          <p class="example-description">
+            Learn about archaeological field surveys in the Mediterranean,
+            featuring classical sites and modern excavation techniques.
+          </p>
+          <a
+            href="https://journal.equinoxpub.com/JMA/article/view/25520?utm_source=copilot.com"
+            target="_blank"
+            class="example-button"
+          >
+            Read Case Study
+          </a>
+        </div>
+
+        <!-- Near East -->
+        <div class="example-card">
+          <div class="example-icon">🕌</div>
+          <h2 class="example-title">Near East</h2>
+          <p class="example-location">Near East & Middle East</p>
+          <p class="example-description">
+            Explore fieldwork in historically significant Near Eastern
+            archaeological sites, connecting ancient civilizations with modern
+            research.
+          </p>
+          <a
+            href="https://journal.equinoxpub.com/JMA/article/view/25520?utm_source=copilot.com"
+            target="_blank"
+            class="example-button"
+          >
+            Read Case Study
+          </a>
+        </div>
+
+        <!-- Timucuan -->
+        <div class="example-card">
+          <div class="example-icon">🌎</div>
+          <h2 class="example-title">Timucuan</h2>
+          <p class="example-location">Florida, United States</p>
+          <p class="example-description">
+            Discover the Native American heritage of Florida through field
+            archaeology at the Timucuan Preserve, featuring diverse cultural
+            sites.
+          </p>
+          <a
+            href="https://www.nps.gov/timu/learn/historyculture/archaeology.htm?utm_source=copilot.com"
+            target="_blank"
+            class="example-button"
+          >
+            Read Case Study
+          </a>
+        </div>
+
+        <!-- Britain & Northern Europe -->
+        <div class="example-card">
+          <div class="example-icon">🌲</div>
+          <h2 class="example-title">Britain & N. Europe</h2>
+          <p class="example-location">Britain & Northern Europe</p>
+          <p class="example-description">
+            Explore comprehensive guides on archaeological field walking
+            methodologies across Northern European landscapes and prehistoric
+            settlements.
+          </p>
+          <a
+            href="https://www.wyjs.org.uk/media/1313/guide-11-archaeological-fieldwalking.pdf"
+            target="_blank"
+            class="example-button"
+          >
+            Read Case Study
+          </a>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px">
+        <a href="index.html" class="back-button">← Return to Home</a>
+      </div>
+    </div>
+  </body>
+</html>
