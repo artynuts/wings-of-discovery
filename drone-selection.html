@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Drone Selection - Wings of Discovery</title>
+    <script src="shared-layout.js"></script>
+    <style>
+      .content {
+        padding: 20px;
+      }
+
+      .drone-selection-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 35px;
+        margin: 20px 0 40px 0;
+        align-items: start;
+      }
+
+      .requirements-section h2 {
+        color: #8a3edb;
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        margin-top: 0;
+        font-weight: 700;
+      }
+
+      .requirements-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .requirements-list li {
+        margin-bottom: 18px;
+        font-size: 1.05em;
+        line-height: 1.7;
+      }
+
+      .requirements-list strong {
+        color: #8a3edb;
+        font-weight: 700;
+      }
+
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .comparison-table th {
+        background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
+        color: white;
+        padding: 14px 10px;
+        text-align: center;
+        font-weight: 700;
+        border-right: 2px solid rgba(255, 255, 255, 0.3);
+        font-size: 1em;
+      }
+
+      .comparison-table th:first-child {
+        font-size: 1.1em;
+      }
+
+      .comparison-table th:last-child {
+        border-right: none;
+      }
+
+      .comparison-table td {
+        padding: 12px 10px;
+        border-right: 2px solid #e0e0e0;
+        border-bottom: 2px solid #e0e0e0;
+        text-align: center;
+        font-size: 0.95em;
+      }
+
+      .comparison-table td:last-child {
+        border-right: none;
+      }
+
+      .comparison-table tr:last-child td {
+        border-bottom: none;
+      }
+
+      .comparison-table tr:nth-child(odd) {
+        background: #f9f7ff;
+      }
+
+      .comparison-table tr:nth-child(even) {
+        background: white;
+      }
+
+      .row-label {
+        font-weight: 600;
+        color: #8a3edb;
+        text-align: left;
+        font-size: 1.05em;
+      }
+
+      .drone-image-cell {
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .drone-image-placeholder {
+        width: 120px;
+        height: 120px;
+        background: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3em;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .drone-image-placeholder img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 10px;
+      }
+
+      .award-badge {
+        background: #ffd700;
+        color: #333;
+        padding: 5px 10px;
+        border-radius: 50%;
+        font-size: 1.5em;
+        display: inline-block;
+      }
+
+      .section-title-h2 {
+        text-align: left;
+        color: #8a3edb;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 1.5em;
+        font-weight: 700;
+      }
+
+      .supported-drones-section {
+        background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
+        border-radius: 20px;
+        padding: 40px;
+        margin: 40px 0;
+        color: white;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(138, 62, 219, 0.3);
+      }
+
+      .supported-drones-section h2 {
+        color: white;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+      }
+
+      .drones-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        margin-top: 30px;
+      }
+
+      .drone-card {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        border-radius: 15px;
+        padding: 25px;
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .drone-card:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.1);
+        transition: left 0.4s ease;
+        pointer-events: none;
+      }
+
+      .drone-card:hover {
+        background: rgba(255, 255, 255, 0.25);
+        border-color: white;
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      }
+
+      .drone-card:hover:before {
+        left: 100%;
+      }
+
+      .drone-card-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .drone-card h3 {
+        margin: 0 0 15px 0;
+        font-size: 1.2em;
+        font-weight: 700;
+      }
+
+      .drone-card p {
+        font-size: 0.95em;
+        line-height: 1.6;
+        margin: 0;
+        opacity: 0.95;
+      }
+
+      .drone-emoji {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+
+      .key-insights-box {
+        background: linear-gradient(135deg, #f3e6ff 0%, #f9f7ff 100%);
+        padding: 25px;
+        border-radius: 15px;
+        border-left: 6px solid #8a3edb;
+        box-shadow: 0 10px 30px rgba(138, 62, 219, 0.15);
+        margin: 30px 0;
+      }
+
+      .key-insights-box h3 {
+        color: #8a3edb;
+        margin-top: 0;
+        margin-bottom: 18px;
+        font-size: 1.15em;
+        font-weight: 700;
+      }
+
+      .key-insights-box ul {
+        color: #555;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .key-insights-box li {
+        margin-bottom: 10px;
+        font-size: 0.95em;
+      }
+
+      .key-insights-box strong {
+        color: #8a3edb;
+      }
+
+      @media (max-width: 1200px) {
+        .drone-selection-container {
+          grid-template-columns: 1fr;
+        }
+
+        .drones-list {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .comparison-table th,
+        .comparison-table td {
+          padding: 12px 8px;
+          font-size: 0.95em;
+        }
+
+        .requirements-section h2 {
+          font-size: 1.8em;
+        }
+
+        .requirements-list li {
+          font-size: 1.1em;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-host">
+          <div id="qc-logo-container"></div>
+          <div>
+            <h1>🚁 Drone Selection</h1>
+            <p>Choosing the right drone for archaeological fieldwork</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <h2 class="section-title-h2">Drone Comparison</h2>
+
+        <!-- Requirements and Table Side by Side -->
+        <div class="drone-selection-container">
+          <!-- Requirements Section -->
+          <div class="requirements-section">
+            <h2>Requirements</h2>
+            <ul class="requirements-list">
+              <li>
+                <strong>Low cost:</strong> easy to afford for archaeologists.
+              </li>
+              <li>
+                <strong>Endurance:</strong> fly for a long time and complete its
+                mission.
+              </li>
+              <li><strong>Battery life:</strong> without being charged.</li>
+              <li>
+                <strong>Camera:</strong> to capture footage of the ground.
+              </li>
+              <li>
+                <strong>Programmable:</strong> easy to code for archaeologists.
+              </li>
+              <li>
+                <strong>Portability:</strong> easy to move to and from sites.
+              </li>
+              <li>
+                <strong>Data transfer ease:</strong> the data should be easy to
+                transfer from the drone to the archaeologist's computer.
+              </li>
+              <li>
+                <strong>Large Field of vision:</strong> to capture wider
+                pictures.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Comparison Table -->
+          <div>
+            <table class="comparison-table">
+              <thead>
+                <tr>
+                  <th>Drone</th>
+                  <th>WingtraOne PPK VTOL</th>
+                  <th>Parrot ANAFI Work</th>
+                  <th>DJI Tello</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="row-label">Image</td>
+                  <td class="drone-image-cell">
+                    <div class="drone-image-placeholder">
+                      <img
+                        src="images/drone-wingtraone.png"
+                        alt="WingtraOne PPK VTOL"
+                      />
+                    </div>
+                  </td>
+                  <td class="drone-image-cell">
+                    <div class="drone-image-placeholder">
+                      <img
+                        src="images/drone-parrot.png"
+                        alt="Parrot ANAFI Work"
+                      />
+                    </div>
+                  </td>
+                  <td class="drone-image-cell">
+                    <div class="drone-image-placeholder">
+                      <img src="images/drone-dji-tello.png" alt="DJI Tello" />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="row-label">Cost</td>
+                  <td>19K - 28K</td>
+                  <td>10K</td>
+                  <td>99$ - 300$</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Coverage</td>
+                  <td>>500 acres</td>
+                  <td>4 km control</td>
+                  <td>100 meters</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Battery</td>
+                  <td>Two 99Wh</td>
+                  <td>Smart LiPo 2.7 Ah</td>
+                  <td>Detachable ~1.1 Ah</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Battery Time</td>
+                  <td>59 min</td>
+                  <td>25 min</td>
+                  <td>13 min</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Flight Speed</td>
+                  <td>35 mph</td>
+                  <td>33 mph</td>
+                  <td>17.6mph</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Program</td>
+                  <td>WingtraPilot mission plan software</td>
+                  <td>Controlled by FreeFlight app; SDK available</td>
+                  <td>App-controlled; Blockly/Scratch/Python (EDU)</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Portable</td>
+                  <td>10.6 lb</td>
+                  <td>~0.7 lb</td>
+                  <td>~0.18 lb</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Data transfer</td>
+                  <td>SD card + wired/tether</td>
+                  <td>Wi-Fi/USB + microSD</td>
+                  <td>Wi-Fi to phone</td>
+                </tr>
+                <tr>
+                  <td class="row-label">Field of vision</td>
+                  <td>Very wide mapping</td>
+                  <td>Wide-angle ~84° HFOV</td>
+                  <td>Wide-angle ~82.6° FOV</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Key Insights Section -->
+        <h2 class="section-title-h2">Key Insights</h2>
+        <div class="key-insights-box">
+          <h3>Choosing a Drone for Your Project</h3>
+          <ul style="list-style: none; padding: 0">
+            <li>
+              <strong>Budget Constraints:</strong> If cost is the primary
+              concern, the DJI Tello offers exceptional value at under $300.
+            </li>
+            <li>
+              <strong>Coverage Needs:</strong> For large archaeological sites,
+              the WingtraOne PPK VTOL can cover over 500 acres in a single
+              flight.
+            </li>
+            <li>
+              <strong>Ease of Use:</strong> The DJI Tello is programmable with
+              Blockly, Scratch, or Python, making it ideal for educational
+              settings.
+            </li>
+            <li>
+              <strong>Professional Surveys:</strong> The Parrot ANAFI Work and
+              WingtraOne are suited for larger-scale, professional
+              archaeological surveys.
+            </li>
+            <li>
+              <strong>Portability:</strong> All supported drones are portable,
+              but the DJI Tello is the most lightweight at ~0.18 lb.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
