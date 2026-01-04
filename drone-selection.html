@@ -59,8 +59,33 @@
         border-collapse: collapse;
         background: white;
         border-radius: 15px;
-        overflow: hidden;
+        overflow: visible;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .comparison-table col:first-child {
+        width: 20%;
+      }
+
+      .comparison-table col {
+        width: 26.66%;
+      }
+
+      .comparison-table thead {
+        display: table-header-group;
+      }
+
+      .comparison-table tbody {
+        display: table-row-group;
+      }
+
+      .comparison-table tr {
+        display: table-row;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        display: table-cell;
       }
 
       .comparison-table th {
@@ -349,6 +374,12 @@
           <!-- Comparison Table -->
           <div>
             <table class="comparison-table">
+              <colgroup>
+                <col />
+                <col />
+                <col />
+                <col />
+              </colgroup>
               <thead>
                 <tr>
                   <th>Drone</th>
