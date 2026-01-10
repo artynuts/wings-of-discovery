@@ -794,45 +794,42 @@
               });
               processedCount++;
             } else if (videoExtensions.includes(ext)) {
-              // For videos, create frame placeholders (estimated based on duration)
-              // We'll get the actual count during analysis
+              // For videos, get the duration and create frame placeholders
               const video = document.createElement("video");
               video.onloadedmetadata = () => {
                 const estimatedFrames = Math.max(
                   4,
                   Math.ceil((video.duration * 1000) / 250)
                 );
-                // Update placeholders for this video in the imageFiles array
-                const videoIndex = imageFiles.findIndex(
-                  (f) => f.file === file && f.isVideo
-                );
-                if (videoIndex !== -1) {
-                  for (
-                    let i = videoIndex;
-                    i < videoIndex + estimatedFrames;
-                    i++
-                  ) {
-                    if (imageFiles[i]) {
-                      imageFiles[i].totalFrames = estimatedFrames;
-                    }
+                // Find all placeholders for this video and update them
+                imageFiles.forEach((f) => {
+                  if (f.file === file && f.isVideo) {
+                    f.totalFrames = estimatedFrames;
                   }
-                }
+                });
+                // Re-render gallery to show updated frame counts
                 displayGallery();
               };
               video.src = URL.createObjectURL(file);
 
-              // Create initial placeholders (will be updated)
-              const initialPlaceholders = 4;
-              for (let i = 1; i <= initialPlaceholders; i++) {
+              // Create initial placeholders based on estimated duration
+              // Estimate: ~5 frames per second (250ms intervals)
+              // Start with a conservative estimate that will be updated
+              const estimatedDurationSeconds = 10; // Conservative default
+              const estimatedFrames = Math.ceil(
+                (estimatedDurationSeconds * 1000) / 250
+              );
+
+              for (let i = 1; i <= estimatedFrames; i++) {
                 imageFiles.push({
                   file: file,
                   type: "video",
                   isVideo: true,
                   frameNumber: i,
-                  totalFrames: initialPlaceholders,
+                  totalFrames: estimatedFrames,
                 });
               }
-              processedCount += initialPlaceholders;
+              processedCount += estimatedFrames;
             }
           });
 
