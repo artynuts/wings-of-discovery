@@ -205,7 +205,10 @@
             text-align: center;
             transition: all 0.3s ease;
             font-weight: 600;
-            margin:0px
+            margin: 0px auto;
+            min-width: 200px;
+            width: fit-content;
+            display: block;
         }
 
         .fun-fact-button:hover {
@@ -232,7 +235,7 @@
         }
 
         .survey-link {
-            display: inline-block;
+            display: block;
             background: white;
             color: #8a3edb;
             padding: 10px 20px;
@@ -241,6 +244,10 @@
             font-weight: 600;
             font-size: 0.95em;
             transition: all 0.3s ease;
+            margin: 0px auto;
+            min-width: 200px;
+            width: fit-content;
+            text-align: center;
         }
 
         .survey-link:hover {
@@ -324,7 +331,7 @@
         .quiz-container {
             background: linear-gradient(135deg, #8a3edb 0%, #6a2eab 100%);
             border-radius: 15px;
-            padding: 15px;
+            padding: 20px;
             margin: 0;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
             display: flex;
@@ -378,7 +385,7 @@
         .question-wrapper {
             background: white;
             border-radius: 12px;
-            padding: 15px;
+            padding: 20px;
             margin-bottom: 15px;
         }
 
@@ -401,9 +408,12 @@
             grid-template-columns: 1fr;
             gap: 8px;
             margin-top: 12px;
+            min-width: 200px;       
+            width: fit-content;
         }
 
         .answer-button {
+            margin: 0px;
             padding: 10px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
