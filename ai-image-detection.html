@@ -43,6 +43,44 @@
         line-height: 1.6;
         margin-left: 20px;
       }
+
+      .content-image {
+        width: 100%;
+        max-width: 600px;
+        margin: 20px 0;
+        border-radius: 10px;
+      }
+
+      .highlight-box {
+        background: #f3e8ff;
+        border-left: 5px solid #8a3edb;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+
+      .highlight-box h3,
+      .highlight-box h4 {
+        color: #8a3edb;
+        margin-top: 0;
+      }
+
+      .highlight-box ul {
+        margin-bottom: 0;
+      }
+
+      .highlight-box p {
+        margin-bottom: 0;
+      }
+
+      .highlight-box p:first-of-type {
+        margin-top: 0;
+      }
+
+      .model-link {
+        color: #8a3edb;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -91,17 +129,9 @@
             walking scenarios
           </li>
         </ol>
-        <div
-          style="
-            background: #f3e8ff;
-            border-left: 5px solid #8a3edb;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-          "
-        >
-          <h3 style="color: #8a3edb; margin-top: 0">🔒 Privacy & Security</h3>
-          <p style="margin-bottom: 0">
+        <div class="highlight-box">
+          <h3>🔒 Privacy & Security</h3>
+          <p>
             Your images stay on your device. When you use our artifact detector,
             nothing is uploaded to external servers. All image analysis happens
             locally in your browser using TensorFlow.js. This ensures your field
@@ -121,12 +151,7 @@
         <img
           src="images/ai-image-detection/teachable-machine.png"
           alt="Google Teachable Machine platform overview"
-          style="
-            width: 100%;
-            max-width: 600px;
-            margin: 20px 0;
-            border-radius: 10px;
-          "
+          class="content-image"
         />
         <h3>Why We Chose Teachable Machine</h3>
         <ul>
@@ -150,22 +175,15 @@
             <strong>Fast Training:</strong> Models train in minutes, not hours
           </li>
         </ul>
-        <img src="images/ai-image-detection/tm-howtouse.png" alt="How to use
-        Teachable Machine" style=" width: 100%; max-width: 600px; margin: 20px
-        0; border-radius: 10px; " " />
-        <div
-          style="
-            background: #f3e8ff;
-            border-left: 5px solid #8a3edb;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-          "
-        >
-          <h3 style="color: #8a3edb; margin-top: 0">
-            💻 Technology & Training Process
-          </h3>
-          <ul style="margin-bottom: 0">
+        <img
+          src="images/ai-image-detection/tm-howtouse.png"
+          alt="How to use
+        Teachable Machine"
+          class="content-image"
+        />
+        <div class="highlight-box">
+          <h3>💻 Technology & Training Process</h3>
+          <ul>
             <li>
               <strong>Google Teachable Machine:</strong> A free, user-friendly
               platform that made it easy to create and train our custom model
@@ -202,12 +220,7 @@
         <img
           src="images/ai-image-detection/tm-ourclasses.png"
           alt="Our 10 artifact classes in Teachable Machine"
-          style="
-            width: 100%;
-            max-width: 600px;
-            margin: 20px 0;
-            border-radius: 10px;
-          "
+          class="content-image"
         />
 
         <h3>Step 2: Collect Training Images</h3>
@@ -221,25 +234,10 @@
         <img
           src="images/ai-image-detection/tm-training.png"
           alt="Training data collection in Teachable Machine"
-          style="
-            width: 100%;
-            max-width: 600px;
-            margin: 20px 0;
-            border-radius: 10px;
-          "
+          class="content-image"
         />
-        <div
-          style="
-            background: #f3e8ff;
-            border-left: 5px solid #8a3edb;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-          "
-        >
-          <h4 style="color: #8a3edb; margin-top: 0">
-            💡 Tips for Collecting Quality Training Images
-          </h4>
+        <div class="highlight-box">
+          <h4>💡 Tips for Collecting Quality Training Images</h4>
           <ul>
             <li>
               <strong>Lighting matters:</strong> Our model was trained with
@@ -276,26 +274,11 @@
         <img
           src="images/ai-image-detection/tm-trainedmodel.png"
           alt="Trained model results in Teachable Machine"
-          style="
-            width: 100%;
-            max-width: 600px;
-            margin: 20px 0;
-            border-radius: 10px;
-          "
+          class="content-image"
         />
 
-        <div
-          style="
-            background: #f3e8ff;
-            border-left: 5px solid #8a3edb;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-          "
-        >
-          <h3 style="color: #8a3edb; margin-top: 0">
-            📊 Understanding Confidence Scores
-          </h3>
+        <div class="highlight-box">
+          <h3>📊 Understanding Confidence Scores</h3>
           <p>
             When our model analyzes an image, it provides a confidence score for
             each of the 10 artifact categories. These scores indicate how
@@ -332,25 +315,17 @@
           the model as a TensorFlow.js file so we could embed it directly into
           our website.
         </p>
-        <div
-          style="
-            background: #f3e8ff;
-            border-left: 5px solid #8a3edb;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-          "
-        >
-          <p style="margin-top: 0">
+        <div class="highlight-box">
+          <p>
             <strong>🔗 Our trained model</strong> is hosted on Google Teachable
             Machine and exported for use on this website. You can view and
             interact with the model directly here:
           </p>
-          <p style="margin-bottom: 0">
+          <p>
             <a
               href="https://teachablemachine.withgoogle.com/models/aPjxyfdkU/"
               target="_blank"
-              style="color: #8a3edb; font-weight: bold"
+              class="model-link"
             >
               👉 View Our Model on Teachable Machine
             </a>
