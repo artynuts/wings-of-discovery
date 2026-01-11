@@ -887,6 +887,16 @@
 
       function processFiles(files) {
         try {
+          // Clear previous previews and analysis results
+          imageFiles = [];
+          results = [];
+          currentImageIndex = 0;
+          gallery.innerHTML = "";
+          resultSummary.textContent = "";
+          resultsGrid.innerHTML = "";
+          document.getElementById("analysisSummary").style.display = "none";
+          loading.classList.remove("active");
+
           // Filter image and video files
           const filteredFiles = files.filter((file) => {
             const ext = file.name
@@ -907,7 +917,6 @@
           }
 
           // Process files: for videos, extract frames; for images, use directly
-          imageFiles = [];
           let processedCount = 0;
 
           filteredFiles.forEach((file) => {
