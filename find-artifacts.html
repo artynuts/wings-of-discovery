@@ -900,6 +900,9 @@
                 totalFrames: 0,
               });
               processedCount++;
+
+              // Extract frames at 500ms intervals
+              extractVideoFramesAtInterval(file);
             }
           });
 
@@ -975,7 +978,15 @@
               spinnerContainer.appendChild(text);
               info.appendChild(spinnerContainer);
             } else {
-              // Show frame info
+              // Show frame preview image and info
+              if (fileObj.frameData) {
+                const img = document.createElement("img");
+                img.src = fileObj.frameData;
+                img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
+                img.style.borderRadius = "10px 10px 0 0";
+                card.insertBefore(img, info);
+              }
+
               const typeEl = document.createElement("div");
               typeEl.className = "image-dimensions";
               typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
@@ -1107,6 +1118,65 @@
         if (e.key === "ArrowLeft") showPreviousImage();
         if (e.key === "ArrowRight") showNextImage();
         if (e.key === "Escape") closeImageModal();
+      }
+
+      async function extractVideoFramesAtInterval(file, intervalMs = 500) {
+        return new Promise((resolve) => {
+          const video = document.createElement("video");
+          video.preload = "metadata";
+          const frames = [];
+
+          video.onloadedmetadata = async () => {
+            const duration = video.duration * 1000; // Convert to milliseconds
+            let frameNumber = 0;
+            let timestamp = 0;
+
+            while (timestamp <= duration) {
+              const frameData = await extractVideoFrame(file, timestamp / 1000);
+              if (frameData) {
+                frameNumber++;
+                frames.push({
+                  frameNumber: frameNumber,
+                  timestamp: timestamp / 1000,
+                  ...frameData,
+                });
+              }
+              timestamp += intervalMs;
+            }
+
+            // Find the video entry in imageFiles and replace it with extracted frames
+            const videoIndex = imageFiles.findIndex(f => f.file === file && f.isVideo);
+            if (videoIndex !== -1) {
+              // Remove the placeholder entry
+              imageFiles.splice(videoIndex, 1);
+
+              // Add all extracted frames at the same position
+              frames.forEach((frameData, index) => {
+                imageFiles.splice(videoIndex + index, 0, {
+                  file: file,
+                  type: "video",
+                  isVideo: true,
+                  frameNumber: frameData.frameNumber,
+                  totalFrames: frames.length,
+                  frameData: frameData.dataUrl,
+                  canvas: frameData.canvas,
+                });
+              });
+
+              // Re-render gallery and update stats
+              displayGallery();
+              updateStats();
+            }
+
+            resolve(frames);
+          };
+
+          video.onerror = () => {
+            resolve([]);
+          };
+
+          video.src = URL.createObjectURL(file);
+        });
       }
 
       function extractVideoFrame(file, timestamp = 0) {
