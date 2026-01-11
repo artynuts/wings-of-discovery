@@ -945,32 +945,30 @@
                 totalFrames: 0,
               });
 
-              // For videos, extract all frames after 15s delay
-              setTimeout(() => {
-                extractMultipleVideoFrames(file).then((frames) => {
-                  if (frames.length > 0) {
-                    // Remove the placeholder and all its entries for this file
-                    imageFiles = imageFiles.filter((f) => f.file !== file);
+              // For videos, extract all frames immediately
+              extractMultipleVideoFrames(file).then((frames) => {
+                if (frames.length > 0) {
+                  // Remove the placeholder and all its entries for this file
+                  imageFiles = imageFiles.filter((f) => f.file !== file);
 
-                    // Add actual frame entries
-                    frames.forEach((frameData) => {
-                      imageFiles.push({
-                        file: file,
-                        type: "video",
-                        isVideo: true,
-                        frameNumber: frameData.frameNumber,
-                        totalFrames: frames.length,
-                        frameData: frameData.dataUrl,
-                        canvas: frameData.canvas,
-                      });
+                  // Add actual frame entries
+                  frames.forEach((frameData) => {
+                    imageFiles.push({
+                      file: file,
+                      type: "video",
+                      isVideo: true,
+                      frameNumber: frameData.frameNumber,
+                      totalFrames: frames.length,
+                      frameData: frameData.dataUrl,
+                      canvas: frameData.canvas,
                     });
+                  });
 
-                    // Re-render gallery with actual frames
-                    displayGallery();
-                    updateStats();
-                  }
-                });
-              }, 15000); // 15 second delay
+                  // Re-render gallery with actual frames
+                  displayGallery();
+                  updateStats();
+                }
+              });
 
               processedCount++; // Count the video file itself for now
             }
