@@ -493,6 +493,91 @@
           right: 40px;
         }
       }
+
+      /* Extracted inline styles */
+      .instructions-list {
+        margin: 0 0 0 20px;
+        line-height: 1.6;
+      }
+
+      .instructions-divider {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      .learn-more-label {
+        margin: 0 0 10px 0;
+      }
+
+      .learn-more-link {
+        display: inline-block;
+        background: #8a3edb;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .learn-more-link:hover {
+        background: #4b1f69;
+        transform: translateY(-2px);
+      }
+
+      .header-icon {
+        font-size: 1em;
+      }
+
+      .upload-title {
+        margin: 0;
+        color: #333;
+      }
+
+      .video-modal-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        color: white;
+        text-align: center;
+      }
+
+      .video-modal-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+      }
+
+      .video-modal-title {
+        font-size: 1.5em;
+      }
+
+      .video-modal-info {
+        margin-top: 10px;
+        opacity: 0.8;
+      }
+
+      .result-error {
+        color: #e74c3c;
+        font-size: 0.9em;
+      }
+
+      .result-top-match-text {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .stats-hidden {
+        display: none;
+      }
+
+      .results-header-hidden {
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -511,7 +596,7 @@
         <!-- Instructions Block - Left Column -->
         <div class="info-box">
           <h3>How to Use</h3>
-          <ol style="margin: 0 0 0 20px; line-height: 1.6">
+          <ol class="instructions-list">
             <li>
               <strong>Select Images</strong> - Click or drag & drop multiple
               images to upload them for analysis
@@ -529,31 +614,13 @@
               scores for each image
             </li>
           </ol>
-          <div
-            style="
-              margin-top: 25px;
-              padding-top: 20px;
-              border-top: 1px solid #ddd;
-            "
-          >
-            <p style="margin: 0 0 10px 0">
+          <div class="instructions-divider">
+            <p class="learn-more-label">
               <strong>Want to learn more?</strong>
             </p>
             <a
               href="how-image-detection-works.html"
-              style="
-                display: inline-block;
-                background: #8a3edb;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                margin-top: 10px;
-              "
-              onmouseover="this.style.background='#4b1f69'; this.style.transform='translateY(-2px)'"
-              onmouseout="this.style.background='#8a3edb'; this.style.transform='none'"
+              class="learn-more-link"
             >
               📚 How Image Detection Works
             </a>
@@ -570,8 +637,8 @@
               margin-bottom: 30px;
             "
           >
-            <div style="font-size: 1em">🖼️</div>
-            <h2 style="margin: 0; color: #333">Select Images</h2>
+            <div class="header-icon">🖼️</div>
+            <h2 class="upload-title">Select Images</h2>
           </div>
           <div class="error-message" id="errorMessage"></div>
 
@@ -587,7 +654,7 @@
               aria-label="Select multiple image and video files"
             />
           </div>
-          <div class="stats" id="stats" style="display: none">
+          <div class="stats stats-hidden" id="stats">
             <div class="stat-item">
               <div class="stat-label">Total Images</div>
               <div class="stat-value" id="totalImages">0</div>
@@ -617,7 +684,7 @@
         <p>Analyzing images...</p>
       </div>
 
-      <div class="results-header" id="resultsHeader" style="display: none">
+      <div class="results-header results-header-hidden" id="resultsHeader">
         <h2>Analysis Results</h2>
         <p id="resultSummary"></p>
       </div>
@@ -946,13 +1013,13 @@
           // For videos, show a message with frame info
           const modalContent = document.querySelector(".modal-content");
           modalContent.innerHTML =
-            '<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; color: white; text-align: center;"><div style="font-size: 4em; margin-bottom: 20px;">🎬</div><div style="font-size: 1.5em;">Video: ' +
+            '<div class="video-modal-content"><div class="video-modal-icon">🎬</div><div class="video-modal-title">Video: ' +
             fileObj.file.name +
-            '</div><div style="margin-top: 10px; opacity: 0.8;">Frame ' +
+            '</div><div class="video-modal-info">Frame ' +
             fileObj.frameNumber +
             " of " +
             fileObj.totalFrames +
-            '</div><div style="margin-top: 10px; opacity: 0.8;">Frames will be extracted and analyzed when you click Analyze</div></div>';
+            '</div><div class="video-modal-info">Frames will be extracted and analyzed when you click Analyze</div></div>';
         } else {
           // For images, show the image
           const reader = new FileReader();
@@ -1232,7 +1299,7 @@
           if (result.error) {
             card.innerHTML = `
               <div class="result-filename">${result.filename}</div>
-              <p style="color: #e74c3c; font-size: 0.9em;">Error: ${result.error}</p>
+              <p class="result-error">Error: ${result.error}</p>
             `;
             resultsGrid.appendChild(card);
             return;
@@ -1301,7 +1368,7 @@
                 : ""
             }
             <div class="result-filename">🖼️ ${result.filename}</div>
-            <div style="font-weight: 600; margin-bottom: 10px; color: #333;">Top Match: ${topMatchDisplay}</div>
+            <div class="result-top-match-text">Top Match: ${topMatchDisplay}</div>
             <div class="result-predictions">${predictionsHtml}</div>
           `;
 
