@@ -42,7 +42,7 @@ const SharedLayout = {
       <a href="index.html" class="back-button">← Back Home</a>
       <div class="wings-host">
         <img
-          src="images/WingsOfDiscovery-Logo.png"
+          src="images/site-wide/WingsOfDiscovery-Logo.png"
           alt="Wings of Discovery"
           class="wings-logo"
         />
