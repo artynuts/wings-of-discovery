@@ -935,7 +935,13 @@
               };
               info.appendChild(dimensionsEl);
 
-              card.insertBefore(img, info);
+              // Insert image as first child after delete button
+              const deleteBtn = card.querySelector(".delete-btn");
+              if (deleteBtn.nextSibling) {
+                card.insertBefore(img, deleteBtn.nextSibling);
+              } else {
+                card.insertBefore(img, info);
+              }
             };
             reader.readAsDataURL(file);
           }
