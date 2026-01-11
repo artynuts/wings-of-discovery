@@ -91,6 +91,23 @@
             walking scenarios
           </li>
         </ol>
+        <div
+          style="
+            background: #f3e8ff;
+            border-left: 5px solid #8a3edb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+          "
+        >
+          <h3 style="color: #8a3edb; margin-top: 0">🔒 Privacy & Security</h3>
+          <p style="margin-bottom: 0">
+            Your images stay on your device. When you use our artifact detector,
+            nothing is uploaded to external servers. All image analysis happens
+            locally in your browser using TensorFlow.js. This ensures your field
+            data remains private and secure.
+          </p>
+        </div>
       </div>
 
       <div class="content-section">
@@ -133,37 +150,42 @@
             <strong>Fast Training:</strong> Models train in minutes, not hours
           </li>
         </ul>
-        <img
-          src="images/ai-image-detection/tm-howtouse.png"
-          alt="How to use Teachable Machine"
+        <img src="images/ai-image-detection/tm-howtouse.png" alt="How to use
+        Teachable Machine" style=" width: 100%; max-width: 600px; margin: 20px
+        0; border-radius: 10px; " " />
+        <div
           style="
-            width: 100%;
-            max-width: 600px;
+            background: #f3e8ff;
+            border-left: 5px solid #8a3edb;
+            padding: 20px;
             margin: 20px 0;
-            border-radius: 10px;
+            border-radius: 8px;
           "
-        />
-        <h3>Technology & Training Process</h3>
-        <ul>
-          <li>
-            <strong>Google Teachable Machine:</strong> A free, user-friendly
-            platform that made it easy to create and train our custom model
-            without deep ML expertise
-          </li>
-          <li>
-            <strong>TensorFlow.js:</strong> Powers the model and runs the AI
-            analysis directly in your browser
-          </li>
-          <li>
-            <strong>Neural Networks:</strong> Deep learning technology trained
-            on thousands of artifact images to recognize visual patterns
-          </li>
-          <li>
-            <strong>Drone Imagery:</strong> Our training dataset includes images
-            captured from our Tello drone to ensure the model works with aerial
-            perspectives
-          </li>
-        </ul>
+        >
+          <h3 style="color: #8a3edb; margin-top: 0">
+            💻 Technology & Training Process
+          </h3>
+          <ul style="margin-bottom: 0">
+            <li>
+              <strong>Google Teachable Machine:</strong> A free, user-friendly
+              platform that made it easy to create and train our custom model
+              without deep ML expertise
+            </li>
+            <li>
+              <strong>TensorFlow.js:</strong> Powers the model and runs the AI
+              analysis directly in your browser
+            </li>
+            <li>
+              <strong>Neural Networks:</strong> Deep learning technology trained
+              on thousands of artifact images to recognize visual patterns
+            </li>
+            <li>
+              <strong>Drone Imagery:</strong> Our training dataset includes
+              images captured from our Tello drone to ensure the model works
+              with aerial perspectives
+            </li>
+          </ul>
+        </div>
       </div>
 
       <div class="content-section">
@@ -206,54 +228,42 @@
             border-radius: 10px;
           "
         />
-        <h4>Tips for Collecting Quality Training Images</h4>
-        <ul>
-          <li>
-            <strong>Lighting matters:</strong> Our model was trained with
-            artifacts in various lighting conditions. Avoid extreme shadows or
-            glare
-          </li>
-          <li>
-            <strong>Clean backgrounds:</strong> Simple backgrounds (like the
-            ground or a neutral surface) help the model focus on the artifact
-          </li>
-          <li>
-            <strong>Artifact visibility:</strong> Make sure the artifact is in
-            focus and clearly visible in the image
-          </li>
-          <li>
-            <strong>Multiple angles:</strong> When possible, capture the
-            artifact from different angles for more accurate identification
-          </li>
-          <li>
-            <strong>Drone perspective:</strong> Images taken from drone altitude
-            (our training scenario) may have the best results
-          </li>
-        </ul>
-        <h4>Tips for Collecting Quality Training Images</h4>
-        <ul>
-          <li>
-            <strong>Lighting matters:</strong> Our model was trained with
-            artifacts in various lighting conditions. Avoid extreme shadows or
-            glare
-          </li>
-          <li>
-            <strong>Clean backgrounds:</strong> Simple backgrounds (like the
-            ground or a neutral surface) help the model focus on the artifact
-          </li>
-          <li>
-            <strong>Artifact visibility:</strong> Make sure the artifact is in
-            focus and clearly visible in the image
-          </li>
-          <li>
-            <strong>Multiple angles:</strong> When possible, capture the
-            artifact from different angles for more accurate identification
-          </li>
-          <li>
-            <strong>Drone perspective:</strong> Images taken from drone altitude
-            (our training scenario) may have the best results
-          </li>
-        </ul>
+        <div
+          style="
+            background: #f3e8ff;
+            border-left: 5px solid #8a3edb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+          "
+        >
+          <h4 style="color: #8a3edb; margin-top: 0">
+            💡 Tips for Collecting Quality Training Images
+          </h4>
+          <ul>
+            <li>
+              <strong>Lighting matters:</strong> Our model was trained with
+              artifacts in various lighting conditions. Avoid extreme shadows or
+              glare
+            </li>
+            <li>
+              <strong>Clean backgrounds:</strong> Simple backgrounds (like the
+              ground or a neutral surface) help the model focus on the artifact
+            </li>
+            <li>
+              <strong>Artifact visibility:</strong> Make sure the artifact is in
+              focus and clearly visible in the image
+            </li>
+            <li>
+              <strong>Multiple angles:</strong> When possible, capture the
+              artifact from different angles for more accurate identification
+            </li>
+            <li>
+              <strong>Drone perspective:</strong> Images taken from drone
+              altitude (our training scenario) may have the best results
+            </li>
+          </ul>
+        </div>
 
         <h3>Step 3: Train the Model</h3>
         <p>
@@ -274,31 +284,44 @@
           "
         />
 
-        <h3>Understanding Confidence Scores</h3>
-        <p>
-          When our model analyzes an image, it provides a confidence score for
-          each of the 10 artifact categories. These scores indicate how certain
-          the model is about the identification:
-        </p>
-        <ul>
-          <li>
-            <strong>80-100%:</strong> High confidence - likely a correct
-            identification
-          </li>
-          <li>
-            <strong>50-80%:</strong> Medium confidence - could be correct but
-            worth verifying
-          </li>
-          <li>
-            <strong>0-50%:</strong> Low confidence - probably not this artifact
-            type
-          </li>
-        </ul>
-        <p>
-          <strong>Important:</strong> Always verify results with an expert
-          archaeologist. Our model is a helpful tool for initial classification,
-          but human expertise is essential for accurate field archaeology.
-        </p>
+        <div
+          style="
+            background: #f3e8ff;
+            border-left: 5px solid #8a3edb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+          "
+        >
+          <h3 style="color: #8a3edb; margin-top: 0">
+            📊 Understanding Confidence Scores
+          </h3>
+          <p>
+            When our model analyzes an image, it provides a confidence score for
+            each of the 10 artifact categories. These scores indicate how
+            certain the model is about the identification:
+          </p>
+          <ul>
+            <li>
+              <strong>80-100%:</strong> High confidence - likely a correct
+              identification
+            </li>
+            <li>
+              <strong>50-80%:</strong> Medium confidence - could be correct but
+              worth verifying
+            </li>
+            <li>
+              <strong>0-50%:</strong> Low confidence - probably not this
+              artifact type
+            </li>
+          </ul>
+          <p>
+            <strong>Important:</strong> Always verify results with an expert
+            archaeologist. Our model is a helpful tool for initial
+            classification, but human expertise is essential for accurate field
+            archaeology.
+          </p>
+        </div>
 
         <h3>Step 4: Test and Export</h3>
         <p>
@@ -309,30 +332,30 @@
           the model as a TensorFlow.js file so we could embed it directly into
           our website.
         </p>
-        <p>
-          Our trained model is hosted on Google Teachable Machine and exported
-          for use on this website. You can view and interact with the model
-          directly here:
-        </p>
-        <p>
-          <a
-            href="https://teachablemachine.withgoogle.com/models/aPjxyfdkU/"
-            target="_blank"
-            style="color: #8a3edb; font-weight: bold"
-          >
-            👉 View Our Model on Teachable Machine
-          </a>
-        </p>
-      </div>
-
-      <div class="content-section">
-        <h2>🔒 Privacy & Security</h2>
-        <p>
-          Your images stay on your device. When you use our artifact detector,
-          nothing is uploaded to external servers. All image analysis happens
-          locally in your browser using TensorFlow.js. This ensures your field
-          data remains private and secure.
-        </p>
+        <div
+          style="
+            background: #f3e8ff;
+            border-left: 5px solid #8a3edb;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+          "
+        >
+          <p style="margin-top: 0">
+            <strong>🔗 Our trained model</strong> is hosted on Google Teachable
+            Machine and exported for use on this website. You can view and
+            interact with the model directly here:
+          </p>
+          <p style="margin-bottom: 0">
+            <a
+              href="https://teachablemachine.withgoogle.com/models/aPjxyfdkU/"
+              target="_blank"
+              style="color: #8a3edb; font-weight: bold"
+            >
+              👉 View Our Model on Teachable Machine
+            </a>
+          </p>
+        </div>
       </div>
     </div>
 
