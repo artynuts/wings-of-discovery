@@ -276,6 +276,31 @@
           font-size: 0.9em;
         }
       }
+
+      .card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+
+      .secondary-link-container {
+        margin-top: 12px;
+        text-align: center;
+        font-size: 0.85em;
+        border-top: 1px solid rgba(138, 62, 219, 0.2);
+        padding-top: 10px;
+      }
+
+      .secondary-link {
+        color: #8a3edb;
+        text-decoration: none;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+      }
+
+      .secondary-link:hover {
+        opacity: 1;
+      }
     </style>
   </head>
   <body>
@@ -335,37 +360,15 @@
               <div class="feature-item">Interactive mapping</div>
             </div>
           </a>
-          <div
-            style="
-              margin-top: 12px;
-              text-align: center;
-              font-size: 0.85em;
-              border-top: 1px solid rgba(138, 62, 219, 0.2);
-              padding-top: 10px;
-            "
-          >
-            <a
-              href="drone-selection.html"
-              style="
-                color: #8a3edb;
-                text-decoration: none;
-                opacity: 0.7;
-                transition: opacity 0.3s ease;
-              "
-              onmouseover="this.style.opacity='1'"
-              onmouseout="this.style.opacity='0.7'"
-            >
+          <div class="secondary-link-container">
+            <a href="drone-selection.html" class="secondary-link">
               Supported Drones
             </a>
           </div>
         </div>
 
-        <!-- Batch Image Analyzer Card -->
         <div class="option-card">
-          <a
-            href="find-artifacts.html"
-            style="text-decoration: none; color: inherit; display: block"
-          >
+          <a href="find-artifacts.html" class="card-link">
             <div class="option-icon">🔍</div>
             <h2 class="option-title">Find Artifacts</h2>
             <p class="option-description">
@@ -379,26 +382,8 @@
               <div class="feature-item">Visual results display</div>
             </div>
           </a>
-          <div
-            style="
-              margin-top: 12px;
-              text-align: center;
-              font-size: 0.85em;
-              border-top: 1px solid rgba(138, 62, 219, 0.2);
-              padding-top: 10px;
-            "
-          >
-            <a
-              href="how-image-detection-works.html"
-              style="
-                color: #8a3edb;
-                text-decoration: none;
-                opacity: 0.7;
-                transition: opacity 0.3s ease;
-              "
-              onmouseover="this.style.opacity='1'"
-              onmouseout="this.style.opacity='0.7'"
-            >
+          <div class="secondary-link-container">
+            <a href="how-image-detection-works.html" class="secondary-link">
               How Image Detection Works
             </a>
           </div>
@@ -406,10 +391,7 @@
 
         <!-- Education: Kids & Archaeology Card -->
         <div class="option-card">
-          <a
-            href="learn-archaeology.html"
-            style="text-decoration: none; color: inherit; display: block"
-          >
+          <a href="learn-archaeology.html" class="card-link">
             <div class="option-icon">🧒🏛️</div>
             <h2 class="option-title">Kids 💖 Field Walking</h2>
             <p class="option-description">
@@ -424,26 +406,8 @@
               <div class="feature-item">Young explorer guides</div>
             </div>
           </a>
-          <div
-            style="
-              margin-top: 12px;
-              text-align: center;
-              font-size: 0.85em;
-              border-top: 1px solid rgba(138, 62, 219, 0.2);
-              padding-top: 10px;
-            "
-          >
-            <a
-              href="real-world-examples.html"
-              style="
-                color: #8a3edb;
-                text-decoration: none;
-                opacity: 0.7;
-                transition: opacity 0.3s ease;
-              "
-              onmouseover="this.style.opacity='1'"
-              onmouseout="this.style.opacity='0.7'"
-            >
+          <div class="secondary-link-container">
+            <a href="real-world-examples.html" class="secondary-link">
               Real World Examples
             </a>
           </div>
