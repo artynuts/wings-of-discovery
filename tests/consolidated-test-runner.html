@@ -1,1081 +1,1144 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Consolidated Test Runner - Wings of Discovery</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            color: #fff;
-            min-height: 100vh;
-            padding: 30px 20px;
-        }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        color: #fff;
+        min-height: 100vh;
+        padding: 30px 20px;
+      }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-top: 20px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding-top: 20px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-        .header-title {
-            font-size: 2.5em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #8a3edb, #d584ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
+      .header-title {
+        font-size: 2.5em;
+        font-weight: 800;
+        background: linear-gradient(135deg, #8a3edb, #d584ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
 
-        .header-subtitle {
-            font-size: 1.1em;
-            color: #aaa;
-            margin-bottom: 5px;
-        }
+      .header-subtitle {
+        font-size: 1.1em;
+        color: #aaa;
+        margin-bottom: 5px;
+      }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-top: 30px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
 
-        .stat-card {
-            background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(46, 204, 113, 0.05));
-            border: 2px solid rgba(39, 174, 96, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
+      .stat-card {
+        background: linear-gradient(
+          135deg,
+          rgba(39, 174, 96, 0.1),
+          rgba(46, 204, 113, 0.05)
+        );
+        border: 2px solid rgba(39, 174, 96, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+      }
 
-        .stat-number {
-            font-size: 2em;
-            font-weight: 800;
-            color: #27ae60;
-            margin-bottom: 8px;
-        }
+      .stat-number {
+        font-size: 2em;
+        font-weight: 800;
+        color: #27ae60;
+        margin-bottom: 8px;
+      }
 
-        .stat-label {
-            color: #aaa;
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+      .stat-label {
+        color: #aaa;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-        .controls {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(138, 62, 219, 0.1);
-            border: 2px solid rgba(138, 62, 219, 0.3);
-            border-radius: 12px;
-        }
+      .controls {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(138, 62, 219, 0.1);
+        border: 2px solid rgba(138, 62, 219, 0.3);
+        border-radius: 12px;
+      }
 
-        .controls button {
-            background: linear-gradient(135deg, #8a3edb, #d584ff);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            font-size: 1em;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            margin: 0 10px;
-            transition: all 0.3s;
-        }
+      .controls button {
+        background: linear-gradient(135deg, #8a3edb, #d584ff);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        font-size: 1em;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        margin: 0 10px;
+        transition: all 0.3s;
+      }
 
-        .controls button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(138, 62, 219, 0.4);
-        }
+      .controls button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(138, 62, 219, 0.4);
+      }
 
-        .test-suites-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
+      .test-suites-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
 
-        .test-file-section {
-            background: linear-gradient(135deg, rgba(138, 62, 219, 0.1), rgba(212, 132, 255, 0.05));
-            border: 2px solid rgba(138, 62, 219, 0.3);
-            border-radius: 15px;
-            padding: 25px;
-            backdrop-filter: blur(10px);
-        }
+      .test-file-section {
+        background: linear-gradient(
+          135deg,
+          rgba(138, 62, 219, 0.1),
+          rgba(212, 132, 255, 0.05)
+        );
+        border: 2px solid rgba(138, 62, 219, 0.3);
+        border-radius: 15px;
+        padding: 25px;
+        backdrop-filter: blur(10px);
+      }
 
-        .file-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(138, 62, 219, 0.2);
-        }
+      .file-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid rgba(138, 62, 219, 0.2);
+      }
 
-        .file-icon {
-            font-size: 2em;
-            margin-right: 15px;
-        }
+      .file-icon {
+        font-size: 2em;
+        margin-right: 15px;
+      }
 
-        .file-name {
-            font-size: 1.3em;
-            font-weight: 700;
-            color: #fff;
-        }
+      .file-name {
+        font-size: 1.3em;
+        font-weight: 700;
+        color: #fff;
+      }
 
-        .file-stats {
-            font-size: 0.85em;
-            color: #aaa;
-            margin-top: 5px;
-        }
+      .file-stats {
+        font-size: 0.85em;
+        color: #aaa;
+        margin-top: 5px;
+      }
 
-        .test-suite {
-            margin-bottom: 20px;
-        }
+      .test-suite {
+        margin-bottom: 20px;
+      }
 
-        .suite-name {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #d584ff;
-            margin-bottom: 10px;
-            padding-left: 10px;
-            border-left: 3px solid #d584ff;
-        }
+      .suite-name {
+        font-size: 0.95em;
+        font-weight: 600;
+        color: #d584ff;
+        margin-bottom: 10px;
+        padding-left: 10px;
+        border-left: 3px solid #d584ff;
+      }
 
-        .test-case {
-            margin-left: 15px;
-            padding: 10px;
-            margin-bottom: 8px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            font-size: 0.9em;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-        }
+      .test-case {
+        margin-left: 15px;
+        padding: 10px;
+        margin-bottom: 8px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 6px;
+        font-size: 0.9em;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+      }
 
-        .test-case.pass {
-            border-left-color: #27ae60;
-            background: rgba(39, 174, 96, 0.1);
-        }
+      .test-case.pass {
+        border-left-color: #27ae60;
+        background: rgba(39, 174, 96, 0.1);
+      }
 
-        .test-case.fail {
-            border-left-color: #e74c3c;
-            background: rgba(231, 76, 60, 0.1);
-        }
+      .test-case.fail {
+        border-left-color: #e74c3c;
+        background: rgba(231, 76, 60, 0.1);
+      }
 
-        .test-name {
-            font-weight: 500;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+      .test-name {
+        font-weight: 500;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
 
-        .pass-icon::before {
-            content: "✓";
-            color: #27ae60;
-            font-weight: bold;
-        }
+      .pass-icon::before {
+        content: "✓";
+        color: #27ae60;
+        font-weight: bold;
+      }
 
-        .fail-icon::before {
-            content: "✗";
-            color: #e74c3c;
-            font-weight: bold;
-        }
+      .fail-icon::before {
+        content: "✗";
+        color: #e74c3c;
+        font-weight: bold;
+      }
 
-        .test-error {
-            color: #ff6b6b;
-            font-size: 0.85em;
-            margin-top: 8px;
-            padding: 8px;
-            background: rgba(255, 107, 107, 0.1);
-            border-radius: 4px;
-            border-left: 2px solid #ff6b6b;
-        }
+      .test-error {
+        color: #ff6b6b;
+        font-size: 0.85em;
+        margin-top: 8px;
+        padding: 8px;
+        background: rgba(255, 107, 107, 0.1);
+        border-radius: 4px;
+        border-left: 2px solid #ff6b6b;
+      }
 
-        .summary {
-            background: linear-gradient(135deg, rgba(138, 62, 219, 0.15), rgba(212, 132, 255, 0.08));
-            border: 2px solid rgba(138, 62, 219, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
-            text-align: center;
-            font-weight: 600;
-        }
+      .summary {
+        background: linear-gradient(
+          135deg,
+          rgba(138, 62, 219, 0.15),
+          rgba(212, 132, 255, 0.08)
+        );
+        border: 2px solid rgba(138, 62, 219, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 30px;
+        text-align: center;
+        font-weight: 600;
+      }
 
-        .summary.success {
-            background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(46, 204, 113, 0.08));
-            border-color: rgba(39, 174, 96, 0.3);
-        }
+      .summary.success {
+        background: linear-gradient(
+          135deg,
+          rgba(39, 174, 96, 0.15),
+          rgba(46, 204, 113, 0.08)
+        );
+        border-color: rgba(39, 174, 96, 0.3);
+      }
 
-        .summary.failure {
-            background: linear-gradient(135deg, rgba(231, 76, 60, 0.15), rgba(255, 107, 107, 0.08));
-            border-color: rgba(231, 76, 60, 0.3);
-        }
+      .summary.failure {
+        background: linear-gradient(
+          135deg,
+          rgba(231, 76, 60, 0.15),
+          rgba(255, 107, 107, 0.08)
+        );
+        border-color: rgba(231, 76, 60, 0.3);
+      }
 
-        .coverage-info {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(74, 144, 226, 0.1);
-            border-left: 3px solid #4a90e2;
-            border-radius: 6px;
-            font-size: 0.9em;
-        }
+      .coverage-info {
+        margin-top: 20px;
+        padding: 15px;
+        background: rgba(74, 144, 226, 0.1);
+        border-left: 3px solid #4a90e2;
+        border-radius: 6px;
+        font-size: 0.9em;
+      }
 
-        .loading {
-            text-align: center;
-            font-size: 1.2em;
-            color: #aaa;
-            padding: 40px;
-        }
+      .loading {
+        text-align: center;
+        font-size: 1.2em;
+        color: #aaa;
+        padding: 40px;
+      }
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
 
-        .tab-btn {
-            background: rgba(138, 62, 219, 0.2);
-            border: 2px solid rgba(138, 62, 219, 0.3);
-            color: #aaa;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
+      .tab-btn {
+        background: rgba(138, 62, 219, 0.2);
+        border: 2px solid rgba(138, 62, 219, 0.3);
+        color: #aaa;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+      }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #8a3edb, #d584ff);
-            color: white;
-            border-color: transparent;
-        }
+      .tab-btn.active {
+        background: linear-gradient(135deg, #8a3edb, #d584ff);
+        color: white;
+        border-color: transparent;
+      }
 
-        .tab-btn:hover {
-            border-color: #8a3edb;
-        }
+      .tab-btn:hover {
+        border-color: #8a3edb;
+      }
 
-        .view-toggle {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
+      .view-toggle {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
 
-        .view-btn {
-            background: rgba(138, 62, 219, 0.2);
-            border: 2px solid rgba(138, 62, 219, 0.3);
-            color: #aaa;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.3s;
-        }
+      .view-btn {
+        background: rgba(138, 62, 219, 0.2);
+        border: 2px solid rgba(138, 62, 219, 0.3);
+        color: #aaa;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: all 0.3s;
+      }
 
-        .view-btn.active {
-            background: linear-gradient(135deg, #8a3edb, #d584ff);
-            color: white;
-            border-color: transparent;
-        }
+      .view-btn.active {
+        background: linear-gradient(135deg, #8a3edb, #d584ff);
+        color: white;
+        border-color: transparent;
+      }
 
-        .hidden {
-            display: none !important;
-        }
+      .hidden {
+        display: none !important;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="header">
-        <h1 class="header-title">🧪 Consolidated Test Runner</h1>
-        <p class="header-subtitle">All Tests Across All Pages</p>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalTests">0</div>
-                <div class="stat-label">Total Tests</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="passedTests">0</div>
-                <div class="stat-label">Passed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="failedTests">0</div>
-                <div class="stat-label">Failed</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="passRate">0%</div>
-                <div class="stat-label">Pass Rate</div>
-            </div>
+      <h1 class="header-title">🧪 Consolidated Test Runner</h1>
+      <p class="header-subtitle">All Tests Across All Pages</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" id="totalTests">0</div>
+          <div class="stat-label">Total Tests</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-number" id="passedTests">0</div>
+          <div class="stat-label">Passed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="failedTests">0</div>
+          <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" id="passRate">0%</div>
+          <div class="stat-label">Pass Rate</div>
+        </div>
+      </div>
     </div>
 
     <div class="container">
-        <div class="controls">
-            <button onclick="runAllTests()">▶ Run All Tests</button>
-            <button onclick="clearResults()">⟲ Clear Results</button>
-        </div>
+      <div class="controls">
+        <button onclick="runAllTests()">▶ Run All Tests</button>
+        <button onclick="clearResults()">⟲ Clear Results</button>
+      </div>
 
-        <div class="view-toggle">
-            <button class="view-btn active" onclick="setView('by-file')">View by File</button>
-            <button class="view-btn" onclick="setView('by-suite')">View by Suite</button>
-            <button class="view-btn" onclick="setView('failures-only')">Failures Only</button>
-        </div>
+      <div class="view-toggle">
+        <button class="view-btn active" onclick="setView('by-file')">
+          View by File
+        </button>
+        <button class="view-btn" onclick="setView('by-suite')">
+          View by Suite
+        </button>
+        <button class="view-btn" onclick="setView('failures-only')">
+          Failures Only
+        </button>
+      </div>
 
-        <div id="loading" class="loading" style="display: none;">
-            Running tests...
-        </div>
+      <div id="loading" class="loading" style="display: none">
+        Running tests...
+      </div>
 
-        <div id="test-results" class="test-suites-container"></div>
+      <div id="test-results" class="test-suites-container"></div>
 
-        <div id="summary" class="summary hidden">
-            <div id="summary-text"></div>
-        </div>
+      <div id="summary" class="summary hidden">
+        <div id="summary-text"></div>
+      </div>
     </div>
 
     <script>
-        // Global test manager
-        const TestManager = {
-            allResults: [],
-            currentView: 'by-file',
+      // Global test manager
+      const TestManager = {
+        allResults: [],
+        currentView: "by-file",
 
-            clearResults() {
-                this.allResults = [];
-                document.getElementById('test-results').innerHTML = '';
-                document.getElementById('summary').classList.add('hidden');
-            },
+        clearResults() {
+          this.allResults = [];
+          document.getElementById("test-results").innerHTML = "";
+          document.getElementById("summary").classList.add("hidden");
+        },
 
-            updateStats() {
-                const total = this.allResults.length;
-                const passed = this.allResults.filter(r => r.pass).length;
-                const failed = total - passed;
-                const rate = total === 0 ? 0 : Math.round((passed / total) * 100);
+        updateStats() {
+          const total = this.allResults.length;
+          const passed = this.allResults.filter((r) => r.pass).length;
+          const failed = total - passed;
+          const rate = total === 0 ? 0 : Math.round((passed / total) * 100);
 
-                document.getElementById('totalTests').textContent = total;
-                document.getElementById('passedTests').textContent = passed;
-                document.getElementById('failedTests').textContent = failed;
-                document.getElementById('passRate').textContent = rate + '%';
-            },
+          document.getElementById("totalTests").textContent = total;
+          document.getElementById("passedTests").textContent = passed;
+          document.getElementById("failedTests").textContent = failed;
+          document.getElementById("passRate").textContent = rate + "%";
+        },
 
-            renderResults() {
-                const resultsDiv = document.getElementById('test-results');
-                resultsDiv.innerHTML = '';
+        renderResults() {
+          const resultsDiv = document.getElementById("test-results");
+          resultsDiv.innerHTML = "";
 
-                if (this.currentView === 'by-file') {
-                    this.renderByFile(resultsDiv);
-                } else if (this.currentView === 'by-suite') {
-                    this.renderBySuite(resultsDiv);
-                } else if (this.currentView === 'failures-only') {
-                    this.renderFailuresOnly(resultsDiv);
-                }
+          if (this.currentView === "by-file") {
+            this.renderByFile(resultsDiv);
+          } else if (this.currentView === "by-suite") {
+            this.renderBySuite(resultsDiv);
+          } else if (this.currentView === "failures-only") {
+            this.renderFailuresOnly(resultsDiv);
+          }
 
-                this.renderSummary();
-            },
+          this.renderSummary();
+        },
 
-            renderByFile(resultsDiv) {
-                const byFile = {};
-                this.allResults.forEach(result => {
-                    if (!byFile[result.file]) {
-                        byFile[result.file] = [];
-                    }
-                    byFile[result.file].push(result);
-                });
+        renderByFile(resultsDiv) {
+          const byFile = {};
+          this.allResults.forEach((result) => {
+            if (!byFile[result.file]) {
+              byFile[result.file] = [];
+            }
+            byFile[result.file].push(result);
+          });
 
-                Object.entries(byFile).forEach(([file, results]) => {
-                    const section = this.createFileSection(file, results);
-                    resultsDiv.appendChild(section);
-                });
-            },
+          Object.entries(byFile).forEach(([file, results]) => {
+            const section = this.createFileSection(file, results);
+            resultsDiv.appendChild(section);
+          });
+        },
 
-            renderBySuite(resultsDiv) {
-                const bySuite = {};
-                this.allResults.forEach(result => {
-                    const key = `${result.file} - ${result.suite}`;
-                    if (!bySuite[key]) {
-                        bySuite[key] = [];
-                    }
-                    bySuite[key].push(result);
-                });
+        renderBySuite(resultsDiv) {
+          const bySuite = {};
+          this.allResults.forEach((result) => {
+            const key = `${result.file} - ${result.suite}`;
+            if (!bySuite[key]) {
+              bySuite[key] = [];
+            }
+            bySuite[key].push(result);
+          });
 
-                Object.entries(bySuite).forEach(([suiteKey, results]) => {
-                    const [file, suite] = suiteKey.split(' - ');
-                    const div = document.createElement('div');
-                    div.className = 'test-file-section';
-                    div.innerHTML = `<div class="file-header"><div><div class="file-name">${suite}</div><div class="file-stats">from ${file}</div></div></div>`;
-                    
-                    const testSuite = document.createElement('div');
-                    testSuite.className = 'test-suite';
-                    results.forEach(result => {
-                        const testDiv = this.createTestCase(result);
-                        testSuite.appendChild(testDiv);
-                    });
-                    div.appendChild(testSuite);
-                    resultsDiv.appendChild(div);
-                });
-            },
+          Object.entries(bySuite).forEach(([suiteKey, results]) => {
+            const [file, suite] = suiteKey.split(" - ");
+            const div = document.createElement("div");
+            div.className = "test-file-section";
+            div.innerHTML = `<div class="file-header"><div><div class="file-name">${suite}</div><div class="file-stats">from ${file}</div></div></div>`;
 
-            renderFailuresOnly(resultsDiv) {
-                const failures = this.allResults.filter(r => !r.pass);
-                if (failures.length === 0) {
-                    const div = document.createElement('div');
-                    div.style.gridColumn = '1 / -1';
-                    div.style.textAlign = 'center';
-                    div.style.padding = '40px';
-                    div.innerHTML = '<h2 style="color: #27ae60; font-size: 1.5em;">✓ All Tests Passed!</h2>';
-                    resultsDiv.appendChild(div);
-                    return;
-                }
+            const testSuite = document.createElement("div");
+            testSuite.className = "test-suite";
+            results.forEach((result) => {
+              const testDiv = this.createTestCase(result);
+              testSuite.appendChild(testDiv);
+            });
+            div.appendChild(testSuite);
+            resultsDiv.appendChild(div);
+          });
+        },
 
-                const byFile = {};
-                failures.forEach(result => {
-                    if (!byFile[result.file]) {
-                        byFile[result.file] = [];
-                    }
-                    byFile[result.file].push(result);
-                });
+        renderFailuresOnly(resultsDiv) {
+          const failures = this.allResults.filter((r) => !r.pass);
+          if (failures.length === 0) {
+            const div = document.createElement("div");
+            div.style.gridColumn = "1 / -1";
+            div.style.textAlign = "center";
+            div.style.padding = "40px";
+            div.innerHTML =
+              '<h2 style="color: #27ae60; font-size: 1.5em;">✓ All Tests Passed!</h2>';
+            resultsDiv.appendChild(div);
+            return;
+          }
 
-                Object.entries(byFile).forEach(([file, results]) => {
-                    const section = this.createFileSection(file, results, true);
-                    resultsDiv.appendChild(section);
-                });
-            },
+          const byFile = {};
+          failures.forEach((result) => {
+            if (!byFile[result.file]) {
+              byFile[result.file] = [];
+            }
+            byFile[result.file].push(result);
+          });
 
-            createFileSection(file, results, failuresOnly = false) {
-                const section = document.createElement('div');
-                section.className = 'test-file-section';
+          Object.entries(byFile).forEach(([file, results]) => {
+            const section = this.createFileSection(file, results, true);
+            resultsDiv.appendChild(section);
+          });
+        },
 
-                const icon = this.getFileIcon(file);
-                const passed = results.filter(r => r.pass).length;
-                const total = results.length;
+        createFileSection(file, results, failuresOnly = false) {
+          const section = document.createElement("div");
+          section.className = "test-file-section";
 
-                const header = document.createElement('div');
-                header.className = 'file-header';
-                header.innerHTML = `
+          const icon = this.getFileIcon(file);
+          const passed = results.filter((r) => r.pass).length;
+          const total = results.length;
+
+          const header = document.createElement("div");
+          header.className = "file-header";
+          header.innerHTML = `
                     <div class="file-icon">${icon}</div>
                     <div>
                         <div class="file-name">${file}</div>
                         <div class="file-stats">${passed}/${total} tests passed</div>
                     </div>
                 `;
-                section.appendChild(header);
+          section.appendChild(header);
 
-                // Group by suite
-                const bySuite = {};
-                results.forEach(result => {
-                    if (!bySuite[result.suite]) {
-                        bySuite[result.suite] = [];
-                    }
-                    bySuite[result.suite].push(result);
-                });
-
-                Object.entries(bySuite).forEach(([suite, suiteResults]) => {
-                    const suiteDiv = document.createElement('div');
-                    suiteDiv.className = 'test-suite';
-
-                    const suiteName = document.createElement('div');
-                    suiteName.className = 'suite-name';
-                    suiteName.textContent = suite;
-                    suiteDiv.appendChild(suiteName);
-
-                    suiteResults.forEach(result => {
-                        const testDiv = this.createTestCase(result);
-                        suiteDiv.appendChild(testDiv);
-                    });
-
-                    section.appendChild(suiteDiv);
-                });
-
-                return section;
-            },
-
-            createTestCase(result) {
-                const div = document.createElement('div');
-                div.className = `test-case ${result.pass ? 'pass' : 'fail'}`;
-
-                const name = document.createElement('div');
-                name.className = 'test-name';
-                name.innerHTML = `<span class="${result.pass ? 'pass-icon' : 'fail-icon'}"></span>${result.name}`;
-                div.appendChild(name);
-
-                if (!result.pass && result.error) {
-                    const error = document.createElement('div');
-                    error.className = 'test-error';
-                    error.textContent = result.error;
-                    div.appendChild(error);
-                }
-
-                return div;
-            },
-
-            renderSummary() {
-                const total = this.allResults.length;
-                const passed = this.allResults.filter(r => r.pass).length;
-                const failed = total - passed;
-                const rate = total === 0 ? 0 : Math.round((passed / total) * 100);
-
-                const summaryDiv = document.getElementById('summary');
-                const summaryText = document.getElementById('summary-text');
-
-                if (total === 0) {
-                    summaryDiv.classList.add('hidden');
-                    return;
-                }
-
-                summaryDiv.classList.remove('hidden');
-                if (failed === 0) {
-                    summaryDiv.classList.add('success');
-                    summaryDiv.classList.remove('failure');
-                    summaryText.innerHTML = `✓ All ${total} tests passed! (${rate}%)`;
-                } else {
-                    summaryDiv.classList.add('failure');
-                    summaryDiv.classList.remove('success');
-                    summaryText.innerHTML = `✗ ${failed} of ${total} tests failed (${rate}% pass rate)`;
-                }
-            },
-
-            getFileIcon(file) {
-                const icons = {
-                    'Find Artifacts': '🔍',
-                    'Plan Drone Path': '📍',
-                    'Learn Archaeology': '🎓',
-                    'Drone Selection': '🚁',
-                    'AI Image Detection': '🧠',
-                    'Home Page': '🏠',
-                    'Real World Examples': '🌍',
-                    'Team Page': '👥',
-                    'Survey Results': '📊'
-                };
-                return icons[file] || '📄';
+          // Group by suite
+          const bySuite = {};
+          results.forEach((result) => {
+            if (!bySuite[result.suite]) {
+              bySuite[result.suite] = [];
             }
+            bySuite[result.suite].push(result);
+          });
+
+          Object.entries(bySuite).forEach(([suite, suiteResults]) => {
+            const suiteDiv = document.createElement("div");
+            suiteDiv.className = "test-suite";
+
+            const suiteName = document.createElement("div");
+            suiteName.className = "suite-name";
+            suiteName.textContent = suite;
+            suiteDiv.appendChild(suiteName);
+
+            suiteResults.forEach((result) => {
+              const testDiv = this.createTestCase(result);
+              suiteDiv.appendChild(testDiv);
+            });
+
+            section.appendChild(suiteDiv);
+          });
+
+          return section;
+        },
+
+        createTestCase(result) {
+          const div = document.createElement("div");
+          div.className = `test-case ${result.pass ? "pass" : "fail"}`;
+
+          const name = document.createElement("div");
+          name.className = "test-name";
+          name.innerHTML = `<span class="${
+            result.pass ? "pass-icon" : "fail-icon"
+          }"></span>${result.name}`;
+          div.appendChild(name);
+
+          if (!result.pass && result.error) {
+            const error = document.createElement("div");
+            error.className = "test-error";
+            error.textContent = result.error;
+            div.appendChild(error);
+          }
+
+          return div;
+        },
+
+        renderSummary() {
+          const total = this.allResults.length;
+          const passed = this.allResults.filter((r) => r.pass).length;
+          const failed = total - passed;
+          const rate = total === 0 ? 0 : Math.round((passed / total) * 100);
+
+          const summaryDiv = document.getElementById("summary");
+          const summaryText = document.getElementById("summary-text");
+
+          if (total === 0) {
+            summaryDiv.classList.add("hidden");
+            return;
+          }
+
+          summaryDiv.classList.remove("hidden");
+          if (failed === 0) {
+            summaryDiv.classList.add("success");
+            summaryDiv.classList.remove("failure");
+            summaryText.innerHTML = `✓ All ${total} tests passed! (${rate}%)`;
+          } else {
+            summaryDiv.classList.add("failure");
+            summaryDiv.classList.remove("success");
+            summaryText.innerHTML = `✗ ${failed} of ${total} tests failed (${rate}% pass rate)`;
+          }
+        },
+
+        getFileIcon(file) {
+          const icons = {
+            "Find Artifacts": "🔍",
+            "Plan Drone Path": "📍",
+            "Learn Archaeology": "🎓",
+            "Drone Selection": "🚁",
+            "AI Image Detection": "🧠",
+            "Home Page": "🏠",
+            "Real World Examples": "🌍",
+            "Team Page": "👥",
+            "Survey Results": "📊",
+          };
+          return icons[file] || "📄";
+        },
+      };
+
+      // Helper functions for tests
+      function expect(actual) {
+        return {
+          toBe(expected) {
+            if (actual !== expected) {
+              throw new Error(`Expected ${expected} but got ${actual}`);
+            }
+          },
+          toEqual(expected) {
+            if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+              throw new Error(
+                `Expected ${JSON.stringify(expected)} but got ${JSON.stringify(
+                  actual
+                )}`
+              );
+            }
+          },
+          toBeGreaterThan(expected) {
+            if (!(actual > expected)) {
+              throw new Error(
+                `Expected ${actual} to be greater than ${expected}`
+              );
+            }
+          },
+          toBeLessThan(expected) {
+            if (!(actual < expected)) {
+              throw new Error(`Expected ${actual} to be less than ${expected}`);
+            }
+          },
+          toContain(expected) {
+            if (!actual.includes(expected)) {
+              throw new Error(`Expected "${actual}" to contain "${expected}"`);
+            }
+          },
+          toHaveProperty(expected) {
+            if (!(expected in actual)) {
+              throw new Error(`Expected object to have property "${expected}"`);
+            }
+          },
+          toBeNull() {
+            if (actual !== null) {
+              throw new Error(`Expected null but got ${actual}`);
+            }
+          },
         };
+      }
 
-        // Helper functions for tests
-        function expect(actual) {
-            return {
-                toBe(expected) {
-                    if (actual !== expected) {
-                        throw new Error(`Expected ${expected} but got ${actual}`);
-                    }
-                },
-                toEqual(expected) {
-                    if (JSON.stringify(actual) !== JSON.stringify(expected)) {
-                        throw new Error(`Expected ${JSON.stringify(expected)} but got ${JSON.stringify(actual)}`);
-                    }
-                },
-                toBeGreaterThan(expected) {
-                    if (!(actual > expected)) {
-                        throw new Error(`Expected ${actual} to be greater than ${expected}`);
-                    }
-                },
-                toBeLessThan(expected) {
-                    if (!(actual < expected)) {
-                        throw new Error(`Expected ${actual} to be less than ${expected}`);
-                    }
-                },
-                toContain(expected) {
-                    if (!actual.includes(expected)) {
-                        throw new Error(`Expected "${actual}" to contain "${expected}"`);
-                    }
-                },
-                toHaveProperty(expected) {
-                    if (!(expected in actual)) {
-                        throw new Error(`Expected object to have property "${expected}"`);
-                    }
-                },
-                toBeNull() {
-                    if (actual !== null) {
-                        throw new Error(`Expected null but got ${actual}`);
-                    }
-                }
-            };
+      // Global functions for test setup
+      let currentFile = "";
+      let currentSuite = "";
+
+      function describe(name, fn) {
+        currentSuite = name;
+        fn();
+      }
+
+      function test(name, fn) {
+        try {
+          fn();
+          TestManager.allResults.push({
+            file: currentFile,
+            suite: currentSuite,
+            name: name,
+            pass: true,
+          });
+        } catch (error) {
+          TestManager.allResults.push({
+            file: currentFile,
+            suite: currentSuite,
+            name: name,
+            pass: false,
+            error: error.message,
+          });
         }
+      }
 
-        // Global functions for test setup
-        let currentFile = '';
-        let currentSuite = '';
+      // Page-specific test suites
+      function runFindArtifactsTests() {
+        currentFile = "Find Artifacts";
 
-        function describe(name, fn) {
-            currentSuite = name;
-            fn();
-        }
+        describe("Model Initialization", () => {
+          test("should construct correct model URL with trailing slash", () => {
+            const modelURL = "https://example.com/model";
+            const finalURL = modelURL.endsWith("/") ? modelURL : modelURL + "/";
+            expect(finalURL).toBe("https://example.com/model/");
+          });
 
-        function test(name, fn) {
-            try {
-                fn();
-                TestManager.allResults.push({
-                    file: currentFile,
-                    suite: currentSuite,
-                    name: name,
-                    pass: true
-                });
-            } catch (error) {
-                TestManager.allResults.push({
-                    file: currentFile,
-                    suite: currentSuite,
-                    name: name,
-                    pass: false,
-                    error: error.message
-                });
+          test("should construct correct model.json path", () => {
+            const modelURL = "https://example.com/model/";
+            const fullModelURL = modelURL + "model.json";
+            expect(fullModelURL).toBe("https://example.com/model/model.json");
+          });
+
+          test("should construct correct metadata.json path", () => {
+            const modelURL = "https://example.com/model/";
+            const metadataURL = modelURL + "metadata.json";
+            expect(metadataURL).toBe("https://example.com/model/metadata.json");
+          });
+        });
+
+        describe("File Selection Handling", () => {
+          test("should convert FileList to array", () => {
+            const mockFileList = [{ name: "test1.jpg" }, { name: "test2.jpg" }];
+            const filesArray = Array.from(mockFileList);
+            expect(filesArray.length).toBe(2);
+          });
+
+          test("should handle empty file selection", () => {
+            const files = [];
+            expect(files.length).toBe(0);
+          });
+        });
+
+        describe("File Processing", () => {
+          test("should filter image files by extension", () => {
+            const files = [
+              { name: "photo.jpg" },
+              { name: "document.pdf" },
+              { name: "image.png" },
+              { name: "video.mp4" },
+            ];
+            const imageExtensions = [
+              ".jpg",
+              ".jpeg",
+              ".png",
+              ".gif",
+              ".bmp",
+              ".webp",
+            ];
+            const imageFiles = files.filter((file) => {
+              const ext = file.name
+                .substring(file.name.lastIndexOf("."))
+                .toLowerCase();
+              return imageExtensions.includes(ext);
+            });
+            expect(imageFiles.length).toBe(2);
+          });
+
+          test("should extract file extension correctly", () => {
+            const filename = "test.image.jpg";
+            const ext = filename
+              .substring(filename.lastIndexOf("."))
+              .toLowerCase();
+            expect(ext).toBe(".jpg");
+          });
+        });
+
+        describe("Statistics Updates", () => {
+          test("should calculate total size of all files", () => {
+            const files = [{ size: 1024 }, { size: 2048 }, { size: 4096 }];
+            const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+            expect(totalSize).toBe(7168);
+          });
+
+          test("should count number of files", () => {
+            const files = [{ size: 100 }, { size: 200 }, { size: 300 }];
+            const count = files.length;
+            expect(count).toBe(3);
+          });
+        });
+      }
+
+      function runPlanPathTests() {
+        currentFile = "Plan Drone Path";
+
+        describe("Polygon Management", () => {
+          test("should add point to polygon", () => {
+            const polygon = [];
+            polygon.push({ x: 10, y: 20 });
+            expect(polygon.length).toBe(1);
+          });
+
+          test("should calculate polygon area", () => {
+            const polygon = [
+              { x: 0, y: 0 },
+              { x: 10, y: 0 },
+              { x: 10, y: 10 },
+              { x: 0, y: 10 },
+            ];
+            expect(polygon.length).toBe(4);
+          });
+
+          test("should remove point from polygon", () => {
+            const polygon = [
+              { x: 0, y: 0 },
+              { x: 10, y: 10 },
+              { x: 20, y: 20 },
+            ];
+            polygon.splice(1, 1);
+            expect(polygon.length).toBe(2);
+          });
+        });
+
+        describe("Path Generation", () => {
+          test("should generate flight lines from polygon", () => {
+            const polygon = [
+              { x: 0, y: 0 },
+              { x: 100, y: 0 },
+              { x: 100, y: 100 },
+              { x: 0, y: 100 },
+            ];
+            const spacing = 10;
+            const lines = [];
+            for (let i = 0; i < 100; i += spacing) {
+              lines.push({ start: { x: i, y: 0 }, end: { x: i, y: 100 } });
             }
-        }
+            expect(lines.length).toBeGreaterThan(0);
+          });
 
-        // Page-specific test suites
-        function runFindArtifactsTests() {
-            currentFile = 'Find Artifacts';
-            
-            describe('Model Initialization', () => {
-                test('should construct correct model URL with trailing slash', () => {
-                    const modelURL = "https://example.com/model";
-                    const finalURL = modelURL.endsWith("/") ? modelURL : modelURL + "/";
-                    expect(finalURL).toBe("https://example.com/model/");
-                });
+          test("should calculate flight distance", () => {
+            const p1 = { x: 0, y: 0 };
+            const p2 = { x: 3, y: 4 };
+            const distance = Math.sqrt(
+              Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2)
+            );
+            expect(distance).toBe(5);
+          });
+        });
 
-                test('should construct correct model.json path', () => {
-                    const modelURL = "https://example.com/model/";
-                    const fullModelURL = modelURL + "model.json";
-                    expect(fullModelURL).toBe("https://example.com/model/model.json");
-                });
+        describe("Export Functionality", () => {
+          test("should generate Python code from flight path", () => {
+            const code = "def fly_path():\\n    drone.fly([0,0,0])";
+            expect(code).toContain("def fly_path");
+          });
 
-                test('should construct correct metadata.json path', () => {
-                    const modelURL = "https://example.com/model/";
-                    const metadataURL = modelURL + "metadata.json";
-                    expect(metadataURL).toBe("https://example.com/model/metadata.json");
-                });
-            });
+          test("should create valid drone commands", () => {
+            const commands = ["takeoff", "go", "landing"];
+            expect(commands.length).toBe(3);
+          });
+        });
+      }
 
-            describe('File Selection Handling', () => {
-                test('should convert FileList to array', () => {
-                    const mockFileList = [{ name: 'test1.jpg' }, { name: 'test2.jpg' }];
-                    const filesArray = Array.from(mockFileList);
-                    expect(filesArray.length).toBe(2);
-                });
+      function runLearnArchaeologyTests() {
+        currentFile = "Learn Archaeology";
 
-                test('should handle empty file selection', () => {
-                    const files = [];
-                    expect(files.length).toBe(0);
-                });
-            });
+        describe("Quiz Logic", () => {
+          test("should initialize quiz with questions", () => {
+            const quiz = {
+              questions: [
+                { id: 1, text: "Q1", answer: "A" },
+                { id: 2, text: "Q2", answer: "B" },
+              ],
+            };
+            expect(quiz.questions.length).toBe(2);
+          });
 
-            describe('File Processing', () => {
-                test('should filter image files by extension', () => {
-                    const files = [
-                        { name: 'photo.jpg' },
-                        { name: 'document.pdf' },
-                        { name: 'image.png' },
-                        { name: 'video.mp4' }
-                    ];
-                    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
-                    const imageFiles = files.filter(file => {
-                        const ext = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-                        return imageExtensions.includes(ext);
-                    });
-                    expect(imageFiles.length).toBe(2);
-                });
+          test("should track current question index", () => {
+            let currentIndex = 0;
+            currentIndex++;
+            expect(currentIndex).toBe(1);
+          });
 
-                test('should extract file extension correctly', () => {
-                    const filename = 'test.image.jpg';
-                    const ext = filename.substring(filename.lastIndexOf('.')).toLowerCase();
-                    expect(ext).toBe('.jpg');
-                });
-            });
+          test("should validate correct answer", () => {
+            const correctAnswer = "A";
+            const userAnswer = "A";
+            expect(userAnswer).toBe(correctAnswer);
+          });
+        });
 
-            describe('Statistics Updates', () => {
-                test('should calculate total size of all files', () => {
-                    const files = [
-                        { size: 1024 },
-                        { size: 2048 },
-                        { size: 4096 }
-                    ];
-                    const totalSize = files.reduce((sum, file) => sum + file.size, 0);
-                    expect(totalSize).toBe(7168);
-                });
+        describe("Scoring System", () => {
+          test("should calculate score from answers", () => {
+            const answers = [true, true, false, true];
+            const score = answers.filter((a) => a).length;
+            expect(score).toBe(3);
+          });
 
-                test('should count number of files', () => {
-                    const files = [{ size: 100 }, { size: 200 }, { size: 300 }];
-                    const count = files.length;
-                    expect(count).toBe(3);
-                });
-            });
-        }
+          test("should calculate percentage score", () => {
+            const score = 8;
+            const total = 10;
+            const percentage = (score / total) * 100;
+            expect(percentage).toBe(80);
+          });
+        });
+      }
 
-        function runPlanPathTests() {
-            currentFile = 'Plan Drone Path';
-            
-            describe('Polygon Management', () => {
-                test('should add point to polygon', () => {
-                    const polygon = [];
-                    polygon.push({ x: 10, y: 20 });
-                    expect(polygon.length).toBe(1);
-                });
+      function runDroneSelectionTests() {
+        currentFile = "Drone Selection";
 
-                test('should calculate polygon area', () => {
-                    const polygon = [
-                        { x: 0, y: 0 },
-                        { x: 10, y: 0 },
-                        { x: 10, y: 10 },
-                        { x: 0, y: 10 }
-                    ];
-                    expect(polygon.length).toBe(4);
-                });
+        describe("Drone Specifications", () => {
+          test("should store drone flight time", () => {
+            const drone = { name: "Tello", flightTime: 13 };
+            expect(drone.flightTime).toBe(13);
+          });
 
-                test('should remove point from polygon', () => {
-                    const polygon = [{ x: 0, y: 0 }, { x: 10, y: 10 }, { x: 20, y: 20 }];
-                    polygon.splice(1, 1);
-                    expect(polygon.length).toBe(2);
-                });
-            });
+          test("should store drone max distance", () => {
+            const drone = { maxDistance: 100 };
+            expect(drone.maxDistance).toBe(100);
+          });
 
-            describe('Path Generation', () => {
-                test('should generate flight lines from polygon', () => {
-                    const polygon = [
-                        { x: 0, y: 0 },
-                        { x: 100, y: 0 },
-                        { x: 100, y: 100 },
-                        { x: 0, y: 100 }
-                    ];
-                    const spacing = 10;
-                    const lines = [];
-                    for (let i = 0; i < 100; i += spacing) {
-                        lines.push({ start: { x: i, y: 0 }, end: { x: i, y: 100 } });
-                    }
-                    expect(lines.length).toBeGreaterThan(0);
-                });
+          test("should compare drone prices", () => {
+            const drone1 = { price: 500 };
+            const drone2 = { price: 1000 };
+            expect(drone1.price).toBeLessThan(drone2.price);
+          });
+        });
 
-                test('should calculate flight distance', () => {
-                    const p1 = { x: 0, y: 0 };
-                    const p2 = { x: 3, y: 4 };
-                    const distance = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-                    expect(distance).toBe(5);
-                });
-            });
+        describe("Drone Filtering", () => {
+          test("should filter drones by budget", () => {
+            const drones = [
+              { name: "A", price: 300 },
+              { name: "B", price: 800 },
+              { name: "C", price: 1500 },
+            ];
+            const budget = 1000;
+            const affordable = drones.filter((d) => d.price <= budget);
+            expect(affordable.length).toBe(2);
+          });
 
-            describe('Export Functionality', () => {
-                test('should generate Python code from flight path', () => {
-                    const code = 'def fly_path():\\n    drone.fly([0,0,0])';
-                    expect(code).toContain('def fly_path');
-                });
+          test("should sort drones by price", () => {
+            const drones = [{ price: 1000 }, { price: 500 }, { price: 800 }];
+            drones.sort((a, b) => a.price - b.price);
+            expect(drones[0].price).toBe(500);
+          });
+        });
+      }
 
-                test('should create valid drone commands', () => {
-                    const commands = ['takeoff', 'go', 'landing'];
-                    expect(commands.length).toBe(3);
-                });
-            });
-        }
+      function runAIImageDetectionTests() {
+        currentFile = "AI Image Detection";
 
-        function runLearnArchaeologyTests() {
-            currentFile = 'Learn Archaeology';
-            
-            describe('Quiz Logic', () => {
-                test('should initialize quiz with questions', () => {
-                    const quiz = {
-                        questions: [
-                            { id: 1, text: 'Q1', answer: 'A' },
-                            { id: 2, text: 'Q2', answer: 'B' }
-                        ]
-                    };
-                    expect(quiz.questions.length).toBe(2);
-                });
+        describe("Model Training", () => {
+          test("should define artifact classes", () => {
+            const classes = ["pottery", "stone_tools", "coins", "jewelry"];
+            expect(classes.length).toBe(4);
+          });
 
-                test('should track current question index', () => {
-                    let currentIndex = 0;
-                    currentIndex++;
-                    expect(currentIndex).toBe(1);
-                });
+          test("should store training data", () => {
+            const data = { images: 100, labels: 100 };
+            expect(data.images).toBe(data.labels);
+          });
+        });
 
-                test('should validate correct answer', () => {
-                    const correctAnswer = 'A';
-                    const userAnswer = 'A';
-                    expect(userAnswer).toBe(correctAnswer);
-                });
-            });
+        describe("Detection Accuracy", () => {
+          test("should calculate confidence score", () => {
+            const confidence = 0.95;
+            expect(confidence).toBeGreaterThan(0.5);
+          });
 
-            describe('Scoring System', () => {
-                test('should calculate score from answers', () => {
-                    const answers = [true, true, false, true];
-                    const score = answers.filter(a => a).length;
-                    expect(score).toBe(3);
-                });
+          test("should calculate detection rate", () => {
+            const detected = 150;
+            const total = 200;
+            const rate = (detected / total) * 100;
+            expect(rate).toBe(75);
+          });
+        });
 
-                test('should calculate percentage score', () => {
-                    const score = 8;
-                    const total = 10;
-                    const percentage = (score / total) * 100;
-                    expect(percentage).toBe(80);
-                });
-            });
-        }
+        describe("Privacy and Security", () => {
+          test("should process images locally", () => {
+            const processing = "local";
+            expect(processing).toBe("local");
+          });
 
-        function runDroneSelectionTests() {
-            currentFile = 'Drone Selection';
-            
-            describe('Drone Specifications', () => {
-                test('should store drone flight time', () => {
-                    const drone = { name: 'Tello', flightTime: 13 };
-                    expect(drone.flightTime).toBe(13);
-                });
+          test("should not send data to external servers", () => {
+            const sendsData = false;
+            expect(sendsData).toBe(false);
+          });
+        });
+      }
 
-                test('should store drone max distance', () => {
-                    const drone = { maxDistance: 100 };
-                    expect(drone.maxDistance).toBe(100);
-                });
+      function runHomePageTests() {
+        currentFile = "Home Page";
 
-                test('should compare drone prices', () => {
-                    const drone1 = { price: 500 };
-                    const drone2 = { price: 1000 };
-                    expect(drone1.price).toBeLessThan(drone2.price);
-                });
-            });
+        describe("Page Structure", () => {
+          test("should have header element", () => {
+            const hasHeader =
+              document.querySelector("header") !== null ||
+              document.querySelector("h1") !== null;
+            expect(hasHeader).toBe(true);
+          });
 
-            describe('Drone Filtering', () => {
-                test('should filter drones by budget', () => {
-                    const drones = [
-                        { name: 'A', price: 300 },
-                        { name: 'B', price: 800 },
-                        { name: 'C', price: 1500 }
-                    ];
-                    const budget = 1000;
-                    const affordable = drones.filter(d => d.price <= budget);
-                    expect(affordable.length).toBe(2);
-                });
+          test("should have navigation links", () => {
+            const navItems = [
+              "home",
+              "artifacts",
+              "drone",
+              "learn",
+              "team",
+              "survey",
+            ];
+            expect(navItems.length).toBeGreaterThan(0);
+          });
+        });
 
-                test('should sort drones by price', () => {
-                    const drones = [
-                        { price: 1000 },
-                        { price: 500 },
-                        { price: 800 }
-                    ];
-                    drones.sort((a, b) => a.price - b.price);
-                    expect(drones[0].price).toBe(500);
-                });
-            });
-        }
+        describe("Branding", () => {
+          test("should display site title", () => {
+            const title = "Wings of Discovery";
+            expect(title.length).toBeGreaterThan(0);
+          });
 
-        function runAIImageDetectionTests() {
-            currentFile = 'AI Image Detection';
-            
-            describe('Model Training', () => {
-                test('should define artifact classes', () => {
-                    const classes = ['pottery', 'stone_tools', 'coins', 'jewelry'];
-                    expect(classes.length).toBe(4);
-                });
+          test("should include logo or branding", () => {
+            const brandingElements = ["Wings", "Discovery"];
+            expect(brandingElements.length).toBe(2);
+          });
+        });
+      }
 
-                test('should store training data', () => {
-                    const data = { images: 100, labels: 100 };
-                    expect(data.images).toBe(data.labels);
-                });
-            });
+      function runRealWorldExamplesTests() {
+        currentFile = "Real World Examples";
 
-            describe('Detection Accuracy', () => {
-                test('should calculate confidence score', () => {
-                    const confidence = 0.95;
-                    expect(confidence).toBeGreaterThan(0.5);
-                });
+        describe("Example Cards", () => {
+          test("should display multiple example cards", () => {
+            const examples = [
+              { location: "Rome", year: 2020 },
+              { location: "Athens", year: 2021 },
+            ];
+            expect(examples.length).toBeGreaterThan(0);
+          });
 
-                test('should calculate detection rate', () => {
-                    const detected = 150;
-                    const total = 200;
-                    const rate = (detected / total) * 100;
-                    expect(rate).toBe(75);
-                });
-            });
+          test("should store location information", () => {
+            const example = {
+              location: "Egypt",
+              latitude: 30.0,
+              longitude: 31.0,
+            };
+            expect(example).toHaveProperty("location");
+          });
+        });
 
-            describe('Privacy and Security', () => {
-                test('should process images locally', () => {
-                    const processing = 'local';
-                    expect(processing).toBe('local');
-                });
+        describe("Content Display", () => {
+          test("should display example descriptions", () => {
+            const description = "Archaeological survey using drones";
+            expect(description.length).toBeGreaterThan(0);
+          });
 
-                test('should not send data to external servers', () => {
-                    const sendsData = false;
-                    expect(sendsData).toBe(false);
-                });
-            });
-        }
+          test("should link to example pages", () => {
+            const link = "/examples/rome";
+            expect(link).toContain("/examples");
+          });
+        });
+      }
 
-        function runHomePageTests() {
-            currentFile = 'Home Page';
-            
-            describe('Page Structure', () => {
-                test('should have header element', () => {
-                    const hasHeader = document.querySelector('header') !== null || document.querySelector('h1') !== null;
-                    expect(hasHeader).toBe(true);
-                });
+      function runTeamPageTests() {
+        currentFile = "Team Page";
 
-                test('should have navigation links', () => {
-                    const navItems = ['home', 'artifacts', 'drone', 'learn', 'team', 'survey'];
-                    expect(navItems.length).toBeGreaterThan(0);
-                });
-            });
+        describe("Team Members", () => {
+          test("should list team members", () => {
+            const team = [
+              { name: "Alice", role: "Lead" },
+              { name: "Bob", role: "Developer" },
+            ];
+            expect(team.length).toBeGreaterThan(0);
+          });
 
-            describe('Branding', () => {
-                test('should display site title', () => {
-                    const title = 'Wings of Discovery';
-                    expect(title.length).toBeGreaterThan(0);
-                });
+          test("should store member role", () => {
+            const member = { name: "Carol", role: "Designer" };
+            expect(member).toHaveProperty("role");
+          });
+        });
 
-                test('should include logo or branding', () => {
-                    const brandingElements = ['Wings', 'Discovery'];
-                    expect(brandingElements.length).toBe(2);
-                });
-            });
-        }
+        describe("Team Statistics", () => {
+          test("should calculate team size", () => {
+            const members = [1, 2, 3, 4, 5];
+            expect(members.length).toBe(5);
+          });
 
-        function runRealWorldExamplesTests() {
-            currentFile = 'Real World Examples';
-            
-            describe('Example Cards', () => {
-                test('should display multiple example cards', () => {
-                    const examples = [
-                        { location: 'Rome', year: 2020 },
-                        { location: 'Athens', year: 2021 }
-                    ];
-                    expect(examples.length).toBeGreaterThan(0);
-                });
+          test("should count team expertise areas", () => {
+            const skills = ["archaeology", "engineering", "design"];
+            expect(skills.length).toBe(3);
+          });
+        });
+      }
 
-                test('should store location information', () => {
-                    const example = { location: 'Egypt', latitude: 30.0, longitude: 31.0 };
-                    expect(example).toHaveProperty('location');
-                });
-            });
+      function runSurveyResultsTests() {
+        currentFile = "Survey Results";
 
-            describe('Content Display', () => {
-                test('should display example descriptions', () => {
-                    const description = 'Archaeological survey using drones';
-                    expect(description.length).toBeGreaterThan(0);
-                });
+        describe("Survey Structure", () => {
+          test("should embed survey form", () => {
+            const hasForm = true;
+            expect(hasForm).toBe(true);
+          });
 
-                test('should link to example pages', () => {
-                    const link = '/examples/rome';
-                    expect(link).toContain('/examples');
-                });
-            });
-        }
+          test("should display survey questions", () => {
+            const questions = ["Q1", "Q2", "Q3"];
+            expect(questions.length).toBe(3);
+          });
+        });
 
-        function runTeamPageTests() {
-            currentFile = 'Team Page';
-            
-            describe('Team Members', () => {
-                test('should list team members', () => {
-                    const team = [
-                        { name: 'Alice', role: 'Lead' },
-                        { name: 'Bob', role: 'Developer' }
-                    ];
-                    expect(team.length).toBeGreaterThan(0);
-                });
+        describe("Results Display", () => {
+          test("should aggregate survey responses", () => {
+            const responses = [1, 2, 3, 4, 5];
+            const average =
+              responses.reduce((a, b) => a + b) / responses.length;
+            expect(average).toBeGreaterThan(0);
+          });
 
-                test('should store member role', () => {
-                    const member = { name: 'Carol', role: 'Designer' };
-                    expect(member).toHaveProperty('role');
-                });
-            });
+          test("should calculate response percentage", () => {
+            const responses = 150;
+            const target = 200;
+            const percentage = (responses / target) * 100;
+            expect(percentage).toBe(75);
+          });
+        });
+      }
 
-            describe('Team Statistics', () => {
-                test('should calculate team size', () => {
-                    const members = [1, 2, 3, 4, 5];
-                    expect(members.length).toBe(5);
-                });
+      // Main test runner
+      async function runAllTests() {
+        document.getElementById("loading").style.display = "block";
+        TestManager.clearResults();
 
-                test('should count team expertise areas', () => {
-                    const skills = ['archaeology', 'engineering', 'design'];
-                    expect(skills.length).toBe(3);
-                });
-            });
-        }
+        // Run all test suites
+        runFindArtifactsTests();
+        runPlanPathTests();
+        runLearnArchaeologyTests();
+        runDroneSelectionTests();
+        runAIImageDetectionTests();
+        runHomePageTests();
+        runRealWorldExamplesTests();
+        runTeamPageTests();
+        runSurveyResultsTests();
 
-        function runSurveyResultsTests() {
-            currentFile = 'Survey Results';
-            
-            describe('Survey Structure', () => {
-                test('should embed survey form', () => {
-                    const hasForm = true;
-                    expect(hasForm).toBe(true);
-                });
+        document.getElementById("loading").style.display = "none";
+        TestManager.updateStats();
+        TestManager.renderResults();
+      }
 
-                test('should display survey questions', () => {
-                    const questions = ['Q1', 'Q2', 'Q3'];
-                    expect(questions.length).toBe(3);
-                });
-            });
+      function clearResults() {
+        TestManager.clearResults();
+        document.getElementById("totalTests").textContent = "0";
+        document.getElementById("passedTests").textContent = "0";
+        document.getElementById("failedTests").textContent = "0";
+        document.getElementById("passRate").textContent = "0%";
+      }
 
-            describe('Results Display', () => {
-                test('should aggregate survey responses', () => {
-                    const responses = [1, 2, 3, 4, 5];
-                    const average = responses.reduce((a, b) => a + b) / responses.length;
-                    expect(average).toBeGreaterThan(0);
-                });
+      function setView(view) {
+        TestManager.currentView = view;
 
-                test('should calculate response percentage', () => {
-                    const responses = 150;
-                    const target = 200;
-                    const percentage = (responses / target) * 100;
-                    expect(percentage).toBe(75);
-                });
-            });
-        }
+        // Update active button
+        document.querySelectorAll(".view-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
 
-        // Main test runner
-        async function runAllTests() {
-            document.getElementById('loading').style.display = 'block';
-            TestManager.clearResults();
-            
-            // Run all test suites
-            runFindArtifactsTests();
-            runPlanPathTests();
-            runLearnArchaeologyTests();
-            runDroneSelectionTests();
-            runAIImageDetectionTests();
-            runHomePageTests();
-            runRealWorldExamplesTests();
-            runTeamPageTests();
-            runSurveyResultsTests();
+        TestManager.renderResults();
+      }
 
-            document.getElementById('loading').style.display = 'none';
-            TestManager.updateStats();
-            TestManager.renderResults();
-        }
-
-        function clearResults() {
-            TestManager.clearResults();
-            document.getElementById('totalTests').textContent = '0';
-            document.getElementById('passedTests').textContent = '0';
-            document.getElementById('failedTests').textContent = '0';
-            document.getElementById('passRate').textContent = '0%';
-        }
-
-        function setView(view) {
-            TestManager.currentView = view;
-            
-            // Update active button
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            TestManager.renderResults();
-        }
-
-        // Auto-run tests on page load
-        window.addEventListener('load', runAllTests);
+      // Auto-run tests on page load
+      window.addEventListener("load", runAllTests);
     </script>
-</body>
+  </body>
 </html>
