@@ -745,10 +745,6 @@
       <!-- Selected Images - Full Width Below -->
       <div class="gallery" id="gallery"></div>
 
-      <div class="results-header" id="resultsHeader" style="display: none">
-        <h2>Analysis Results</h2>
-      </div>
-
       <div class="results-grid" id="resultsGrid"></div>
     </div>
 
@@ -808,7 +804,6 @@
       const analyzeBtn = document.getElementById("analyzeBtn");
       const clearBtn = document.getElementById("clearBtn");
       const loading = document.getElementById("loading");
-      const resultsHeader = document.getElementById("resultsHeader");
       const resultsGrid = document.getElementById("resultsGrid");
       const resultSummary = document.getElementById("resultSummary");
 
@@ -1280,7 +1275,6 @@
         analyzeBtn.disabled = true;
         loading.classList.add("active");
         resultsGrid.innerHTML = "";
-        resultsHeader.style.display = "none";
 
         try {
           results = [];
@@ -1396,7 +1390,6 @@
         stats.style.display = "none";
         document.getElementById("totalImages").textContent = "0";
         document.getElementById("totalSize").textContent = "0 MB";
-        resultsHeader.style.display = "none";
         resultSummary.textContent = "";
         document.getElementById("analysisSummary").style.display = "none";
         resultsGrid.innerHTML = "";
@@ -1504,7 +1497,6 @@
 
         resultSummary.textContent = `Analyzed ${results.length} images | High Confidence: ${highCount} | Medium: ${mediumCount} | Low: ${lowCount}`;
         document.getElementById("analysisSummary").style.display = "block";
-        resultsHeader.style.display = "block";
       }
 
       function formatFileSize(bytes) {
