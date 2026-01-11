@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
-    <title>How Image Detection Works</title>
+    <title>AI Image Detection Model - Wings of Discovery</title>
     <style>
       .content-section {
         background: white;
@@ -43,18 +43,6 @@
         line-height: 1.6;
         margin-left: 20px;
       }
-
-      .back-link {
-        display: inline-block;
-        color: #8a3edb;
-        text-decoration: none;
-        margin-bottom: 20px;
-        font-weight: 600;
-      }
-
-      .back-link:hover {
-        text-decoration: underline;
-      }
     </style>
   </head>
   <body>
@@ -63,69 +51,156 @@
         <div class="header-host">
           <div id="qc-logo-container"></div>
           <div>
-            <h1>🧠 How Image Detection Works</h1>
+            <h1>🧠 Our AI Image Detection Model</h1>
           </div>
         </div>
       </div>
 
-      <a href="find-artifacts.html" class="back-link">← Back to Find Artifacts</a>
-
       <div class="content-section">
-        <h2>🤖 What is Image Detection?</h2>
+        <h2>🧠 Our AI Image Detection Model</h2>
         <p>
-          Our AI system analyzes images to identify archaeological artifacts. 
-          It was trained on thousands of artifact examples to recognize patterns and provide confidence scores.
+          We built a machine learning model trained specifically to identify
+          archaeological artifacts found during field walking. Our model can
+          recognize 10 different types of artifacts, from kitchen tools to
+          ancient currencies. It was trained using Google's Teachable Machine
+          platform with thousands of high-quality artifact images.
         </p>
       </div>
 
       <div class="content-section">
-        <h2>⚙️ How It Works</h2>
+        <h2>🏗️ How We Built Our Model</h2>
         <ol>
-          <li>Upload images</li>
-          <li>AI analyzes them</li>
-          <li>Get results with confidence scores</li>
+          <li>
+            <strong>Created 10 artifact classes:</strong> Kitchen tools,
+            Jewelry, Ceramics, Shells & Bones, Glass, Polished Gems & Rocks,
+            Unpolished Gems & Rocks, Currencies, Hunting Tools, and Recreation
+            items
+          </li>
+          <li>
+            <strong>Collected training images:</strong> We photographed each
+            artifact type from multiple angles and under different lighting
+            conditions to ensure the model could recognize items in varied field
+            conditions
+          </li>
+          <li>
+            <strong>Trained the model:</strong> Using Google Teachable Machine,
+            we trained the neural network to recognize patterns specific to
+            drone imagery
+          </li>
+          <li>
+            <strong>Tested and refined:</strong> The model was tested with
+            images captured by our drone to ensure accuracy in real-world field
+            walking scenarios
+          </li>
         </ol>
       </div>
 
       <div class="content-section">
-        <h2>💻 Technology Used</h2>
+        <h2>💻 Technology & Training Process</h2>
         <ul>
-          <li><strong>TensorFlow.js:</strong> Runs the AI model in your browser</li>
-          <li><strong>Google Teachable Machine:</strong> Created the detection model</li>
-          <li><strong>Neural Networks:</strong> Powers the pattern recognition</li>
+          <li>
+            <strong>Google Teachable Machine:</strong> A free, user-friendly
+            platform that made it easy to create and train our custom model
+            without deep ML expertise
+          </li>
+          <li>
+            <strong>TensorFlow.js:</strong> Powers the model and runs the AI
+            analysis directly in your browser
+          </li>
+          <li>
+            <strong>Neural Networks:</strong> Deep learning technology trained
+            on thousands of artifact images to recognize visual patterns
+          </li>
+          <li>
+            <strong>Drone Imagery:</strong> Our training dataset includes images
+            captured from our Tello drone to ensure the model works with aerial
+            perspectives
+          </li>
         </ul>
       </div>
 
       <div class="content-section">
-        <h2>📊 Confidence Scores</h2>
+        <h2>📊 Understanding Confidence Scores</h2>
+        <p>
+          When our model analyzes an image, it provides a confidence score for
+          each of the 10 artifact categories. These scores indicate how certain
+          the model is about the identification:
+        </p>
         <ul>
-          <li><strong>80-100%:</strong> High confidence</li>
-          <li><strong>50-80%:</strong> Medium confidence</li>
-          <li><strong>0-50%:</strong> Low confidence</li>
+          <li>
+            <strong>80-100%:</strong> High confidence - likely a correct
+            identification
+          </li>
+          <li>
+            <strong>50-80%:</strong> Medium confidence - could be correct but
+            worth verifying
+          </li>
+          <li>
+            <strong>0-50%:</strong> Low confidence - probably not this artifact
+            type
+          </li>
         </ul>
         <p>
-          <strong>Always verify results with an expert.</strong>
+          <strong>Important:</strong> Always verify results with an expert
+          archaeologist. Our model is a helpful tool for initial classification,
+          but human expertise is essential for accurate field archaeology.
         </p>
       </div>
 
       <div class="content-section">
         <h2>💡 Tips for Best Results</h2>
         <ul>
-          <li>Use clear, well-lit images</li>
-          <li>Simple backgrounds work better</li>
-          <li>Make sure artifacts are in focus</li>
-          <li>Verify results with an expert</li>
+          <li>
+            <strong>Lighting matters:</strong> Our model was trained with
+            artifacts in various lighting conditions. Avoid extreme shadows or
+            glare
+          </li>
+          <li>
+            <strong>Clean backgrounds:</strong> Simple backgrounds (like the
+            ground or a neutral surface) help the model focus on the artifact
+          </li>
+          <li>
+            <strong>Artifact visibility:</strong> Make sure the artifact is in
+            focus and clearly visible in the image
+          </li>
+          <li>
+            <strong>Multiple angles:</strong> When possible, capture the
+            artifact from different angles for more accurate identification
+          </li>
+          <li>
+            <strong>Drone perspective:</strong> Images taken from drone altitude
+            (our training scenario) may have the best results
+          </li>
         </ul>
       </div>
 
       <div class="content-section">
-        <h2>🔒 Privacy</h2>
+        <h2>� Our Model</h2>
         <p>
-          Your images stay on your device. Nothing is uploaded or stored on servers.
+          Our trained model is hosted on Google Teachable Machine and exported
+          for use on this website. You can view and interact with the model
+          directly here:
+        </p>
+        <p>
+          <a
+            href="https://teachablemachine.withgoogle.com/models/aPjxyfdkU/"
+            target="_blank"
+            style="color: #8a3edb; font-weight: bold"
+          >
+            👉 View Our Model on Teachable Machine
+          </a>
         </p>
       </div>
 
-      <a href="find-artifacts.html" class="back-link">← Back to Find Artifacts</a>
+      <div class="content-section">
+        <h2>🔒 Privacy & Security</h2>
+        <p>
+          Your images stay on your device. When you use our artifact detector,
+          nothing is uploaded to external servers. All image analysis happens
+          locally in your browser using TensorFlow.js. This ensures your field
+          data remains private and secure.
+        </p>
+      </div>
     </div>
 
     <div class="footer">
