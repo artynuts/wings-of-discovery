@@ -18,6 +18,13 @@
     <style>
       /* Batch Viewer Specific Styles */
 
+      .upload-header {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+      }
+
       .header-content {
         display: flex;
         align-items: center;
@@ -718,16 +725,9 @@
 
         <!-- Select Images - Right Column -->
         <div class="upload-section">
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              gap: 15px;
-              margin-bottom: 30px;
-            "
-          >
-            <div class="header-icon">🖼️</div>
-            <h2 class="upload-title">Select Images</h2>
+            <div class="upload-header">
+              <div class="header-icon">🖼️</div>
+              <h2 class="upload-title">Select Images</h2>
           </div>
           <div class="error-message" id="errorMessage"></div>
 

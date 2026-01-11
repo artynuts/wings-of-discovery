@@ -18,6 +18,40 @@
     <style>
       /* Drone Path Planner Specific Styles */
 
+      .instructions-list {
+        margin: 0 0 0 20px;
+        line-height: 1.6;
+      }
+
+      .section-heading {
+        margin-bottom: 10px;
+      }
+
+      .results-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        font-size: 0.9em;
+      }
+
+      .result-item-compact {
+        margin-bottom: 0;
+      }
+
+      .result-item-compact .result-value {
+        font-size: 0.95em;
+      }
+
+      .canvas-title {
+        margin-bottom: 20px;
+      }
+
+      .canvas-instructions {
+        margin-bottom: 20px;
+        font-size: 0.9em;
+        color: #666;
+      }
+
       .main-content {
         display: grid;
         grid-template-columns: 1fr;
@@ -356,7 +390,7 @@
       <!-- Instructions Block -->
       <div class="info-box">
         <h3>How to Use</h3>
-        <ol style="margin: 0 0 0 20px; line-height: 1.6">
+        <ol class="instructions-list">
           <li>
             <strong>Draw Survey Area</strong> - Left-click on the canvas to add
             points and create a polygon boundary
@@ -442,71 +476,34 @@
 
         <!-- Coverage Results Section -->
         <div class="results" id="results">
-          <h3 style="margin-bottom: 10px">Coverage Path Results</h3>
-          <div
-            style="
-              display: grid;
-              grid-template-columns: 1fr 1fr 1fr;
-              gap: 10px;
-              font-size: 0.9em;
-            "
-          >
-            <div class="result-item" style="margin-bottom: 0">
+          <h3 class="section-heading">Coverage Path Results</h3>
+          <div class="results-grid">
+            <div class="result-item result-item-compact">
               <div class="result-label">Dimensions:</div>
-              <div
-                class="result-value"
-                id="dimensions"
-                style="font-size: 0.95em"
-              >
-                0 ft × 0 ft
-              </div>
+              <div class="result-value" id="dimensions">0 ft × 0 ft</div>
             </div>
-            <div class="result-item" style="margin-bottom: 0">
+            <div class="result-item result-item-compact">
               <div class="result-label">Sectors:</div>
-              <div
-                class="result-value"
-                id="numSectors"
-                style="font-size: 0.95em"
-              >
-                0
-              </div>
+              <div class="result-value" id="numSectors">0</div>
             </div>
-            <div class="result-item" style="margin-bottom: 0">
+            <div class="result-item result-item-compact">
               <div class="result-label">Path Length:</div>
-              <div
-                class="result-value"
-                id="pathLength"
-                style="font-size: 0.95em"
-              >
-                0 ft
-              </div>
+              <div class="result-value" id="pathLength">0 ft</div>
             </div>
-            <div class="result-item" style="margin-bottom: 0">
+            <div class="result-item result-item-compact">
               <div class="result-label">Flight Time:</div>
-              <div
-                class="result-value"
-                id="flightTime"
-                style="font-size: 0.95em"
-              >
-                0 sec
-              </div>
+              <div class="result-value" id="flightTime">0 sec</div>
             </div>
-            <div class="result-item" style="margin-bottom: 0">
+            <div class="result-item result-item-compact">
               <div class="result-label">Coverage:</div>
-              <div
-                class="result-value"
-                id="coverageArea"
-                style="font-size: 0.95em"
-              >
-                0 sq ft
-              </div>
+              <div class="result-value" id="coverageArea">0 sq ft</div>
             </div>
           </div>
         </div>
 
         <!-- Export Code Section -->
         <div class="code-section" id="codeSection">
-          <h3 style="margin-bottom: 10px">DroneBlocks Code Export</h3>
+          <h3 class="section-heading">DroneBlocks Code Export</h3>
           <div class="code-columns">
             <div class="code-column">
               <h3>🐍 Python Code</h3>
@@ -522,8 +519,8 @@
         <!-- Right Panel: Canvas -->
         <div>
           <div class="canvas-container">
-            <h2 style="margin-bottom: 20px">Survey Area</h2>
-            <p style="margin-bottom: 20px; font-size: 0.9em; color: #666">
+            <h2 class="canvas-title">Survey Area</h2>
+            <p class="canvas-instructions">
               <strong>Left-click</strong> to add points |
               <strong>Left-click a point</strong> to delete |
               <strong>Right-click</strong> to remove last point

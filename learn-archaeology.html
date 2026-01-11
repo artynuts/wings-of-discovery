@@ -12,6 +12,27 @@
     <title>Learn About Archaeology - Wings of Discovery</title>
     <script src="shared-layout.js"></script>
     <style>
+        .info-tile-light-purple {
+            background: #f0e6ff;
+        }
+
+        .tile-link-container {
+            margin-top: 15px;
+        }
+
+        .tile-link {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .score-percentage {
+            font-size: 2em;
+            color: #8a3edb;
+            margin: 15px 0;
+            font-weight: 700;
+        }
+
         .content {
             padding: 20px;
         }
@@ -748,7 +769,7 @@
                 </div>
 
                 <!-- Real-World Examples Tile -->
-                <div class="info-tile" style="background: #f0e6ff;">
+                <div class="info-tile info-tile-light-purple">
                     <div class="tile-header">
                         <span class="tile-emoji">🌍</span>
                         <div class="tile-title">Real-World Examples</div>
@@ -757,8 +778,8 @@
                         <p>Explore fascinating real-world examples of how archaeology and technology work together to uncover 
                         the secrets of the past. From ancient cities to hidden artifacts, see how drones and AI are 
                         revolutionizing how we discover and understand human history.</p>
-                        <div style="margin-top: 15px;">
-                            <a href="real-world-examples.html" class="learn-more-link" style="display: inline-block; padding: 8px 16px; font-size: 0.9em;">
+                        <div class="tile-link-container">
+                            <a href="real-world-examples.html" class="learn-more-link tile-link">
                                 🔗 View Examples
                             </a>
                         </div>
@@ -961,7 +982,7 @@
                 document.getElementById('scoreEmoji').textContent = emoji;
                 document.getElementById('scoreDetails').innerHTML = `
                     <div>You got <strong>${score} out of ${quizQuestions.length}</strong> questions correct!</div>
-                    <div style="font-size: 2em; color: #8a3edb; margin: 15px 0; font-weight: 700;">${percentage}%</div>
+                    <div class=\"score-percentage\">${percentage}%</div>
                     <div>${message}</div>
                 `;
             }
