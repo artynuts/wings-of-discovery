@@ -883,18 +883,42 @@
           card.appendChild(deleteBtn);
 
           if (fileObj.isVideo) {
-            // Handle video frame placeholders
-            const videoThumbnail = document.createElement("div");
-            videoThumbnail.style.cssText =
-              "width: 100%; height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 10px 10px 0 0; font-size: 3em;";
-            videoThumbnail.textContent = "🎬";
-
+            // Handle video frames - extract the actual frame
             const typeEl = document.createElement("div");
             typeEl.className = "image-dimensions";
-            typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames} - Will be extracted on analysis`;
+            typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
             info.appendChild(typeEl);
 
-            card.appendChild(videoThumbnail);
+            // Extract and display the actual frame if not already cached
+            if (fileObj.frameData) {
+              const img = document.createElement("img");
+              img.src = fileObj.frameData;
+              img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
+              img.style.borderRadius = "10px 10px 0 0";
+              card.insertBefore(img, info);
+            } else {
+              // Extract frame on demand
+              const timestamp =
+                (fileObj.frameNumber - 1) * (0.25 * fileObj.totalFrames); // Approximate position
+              extractVideoFrame(file, timestamp).then((frameData) => {
+                if (frameData) {
+                  fileObj.frameData = frameData.dataUrl;
+                  const img = document.createElement("img");
+                  img.src = frameData.dataUrl;
+                  img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
+                  img.style.borderRadius = "10px 10px 0 0";
+                  // Insert image before info div
+                  card.insertBefore(img, info);
+                }
+              });
+
+              // Show placeholder while loading
+              const videoThumbnail = document.createElement("div");
+              videoThumbnail.style.cssText =
+                "width: 100%; height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 10px 10px 0 0; font-size: 3em;";
+              videoThumbnail.textContent = "🎬";
+              card.appendChild(videoThumbnail);
+            }
           } else {
             // Handle image files
             const reader = new FileReader();
