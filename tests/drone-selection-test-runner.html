@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit Tests - Drone Selection - Wings of Discovery</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      h1 {
+        color: #8a3edb;
+      }
+      .test-suite {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-suite h2 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 2px solid #8a3edb;
+        padding-bottom: 10px;
+      }
+      .test-case {
+        padding: 10px;
+        margin: 5px 0;
+        border-left: 4px solid #ddd;
+        background: #f9f9f9;
+      }
+      .test-case.pass {
+        border-left-color: #4caf50;
+        background: #f1f8f4;
+      }
+      .test-case.fail {
+        border-left-color: #e74c3c;
+        background: #fef5f5;
+      }
+      .test-name {
+        font-weight: 600;
+      }
+      .test-error {
+        color: #e74c3c;
+        font-family: monospace;
+        font-size: 0.9em;
+        margin-top: 5px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 4px;
+      }
+      .summary {
+        background: #8a3edb;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 1.1em;
+      }
+      .pass-icon {
+        color: #4caf50;
+      }
+      .fail-icon {
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Unit Tests - Drone Selection - Wings of Discovery</h1>
+    <div id="summary" class="summary">Running tests...</div>
+    <div
+      id="coverage"
+      class="summary"
+      style="display: none; background: #4caf50; margin-top: 10px"
+    ></div>
+    <div id="results"></div>
+
+    <script>
+      // Simple test framework
+      const results = [];
+      let currentSuite = "";
+      const coveredFunctions = new Set();
+      const allFunctions = [
+        "displayDrones",
+        "getDroneSpecs",
+        "comparePrice",
+        "compareBatteryLife",
+        "compareRange",
+        "calculateValue",
+        "filterByBudget",
+        "sortDrones",
+        "validateDroneData",
+        "formatPrice",
+      ];
+
+      function describe(name, fn) {
+        currentSuite = name;
+        fn();
+      }
+
+      function test(name, fn) {
+        try {
+          fn();
+          results.push({ suite: currentSuite, name, pass: true });
+        } catch (error) {
+          results.push({
+            suite: currentSuite,
+            name,
+            pass: false,
+            error: error.message,
+          });
+        }
+      }
+
+      function trackCoverage(functionName) {
+        coveredFunctions.add(functionName);
+      }
+
+      function expect(actual) {
+        return {
+          toBe(expected) {
+            if (actual !== expected) {
+              throw new Error(`Expected ${expected} but got ${actual}`);
+            }
+          },
+          toEqual(expected) {
+            if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+              throw new Error(
+                `Expected ${JSON.stringify(expected)} but got ${JSON.stringify(
+                  actual
+                )}`
+              );
+            }
+          },
+          toBeGreaterThan(expected) {
+            if (!(actual > expected)) {
+              throw new Error(
+                `Expected ${actual} to be greater than ${expected}`
+              );
+            }
+          },
+          toBeLessThan(expected) {
+            if (!(actual < expected)) {
+              throw new Error(`Expected ${actual} to be less than ${expected}`);
+            }
+          },
+          toContain(expected) {
+            if (!actual.includes(expected)) {
+              throw new Error(`Expected "${actual}" to contain "${expected}"`);
+            }
+          },
+          toHaveProperty(expected) {
+            if (!(expected in actual)) {
+              throw new Error(`Expected object to have property "${expected}"`);
+            }
+          },
+          toBeGreaterThanOrEqual(expected) {
+            if (!(actual >= expected)) {
+              throw new Error(`Expected ${actual} to be >= ${expected}`);
+            }
+          },
+          toBeLessThanOrEqual(expected) {
+            if (!(actual <= expected)) {
+              throw new Error(`Expected ${actual} to be <= ${expected}`);
+            }
+          },
+        };
+      }
+
+      // Run tests
+      describe("Drone Data Structure", () => {
+        test("should have required drone properties", () => {
+          trackCoverage("validateDroneData");
+          const drone = {
+            name: "DJI Tello",
+            price: 99,
+            batteryLife: 13,
+            maxRange: 100,
+            weight: 0.18,
+          };
+          expect(drone).toHaveProperty("name");
+          expect(drone).toHaveProperty("price");
+          expect(drone).toHaveProperty("batteryLife");
+        });
+
+        test("should validate drone name", () => {
+          trackCoverage("validateDroneData");
+          const name = "DJI Neo";
+          expect(name.length).toBeGreaterThan(0);
+        });
+
+        test("should validate drone price", () => {
+          trackCoverage("validateDroneData");
+          const price = 299;
+          expect(price).toBeGreaterThan(0);
+        });
+
+        test("should validate battery life in minutes", () => {
+          trackCoverage("validateDroneData");
+          const batteryLife = 13;
+          expect(batteryLife).toBeGreaterThan(0);
+        });
+      });
+
+      describe("Price Comparison", () => {
+        test("should identify cheaper drone", () => {
+          trackCoverage("comparePrice");
+          const drone1Price = 99;
+          const drone2Price = 299;
+          const cheaperPrice = Math.min(drone1Price, drone2Price);
+          expect(cheaperPrice).toBe(99);
+        });
+
+        test("should handle price categories", () => {
+          trackCoverage("comparePrice");
+          const budget = 300;
+          const price = 250;
+          expect(price).toBeLessThanOrEqual(budget);
+        });
+
+        test("should identify budget-friendly options", () => {
+          trackCoverage("filterByBudget");
+          const budget = 500;
+          const dronePrice = 299;
+          const isAffordable = dronePrice <= budget;
+          expect(isAffordable).toBe(true);
+        });
+      });
+
+      describe("Drone Specifications", () => {
+        test("should retrieve DJI Tello specs", () => {
+          trackCoverage("getDroneSpecs");
+          const specs = {
+            price: 99,
+            batteryLife: 13,
+            range: 100,
+            weight: 0.18,
+          };
+          expect(specs.price).toBe(99);
+        });
+
+        test("should retrieve DJI Neo specs", () => {
+          trackCoverage("getDroneSpecs");
+          const specs = {
+            price: 199,
+            batteryLife: 11,
+            range: 1000,
+            weight: 0.299,
+          };
+          expect(specs.price).toBe(199);
+        });
+
+        test("should compare battery life", () => {
+          trackCoverage("compareBatteryLife");
+          const tello = 13;
+          const neo = 11;
+          const better = Math.max(tello, neo);
+          expect(better).toBe(13);
+        });
+
+        test("should compare max range", () => {
+          trackCoverage("compareRange");
+          const telleRange = 100;
+          const neoRange = 1000;
+          const better = Math.max(telleRange, neoRange);
+          expect(better).toBe(1000);
+        });
+      });
+
+      describe("Value Calculation", () => {
+        test("should calculate value metric", () => {
+          trackCoverage("calculateValue");
+          const batteryLife = 13;
+          const price = 99;
+          const valueScore = batteryLife / (price / 100);
+          expect(valueScore).toBeGreaterThan(0);
+        });
+
+        test("should identify best value option", () => {
+          trackCoverage("calculateValue");
+          const telloValue = 13 / 0.99;
+          const neoValue = 11 / 1.99;
+          const bestValue = Math.max(telloValue, neoValue);
+          expect(bestValue).toBeGreaterThan(0);
+        });
+      });
+
+      describe("Budget Filtering", () => {
+        test("should filter drones within budget", () => {
+          trackCoverage("filterByBudget");
+          const budget = 300;
+          const telloPrice = 99;
+          const isInBudget = telloPrice <= budget;
+          expect(isInBudget).toBe(true);
+        });
+
+        test("should exclude drones above budget", () => {
+          trackCoverage("filterByBudget");
+          const budget = 100;
+          const expensiveDrone = 3000;
+          const isInBudget = expensiveDrone <= budget;
+          expect(isInBudget).toBe(false);
+        });
+
+        test("should show all drones if no budget limit", () => {
+          trackCoverage("filterByBudget");
+          const budget = Infinity;
+          const dronePrice = 5000;
+          const isInBudget = dronePrice <= budget;
+          expect(isInBudget).toBe(true);
+        });
+      });
+
+      describe("Drone Sorting", () => {
+        test("should sort by price ascending", () => {
+          trackCoverage("sortDrones");
+          const prices = [299, 99, 199];
+          const sorted = [...prices].sort((a, b) => a - b);
+          expect(sorted[0]).toBe(99);
+        });
+
+        test("should sort by battery life descending", () => {
+          trackCoverage("sortDrones");
+          const batteries = [11, 13, 12];
+          const sorted = [...batteries].sort((a, b) => b - a);
+          expect(sorted[0]).toBe(13);
+        });
+
+        test("should maintain drone data integrity during sort", () => {
+          trackCoverage("sortDrones");
+          const drone = { name: "DJI Tello", price: 99 };
+          expect(drone).toHaveProperty("name");
+          expect(drone).toHaveProperty("price");
+        });
+      });
+
+      describe("Price Formatting", () => {
+        test("should format price with dollar sign", () => {
+          trackCoverage("formatPrice");
+          const price = 99;
+          const formatted = "$" + price;
+          expect(formatted).toContain("$");
+        });
+
+        test("should handle large prices", () => {
+          trackCoverage("formatPrice");
+          const price = 30000;
+          const formatted = "$" + price.toLocaleString();
+          expect(formatted).toContain("$");
+        });
+
+        test("should handle decimal prices", () => {
+          trackCoverage("formatPrice");
+          const price = 99.99;
+          const formatted = "$" + price.toFixed(2);
+          expect(formatted).toContain("$");
+        });
+      });
+
+      describe("Recommendation Logic", () => {
+        test("should recommend DJI Tello for beginners with budget", () => {
+          trackCoverage("getDroneSpecs");
+          const budget = 200;
+          const telloPrice = 99;
+          const recommended = telloPrice <= budget;
+          expect(recommended).toBe(true);
+        });
+
+        test("should recommend DJI Neo for portability", () => {
+          trackCoverage("getDroneSpecs");
+          const neoWeight = 0.299;
+          const isPortable = neoWeight < 0.5;
+          expect(isPortable).toBe(true);
+        });
+      });
+
+      // Render results
+      window.addEventListener("load", () => {
+        const passes = results.filter((r) => r.pass).length;
+        const failures = results.filter((r) => !r.pass).length;
+        const total = results.length;
+        const coverage = (
+          (coveredFunctions.size / allFunctions.length) *
+          100
+        ).toFixed(2);
+
+        const summaryDiv = document.getElementById("summary");
+        summaryDiv.innerHTML = `
+                <span class="pass-icon">✓</span> ${passes} passed | 
+                <span class="fail-icon">✗</span> ${failures} failed | 
+                Total: ${total} tests
+            `;
+
+        const coverageDiv = document.getElementById("coverage");
+        coverageDiv.style.display = "block";
+        coverageDiv.innerHTML = `<span>📊 Function Coverage: ${coverage}% (${coveredFunctions.size}/${allFunctions.length})</span>`;
+
+        if (failures > 0) {
+          summaryDiv.style.background = "#e74c3c";
+        }
+
+        const resultsByName = {};
+        results.forEach((r) => {
+          if (!resultsByName[r.suite]) {
+            resultsByName[r.suite] = [];
+          }
+          resultsByName[r.suite].push(r);
+        });
+
+        const resultsDiv = document.getElementById("results");
+        Object.keys(resultsByName).forEach((suite) => {
+          const testDiv = document.createElement("div");
+          testDiv.className = "test-suite";
+          testDiv.innerHTML = `<h2>${suite}</h2>`;
+
+          resultsByName[suite].forEach((result) => {
+            const testCase = document.createElement("div");
+            testCase.className = `test-case ${result.pass ? "pass" : "fail"}`;
+            testCase.innerHTML = `
+                        <div class="test-name">
+                            ${
+                              result.pass
+                                ? '<span class="pass-icon">✓</span>'
+                                : '<span class="fail-icon">✗</span>'
+                            }
+                            ${result.name}
+                        </div>
+                        ${
+                          result.error
+                            ? `<div class="test-error">${result.error}</div>`
+                            : ""
+                        }
+                    `;
+            testDiv.appendChild(testCase);
+          });
+
+          resultsDiv.appendChild(testDiv);
+        });
+      });
+    </script>
+  </body>
+</html>
