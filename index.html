@@ -299,7 +299,25 @@
         transition: opacity 0.3s ease;
       }
 
-      .secondary-link:hover {
+      .emoji-pulse {
+        display: inline-block;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.2;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+      }
+
+      .secondary-link:hover .emoji-pulse {
+        animation: none;
         opacity: 1;
       }
     </style>
@@ -363,7 +381,7 @@
           </a>
           <div class="secondary-link-container">
             <a href="drone-selection.html" class="secondary-link">
-              🆕🛰️ Supported Drones
+              <span class="emoji-pulse">NEW 🛰️</span> Supported Drones
             </a>
           </div>
         </div>
@@ -385,7 +403,7 @@
           </a>
           <div class="secondary-link-container">
             <a href="how-image-detection-works.html" class="secondary-link">
-              🆕🤖 Our AI Image Detection
+              <span class="emoji-pulse">NEW💡</span> Our AI Image Detection
             </a>
           </div>
         </div>
@@ -409,7 +427,7 @@
           </a>
           <div class="secondary-link-container">
             <a href="real-world-examples.html" class="secondary-link">
-              🆕🌍 Real World Examples
+              <span class="emoji-pulse">NEW 🌍</span> Real World Examples
             </a>
           </div>
         </div>
