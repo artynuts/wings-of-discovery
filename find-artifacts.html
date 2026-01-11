@@ -909,8 +909,9 @@
           if (processedCount > 0) {
             displayGallery();
             updateStats();
-            analyzeBtn.disabled = false;
             clearBtn.disabled = false;
+            // Only enable analyze if no videos are extracting
+            updateAnalyzeButtonState();
             errorMessage.classList.remove("active");
           } else {
             showError("No valid image or video files found.");
@@ -1035,6 +1036,14 @@
         document.getElementById("totalSize").textContent =
           formatFileSize(totalSize);
         stats.style.display = "block";
+      }
+
+      function updateAnalyzeButtonState() {
+        // Check if any videos are still extracting
+        const hasExtractingVideos = imageFiles.some(
+          (f) => f.isVideo && f.isExtracting
+        );
+        analyzeBtn.disabled = imageFiles.length === 0 || hasExtractingVideos;
       }
 
       function deleteImage(index) {
@@ -1176,6 +1185,8 @@
               // Re-render gallery and update stats
               displayGallery();
               updateStats();
+              // Check if all videos are extracted and enable analyze button
+              updateAnalyzeButtonState();
             }
 
             resolve(frames);
@@ -1303,39 +1314,8 @@
                     });
                   }
                 } else {
-                  // Fallback: extract frames if not already done
-                  const frames = await extractMultipleVideoFrames(file, 5);
-                  if (frames.length > 0) {
-                    for (const frame of frames) {
-                      try {
-                        const predictions = await model.predict(frame.canvas);
-                        results.push({
-                          filename: file.name + ` (frame ${frame.frameNumber})`,
-                          dataUrl: frame.dataUrl,
-                          predictions: predictions,
-                          isVideoFrame: true,
-                          timestamp: frame.timestamp,
-                        });
-                      } catch (err) {
-                        console.error("Error analyzing video frame:", err);
-                        results.push({
-                          filename: file.name + ` (frame ${frame.frameNumber})`,
-                          dataUrl: frame.dataUrl,
-                          predictions: [],
-                          error: err.message,
-                          isVideoFrame: true,
-                          timestamp: frame.timestamp,
-                        });
-                      }
-                    }
-                  } else {
-                    results.push({
-                      filename: file.name,
-                      predictions: [],
-                      error: "Failed to extract frames from video",
-                      isVideoFrame: true,
-                    });
-                  }
+                  // Skip videos that haven't been extracted
+                  console.warn(`Skipping video ${file.name} - frames not extracted`);
                 }
               } else {
                 // Handle image files
