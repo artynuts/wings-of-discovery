@@ -233,6 +233,18 @@
             transform: translateY(-8px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
         }
+      
+        .survey-links-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .survey-links-container .survey-link {
+            display: block;
+            margin: 0;
+            width: 100%;
+        }
 
         .survey-link {
             display: block;
@@ -356,17 +368,6 @@
             margin-bottom: 12px;
         }
 
-        .quiz-title {
-            font-size: 1.2em;
-            margin: 0 0 4px 0;
-            font-weight: 700;
-        }
-
-        .quiz-subtitle {
-            font-size: 0.85em;
-            opacity: 0.95;
-            margin: 0;
-        }
 
         .quiz-content {
             display: none;
@@ -564,8 +565,10 @@
                 <div class="survey-tile">
                     <h2 class="survey-heading">📝 Help Us Learn!</h2>
                     <p class="survey-description">Tell us what you think about archaeology and this project</p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSezVTvp86c9W-ddMRfzIrbtZlLhwRj8jdrYKHIFWQ2qBC57Ag/viewform?usp=header" target="_blank" class="survey-link">Take Our Survey</a>
-                    <a href="survey-results.html" class="survey-link" style="display: block; margin-top: 10px;">View Results</a>
+                    <div class="survey-links-container">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSezVTvp86c9W-ddMRfzIrbtZlLhwRj8jdrYKHIFWQ2qBC57Ag/viewform?usp=header" target="_blank" class="survey-link">Take Our Survey</a>
+                        <a href="survey-results.html" class="survey-link">View Results</a>
+                    </div>
                 </div>
 
                 <!-- Fieldwalking Quiz -->
