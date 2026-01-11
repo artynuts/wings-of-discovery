@@ -237,8 +237,43 @@
         flex-shrink: 0;
       }
 
-      .extraction-spinner-text {
-        font-size: 0.7em;
+      .preview-image {
+        border-radius: 10px 10px 0 0;
+      }
+
+      .modal-video-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        color: white;
+        text-align: center;
+      }
+
+      .modal-video-icon {
+        font-size: 4em;
+        margin-bottom: 20px;
+      }
+
+      .modal-video-title {
+        font-size: 1.5em;
+      }
+
+      .modal-video-info {
+        margin-top: 10px;
+        opacity: 0.8;
+      }
+
+      .result-top-match {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #333;
+      }
+
+      .file-input-label.drag-over {
+        background: #eef0ff;
+        border-color: #4b1f69;
       }
 
       .modal {
@@ -977,7 +1012,7 @@
                 const img = document.createElement("img");
                 img.src = fileObj.firstFrame;
                 img.alt = `${file.name} - Preview`;
-                img.style.borderRadius = "10px 10px 0 0";
+                img.className = "preview-image";
                 card.insertBefore(img, info);
               }
 
@@ -1007,7 +1042,7 @@
                 const img = document.createElement("img");
                 img.src = fileObj.frameData;
                 img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
-                img.style.borderRadius = "10px 10px 0 0";
+                img.className = "preview-image";
                 card.insertBefore(img, info);
               }
             }
@@ -1018,7 +1053,7 @@
               const img = document.createElement("img");
               img.src = e.target.result;
               img.alt = file.name;
-              img.style.borderRadius = "10px 10px 0 0";
+              img.className = "preview-image";
 
               const dimensionsEl = document.createElement("div");
               dimensionsEl.className = "image-dimensions";
@@ -1086,14 +1121,14 @@
         if (fileObj.isVideo) {
           // For videos, show a message with frame info
           const modalContent = document.querySelector(".modal-content");
-          modalContent.innerHTML =
-            '<div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; color: white; text-align: center;"><div style="font-size: 4em; margin-bottom: 20px;">🎬</div><div style="font-size: 1.5em;">Video: ' +
-            fileObj.file.name +
-            '</div><div style="margin-top: 10px; opacity: 0.8;">Frame ' +
-            fileObj.frameNumber +
-            " of " +
-            fileObj.totalFrames +
-            '</div><div style="margin-top: 10px; opacity: 0.8;">Frames will be extracted and analyzed when you click Analyze</div></div>';
+          modalContent.innerHTML = `
+            <div class="modal-video-content">
+              <div class="modal-video-icon">🎬</div>
+              <div class="modal-video-title">Video: ${fileObj.file.name}</div>
+              <div class="modal-video-info">Frame ${fileObj.frameNumber} of ${fileObj.totalFrames}</div>
+              <div class="modal-video-info">Frames will be extracted and analyzed when you click Analyze</div>
+            </div>
+          `;
         } else {
           // For images, show the image
           const reader = new FileReader();
@@ -1430,7 +1465,7 @@
                 : ""
             }
             <div class="result-filename">🖼️ ${result.filename}</div>
-            <div style="font-weight: 600; margin-bottom: 10px; color: #333;">Top Match: ${topMatchDisplay}</div>
+            <div class="result-top-match">Top Match: ${topMatchDisplay}</div>
             <div class="result-predictions">${predictionsHtml}</div>
           `;
 
