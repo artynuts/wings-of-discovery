@@ -122,25 +122,31 @@
       .image-info {
         padding: 8px;
         background: white;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        align-items: center;
       }
 
       .image-name {
         font-weight: 600;
         color: #333;
-        margin-bottom: 3px;
-        word-break: break-all;
         font-size: 0.75em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       .image-size {
         color: #999;
         font-size: 0.7em;
-        margin-bottom: 2px;
+        white-space: nowrap;
       }
 
       .image-dimensions {
         color: #999;
         font-size: 0.7em;
+        white-space: nowrap;
       }
 
       .delete-btn {
@@ -852,11 +858,11 @@
           const info = document.createElement("div");
           info.className = "image-info";
 
-          const nameEl = document.createElement("div");
+          const nameEl = document.createElement("span");
           nameEl.className = "image-name";
           nameEl.textContent = file.name;
 
-          const sizeEl = document.createElement("div");
+          const sizeEl = document.createElement("span");
           sizeEl.className = "image-size";
           sizeEl.textContent = formatFileSize(file.size);
 
@@ -877,7 +883,7 @@
 
           if (fileObj.isVideo) {
             // Handle video frames - display the extracted frame
-            const typeEl = document.createElement("div");
+            const typeEl = document.createElement("span");
             typeEl.className = "image-dimensions";
             typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
             info.appendChild(typeEl);
