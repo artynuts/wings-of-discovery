@@ -794,42 +794,32 @@
               });
               processedCount++;
             } else if (videoExtensions.includes(ext)) {
-              // For videos, get the duration and create frame placeholders
-              const video = document.createElement("video");
-              video.onloadedmetadata = () => {
-                const estimatedFrames = Math.max(
-                  4,
-                  Math.ceil((video.duration * 1000) / 250)
-                );
-                // Find all placeholders for this video and update them
-                imageFiles.forEach((f) => {
-                  if (f.file === file && f.isVideo) {
-                    f.totalFrames = estimatedFrames;
-                  }
-                });
-                // Re-render gallery to show updated frame counts
-                displayGallery();
-              };
-              video.src = URL.createObjectURL(file);
+              // For videos, extract all frames immediately
+              extractMultipleVideoFrames(file).then((frames) => {
+                if (frames.length > 0) {
+                  // Remove any placeholder entries for this file
+                  imageFiles = imageFiles.filter((f) => f.file !== file);
 
-              // Create initial placeholders based on estimated duration
-              // Estimate: ~2 frames per second (500ms intervals)
-              // Start with a conservative estimate that will be updated
-              const estimatedDurationSeconds = 10; // Conservative default
-              const estimatedFrames = Math.ceil(
-                (estimatedDurationSeconds * 1000) / 500
-              );
+                  // Add actual frame entries
+                  frames.forEach((frameData) => {
+                    imageFiles.push({
+                      file: file,
+                      type: "video",
+                      isVideo: true,
+                      frameNumber: frameData.frameNumber,
+                      totalFrames: frames.length,
+                      frameData: frameData.dataUrl,
+                      canvas: frameData.canvas,
+                    });
+                  });
 
-              for (let i = 1; i <= estimatedFrames; i++) {
-                imageFiles.push({
-                  file: file,
-                  type: "video",
-                  isVideo: true,
-                  frameNumber: i,
-                  totalFrames: estimatedFrames,
-                });
-              }
-              processedCount += estimatedFrames;
+                  // Re-render gallery with actual frames
+                  displayGallery();
+                  updateStats();
+                }
+              });
+
+              processedCount++; // Count the video file itself for now
             }
           });
 
@@ -883,40 +873,19 @@
           card.appendChild(deleteBtn);
 
           if (fileObj.isVideo) {
-            // Handle video frames - extract the actual frame
+            // Handle video frames - display the extracted frame
             const typeEl = document.createElement("div");
             typeEl.className = "image-dimensions";
             typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
             info.appendChild(typeEl);
 
-            // Extract and display the actual frame if not already cached
+            // Display the extracted frame
             if (fileObj.frameData) {
               const img = document.createElement("img");
               img.src = fileObj.frameData;
               img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
               img.style.borderRadius = "10px 10px 0 0";
               card.insertBefore(img, info);
-            } else {
-              // Extract frame on demand
-              const timestamp = (fileObj.frameNumber - 1) * 0.5; // 500ms intervals
-              extractVideoFrame(file, timestamp).then((frameData) => {
-                if (frameData) {
-                  fileObj.frameData = frameData.dataUrl;
-                  const img = document.createElement("img");
-                  img.src = frameData.dataUrl;
-                  img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
-                  img.style.borderRadius = "10px 10px 0 0";
-                  // Insert image before info div
-                  card.insertBefore(img, info);
-                }
-              });
-
-              // Show placeholder while loading
-              const videoThumbnail = document.createElement("div");
-              videoThumbnail.style.cssText =
-                "width: 100%; height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; border-radius: 10px 10px 0 0; font-size: 3em;";
-              videoThumbnail.textContent = "🎬";
-              card.appendChild(videoThumbnail);
             }
           } else {
             // Handle image files
@@ -1143,37 +1112,25 @@
               const file = fileObj.file;
 
               if (fileObj.isVideo) {
-                // Extract multiple frames from video (every 250ms)
-                const frames = await extractMultipleVideoFrames(file);
-                if (frames.length > 0) {
-                  for (const frame of frames) {
-                    try {
-                      const predictions = await model.predict(frame.canvas);
-                      results.push({
-                        filename: file.name + ` (frame ${frame.frameNumber})`,
-                        dataUrl: frame.dataUrl,
-                        predictions: predictions,
-                        isVideoFrame: true,
-                        timestamp: frame.timestamp,
-                      });
-                    } catch (err) {
-                      console.error("Error analyzing video frame:", err);
-                      results.push({
-                        filename: file.name + ` (frame ${frame.frameNumber})`,
-                        dataUrl: frame.dataUrl,
-                        predictions: [],
-                        error: err.message,
-                        isVideoFrame: true,
-                        timestamp: frame.timestamp,
-                      });
-                    }
-                  }
-                } else {
+                // Use pre-extracted frame data
+                try {
+                  const predictions = await model.predict(fileObj.canvas);
                   results.push({
-                    filename: file.name,
-                    predictions: [],
-                    error: "Failed to extract frames from video",
+                    filename: file.name + ` (frame ${fileObj.frameNumber})`,
+                    dataUrl: fileObj.frameData,
+                    predictions: predictions,
                     isVideoFrame: true,
+                    timestamp: (fileObj.frameNumber - 1) * 0.5,
+                  });
+                } catch (err) {
+                  console.error("Error analyzing video frame:", err);
+                  results.push({
+                    filename: file.name + ` (frame ${fileObj.frameNumber})`,
+                    dataUrl: fileObj.frameData,
+                    predictions: [],
+                    error: err.message,
+                    isVideoFrame: true,
+                    timestamp: (fileObj.frameNumber - 1) * 0.5,
                   });
                 }
               } else {
