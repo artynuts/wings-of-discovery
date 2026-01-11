@@ -957,12 +957,18 @@
 
           if (fileObj.isVideo) {
             // Handle video files
-            const videoThumbnail = document.createElement("div");
-            videoThumbnail.className = "video-thumbnail";
-            videoThumbnail.textContent = "🎬";
-            card.appendChild(videoThumbnail);
-
             if (fileObj.isExtracting) {
+              // Extract and show first frame with extracting spinner
+              extractVideoFrame(file, 0).then((frameData) => {
+                if (frameData) {
+                  const img = document.createElement("img");
+                  img.src = frameData.dataUrl;
+                  img.alt = `${file.name} First Frame`;
+                  img.style.borderRadius = "10px 10px 0 0";
+                  card.insertBefore(img, info);
+                }
+              });
+
               // Show extracting spinner
               const spinnerContainer = document.createElement("div");
               spinnerContainer.className = "extracting-spinner-container";
@@ -977,6 +983,7 @@
               spinnerContainer.appendChild(spinner);
               spinnerContainer.appendChild(text);
               info.appendChild(spinnerContainer);
+              card.appendChild(info);
             } else {
               // Show frame preview image and info
               if (fileObj.frameData) {
@@ -984,16 +991,18 @@
                 img.src = fileObj.frameData;
                 img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
                 img.style.borderRadius = "10px 10px 0 0";
-                card.insertBefore(img, info);
+                card.appendChild(img);
               }
 
               const typeEl = document.createElement("div");
               typeEl.className = "image-dimensions";
               typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
               info.appendChild(typeEl);
+              card.appendChild(info);
             }
           } else {
             // Handle image files
+            card.appendChild(info);
             const reader = new FileReader();
             reader.onload = (e) => {
               const img = document.createElement("img");
@@ -1013,7 +1022,6 @@
             reader.readAsDataURL(file);
           }
 
-          card.appendChild(info);
           gallery.appendChild(card);
         });
       }
@@ -1145,7 +1153,9 @@
             }
 
             // Find the video entry in imageFiles and replace it with extracted frames
-            const videoIndex = imageFiles.findIndex(f => f.file === file && f.isVideo);
+            const videoIndex = imageFiles.findIndex(
+              (f) => f.file === file && f.isVideo
+            );
             if (videoIndex !== -1) {
               // Remove the placeholder entry
               imageFiles.splice(videoIndex, 1);
@@ -1481,7 +1491,7 @@
                 ? `<img src="${result.dataUrl}" class="result-image" alt="${result.filename}">`
                 : ""
             }
-            <div class="result-filename">🖼️ ${result.filename}</div>
+            <div class="result-filename">${result.filename}</div>
             <div class="result-top-match-text">Top Match: ${topMatchDisplay}</div>
             <div class="result-predictions">${predictionsHtml}</div>
           `;
