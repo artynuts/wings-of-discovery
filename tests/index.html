@@ -328,144 +328,45 @@
         }
       }
 
-      function runFindArtifactsTests() {
-        currentFile = "Find Artifacts";
-        describe("Model Initialization", () => {
-          test("should construct correct model URL with trailing slash", () => {
-            const modelURL = "https://example.com/model";
-            const finalURL = modelURL.endsWith("/") ? modelURL : modelURL + "/";
-            expect(finalURL).toBe("https://example.com/model/");
-          });
-          test("should construct correct model.json path", () => {
-            expect("https://example.com/model/" + "model.json").toBe(
-              "https://example.com/model/model.json"
-            );
-          });
-        });
-        describe("File Selection Handling", () => {
-          test("should convert FileList to array", () => {
-            const files = Array.from([
-              { name: "test1.jpg" },
-              { name: "test2.jpg" },
-            ]);
-            expect(files.length).toBe(2);
-          });
-        });
-        describe("File Processing", () => {
-          test("should filter image files", () => {
-            const files = [
-              { name: "photo.jpg" },
-              { name: "document.pdf" },
-              { name: "image.png" },
-            ];
-            const imgs = files.filter((f) =>
-              [".jpg", ".png"].some((ext) => f.name.endsWith(ext))
-            );
-            expect(imgs.length).toBe(2);
-          });
-        });
-      }
-
-      function runPlanPathTests() {
-        currentFile = "Plan Drone Path";
-        describe("Polygon Management", () => {
-          test("should add point to polygon", () => {
-            const polygon = [];
-            polygon.push({ x: 10, y: 20 });
-            expect(polygon.length).toBe(1);
-          });
-        });
-        describe("Path Generation", () => {
-          test("should calculate flight distance", () => {
-            const distance = Math.sqrt(Math.pow(3, 2) + Math.pow(4, 2));
-            expect(distance).toBe(5);
-          });
-        });
-      }
-
-      function runLearnArchaeologyTests() {
-        currentFile = "Learn Archaeology";
-        describe("Quiz Logic", () => {
-          test("should initialize quiz", () => {
-            const quiz = { questions: [{ id: 1 }] };
-            expect(quiz.questions.length).toBe(1);
-          });
-        });
-        describe("Scoring", () => {
-          test("should calculate score", () => {
-            const score = [true, true, false].filter((a) => a).length;
-            expect(score).toBe(2);
-          });
-        });
-      }
-
-      function runDroneSelectionTests() {
-        currentFile = "Drone Selection";
-        describe("Drone Specs", () => {
-          test("should store flight time", () => {
-            expect({ flightTime: 13 }.flightTime).toBe(13);
-          });
-        });
-      }
-
-      function runAIImageDetectionTests() {
-        currentFile = "AI Image Detection";
-        describe("Model Training", () => {
-          test("should define artifact classes", () => {
-            expect(["pottery", "coins", "jewelry"].length).toBe(3);
-          });
-        });
-      }
-
-      function runHomePageTests() {
-        currentFile = "Home Page";
-        describe("Page Structure", () => {
-          test("should have header", () => {
-            expect(document.querySelector("h1") !== null).toBe(true);
-          });
-        });
-      }
-
-      function runRealWorldExamplesTests() {
-        currentFile = "Real World Examples";
-        describe("Example Cards", () => {
-          test("should store location", () => {
-            const ex = { location: "Rome" };
-            expect(ex).toHaveProperty("location");
-          });
-        });
-      }
-
-      function runTeamPageTests() {
-        currentFile = "Team Page";
-        describe("Team Members", () => {
-          test("should have team list", () => {
-            expect([1, 2, 3].length).toBe(3);
-          });
-        });
-      }
-
-      function runSurveyResultsTests() {
-        currentFile = "Survey Results";
-        describe("Survey", () => {
-          test("should have questions", () => {
-            expect(["Q1", "Q2"].length).toBe(2);
-          });
-        });
+      // Load and execute tests from individual test runners
+      async function loadTestsFromFile(filename, pageName) {
+        try {
+          const response = await fetch(filename);
+          const html = await response.text();
+          
+          // Extract script content between <script> tags
+          const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+          if (!scriptMatch) return;
+          
+          const scriptContent = scriptMatch[1];
+          
+          // Set current file
+          currentFile = pageName;
+          
+          // Create a new function scope and execute the script
+          // This will define describe and test calls that populate TestManager.allResults
+          const testFunction = new Function(scriptContent);
+          testFunction();
+        } catch (error) {
+          console.error(`Failed to load tests from ${filename}:`, error);
+        }
       }
 
       async function runAllTests() {
         document.getElementById("loading").style.display = "block";
         TestManager.clearResults();
-        runFindArtifactsTests();
-        runPlanPathTests();
-        runLearnArchaeologyTests();
-        runDroneSelectionTests();
-        runAIImageDetectionTests();
-        runHomePageTests();
-        runRealWorldExamplesTests();
-        runTeamPageTests();
-        runSurveyResultsTests();
+
+        // Load tests from each individual test runner
+        await loadTestsFromFile("find-artifacts-test-runner.html", "Find Artifacts");
+        await loadTestsFromFile("plan-path-test-runner.html", "Plan Drone Path");
+        await loadTestsFromFile("learn-archaeology-test-runner.html", "Learn Archaeology");
+        await loadTestsFromFile("drone-selection-test-runner.html", "Drone Selection");
+        await loadTestsFromFile("ai-image-detection-test-runner.html", "AI Image Detection");
+        await loadTestsFromFile("index-test-runner.html", "Home Page");
+        await loadTestsFromFile("real-world-examples-test-runner.html", "Real World Examples");
+        await loadTestsFromFile("team-test-runner.html", "Team Page");
+        await loadTestsFromFile("survey-results-test-runner.html", "Survey Results");
+
         document.getElementById("loading").style.display = "none";
         TestManager.updateStats();
         TestManager.renderResults();
