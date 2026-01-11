@@ -610,6 +610,43 @@
         color: #8a3edb;
         font-weight: 600;
       }
+
+      .summary-stat {
+        font-weight: 700;
+        margin: 0 5px;
+      }
+
+      .summary-high {
+        color: #27ae60;
+      }
+
+      .summary-medium {
+        color: #f39c12;
+      }
+
+      .summary-low {
+        color: #e74c3c;
+      }
+
+      .summary-images {
+        color: #8a3edb;
+        font-weight: 700;
+      }
+
+      .top-match-high {
+        color: #27ae60;
+        font-weight: 700;
+      }
+
+      .top-match-medium {
+        color: #f39c12;
+        font-weight: 700;
+      }
+
+      .top-match-low {
+        color: #e74c3c;
+        font-weight: 700;
+      }
     </style>
   </head>
   <body>
@@ -1315,7 +1352,9 @@
                   }
                 } else {
                   // Skip videos that haven't been extracted
-                  console.warn(`Skipping video ${file.name} - frames not extracted`);
+                  console.warn(
+                    `Skipping video ${file.name} - frames not extracted`
+                  );
                 }
               } else {
                 // Handle image files
@@ -1496,14 +1535,14 @@
                 : ""
             }
             <div class="result-filename">${result.filename}</div>
-            <div class="result-top-match-text">Top Match: ${topMatchDisplay}</div>
+            <div class="result-top-match-text">Top Match: <span class="top-match-${riskLevel}">${topMatchDisplay}</span></div>
             <div class="result-predictions">${predictionsHtml}</div>
           `;
 
           resultsGrid.appendChild(card);
         });
 
-        resultSummary.textContent = `Analyzed ${results.length} images | High Confidence: ${highCount} | Medium: ${mediumCount} | Low: ${lowCount}`;
+        resultSummary.innerHTML = `Analyzed: <span class="summary-images">${results.length} images</span> | High Confidence: <span class="summary-stat summary-high">${highCount}</span> | Medium Confidence: <span class="summary-stat summary-medium">${mediumCount}</span> | Low Confidence: <span class="summary-stat summary-low">${lowCount}</span>`;
         resultsHeader.style.display = "block";
       }
 
