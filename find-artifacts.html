@@ -180,6 +180,47 @@
         position: relative;
       }
 
+      .spinner {
+        border: 4px solid rgba(138, 62, 219, 0.2);
+        border-top: 4px solid #8a3edb;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .extraction-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        border-radius: 15px;
+        z-index: 10;
+      }
+
+      .extraction-overlay p {
+        margin: 0;
+        font-size: 0.85em;
+        color: #333;
+        font-weight: 500;
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -800,10 +841,25 @@
               });
               processedCount++;
             } else if (videoExtensions.includes(ext)) {
+              // Show placeholder with spinner immediately
+              imageFiles.push({
+                file: file,
+                type: "video",
+                isVideo: true,
+                isExtracting: true,
+                frameNumber: 0,
+                totalFrames: 0,
+              });
+
               // For videos, extract all frames immediately
               extractMultipleVideoFrames(file).then((frames) => {
                 if (frames.length > 0) {
-                  // Remove any placeholder entries for this file
+                  // Find the index of this file's placeholder entry
+                  const placeholderIndex = imageFiles.findIndex(
+                    (f) => f.file === file && f.isExtracting
+                  );
+
+                  // Remove the placeholder and all its entries for this file
                   imageFiles = imageFiles.filter((f) => f.file !== file);
 
                   // Add actual frame entries
@@ -850,8 +906,12 @@
           const card = document.createElement("div");
           card.className = "image-card";
           card.addEventListener("click", (event) => {
-            // Don't open modal if delete button was clicked
-            if (event.target.classList.contains("delete-btn")) return;
+            // Don't open modal if delete button was clicked or if extracting
+            if (
+              event.target.classList.contains("delete-btn") ||
+              fileObj.isExtracting
+            )
+              return;
             openModal(index);
           });
 
@@ -882,19 +942,38 @@
           card.appendChild(info);
 
           if (fileObj.isVideo) {
-            // Handle video frames - display the extracted frame
-            const typeEl = document.createElement("span");
-            typeEl.className = "image-dimensions";
-            typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
-            info.appendChild(typeEl);
+            if (fileObj.isExtracting) {
+              // Show extraction overlay with spinner
+              const overlay = document.createElement("div");
+              overlay.className = "extraction-overlay";
 
-            // Display the extracted frame
-            if (fileObj.frameData) {
-              const img = document.createElement("img");
-              img.src = fileObj.frameData;
-              img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
-              img.style.borderRadius = "10px 10px 0 0";
-              card.insertBefore(img, info);
+              const spinnerDiv = document.createElement("div");
+              spinnerDiv.className = "spinner";
+
+              const text = document.createElement("p");
+              text.textContent = "Extracting frames...";
+
+              overlay.appendChild(spinnerDiv);
+              overlay.appendChild(text);
+              card.appendChild(overlay);
+
+              // Set a placeholder height so card is visible
+              overlay.style.minHeight = "120px";
+            } else {
+              // Handle video frames - display the extracted frame
+              const typeEl = document.createElement("span");
+              typeEl.className = "image-dimensions";
+              typeEl.textContent = `Frame ${fileObj.frameNumber}/${fileObj.totalFrames}`;
+              info.appendChild(typeEl);
+
+              // Display the extracted frame
+              if (fileObj.frameData) {
+                const img = document.createElement("img");
+                img.src = fileObj.frameData;
+                img.alt = `${file.name} Frame ${fileObj.frameNumber}`;
+                img.style.borderRadius = "10px 10px 0 0";
+                card.insertBefore(img, info);
+              }
             }
           } else {
             // Handle image files
