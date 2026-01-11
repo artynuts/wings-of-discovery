@@ -4,7 +4,7 @@ An innovative suite of AI-powered tools designed by **The Quantum Crystals** to 
 
 ## 🌟 Overview
 
-Wings of Discovery is a collection of web-based applications that combine drone technology, artificial intelligence, and intuitive user interfaces to help archaeologists reduce field walking time, analyze artifacts more efficiently, and accelerate archaeological discovery.
+Wings of Discovery is a comprehensive web-based platform combining drone technology, artificial intelligence, and intuitive interfaces to empower archaeologists in fieldwork and research. Features tools for drone survey planning, AI artifact detection, and educational resources for field exploration techniques.
 
 **Built by:** The Quantum Crystals - 6 girls passionate about archaeology and technology  
 **Deployed on:** GitHub Pages  
@@ -12,22 +12,25 @@ Wings of Discovery is a collection of web-based applications that combine drone 
 
 ---
 
-## 🚀 Applications
+## 📱 User-Facing Pages
 
-### 1. **Landing Page** (`index.html`)
-
-The main hub that showcases all available tools and provides navigation to the three core applications.
-
-- **Branding:** Quantum Crystals logo and mission statement
-- **Navigation:** Quick links to all three tools
-- **Features Highlighted:** Overview of each application's capabilities
-- **Design:** Responsive grid layout with feature cards
+- **Home** (`index.html`) - Landing hub with navigation to all tools
+- **Plan Drone Path** (`plan-path.html`) - Interactive survey path planning
+- **Find Artifacts** (`find-artifacts.html`) - AI-powered image analysis
+- **Kids & Field Walking** (`learn-archaeology.html`) - Educational content
+- **Drone Selection Guide** (`drone-selection.html`) - Supported drones reference
+- **AI Image Detection** (`ai-image-detection.html`) - Technical documentation
+- **Real-World Examples** (`real-world-examples.html`) - Case studies
+- **Meet The Team** (`team.html`) - Team showcase
+- **Survey Results** (`survey-results.html`) - Results dashboard
 
 ---
 
-### 2. **📍 Plan Drone Path** (`plan-path.html`)
+## 🚀 Featured Applications
 
-An interactive drone path planning tool for survey area coverage optimization.
+### 1. **Plan Drone Path** (`plan-path.html`)
+
+Interactive tool for creating optimized drone survey paths across polygonal areas.
 
 #### Features:
 
@@ -65,69 +68,51 @@ An interactive drone path planning tool for survey area coverage optimization.
 
 ---
 
-### 3. **🔍 Find Artifacts** (`find-artifacts.html`)
+### 2. **Find Artifacts** (`find-artifacts.html`)
 
-An AI-powered batch image analyzer for artifact detection using TensorFlow and Teachable Machine.
+AI-powered batch image analyzer for rapid artifact detection.
 
-#### Features:
+**Features:**
 
-- **Batch Image Processing**
+- Drag-and-drop or click-to-upload images
+- Video file support with automatic frame extraction at 500ms intervals
+- Real-time image preview gallery
+- TensorFlow.js + Google Teachable Machine AI analysis
+- Confidence-based result organization (high/medium/low)
+- Color-coded confidence display with detailed metrics
+- Individual image deletion and batch clearing
+- Modal viewer for zoomed inspection
 
-  - Upload multiple images at once
-  - Drag-and-drop support
-  - Image preview gallery with click-to-enlarge modal
+### 3. **Kids & Field Walking** (`learn-archaeology.html`)
 
-- **AI-Powered Detection**
+Educational content about archaeology and field walking techniques.
 
-  - Uses Google Teachable Machine trained model
-  - Provides confidence scores for each detection
-  - Color-coded confidence levels (high/medium/low)
+**Content:**
 
-- **Image Management**
+- Field walking methodology
+- Artifact identification guides
+- Young explorer resources
+- Real-world archaeology examples
 
-  - View all selected images in gallery grid
-  - Delete individual images
-  - View detailed image information (size, dimensions)
-  - Modal viewer for zoomed image inspection
+### 4. **Drone Selection Guide** (`drone-selection.html`)
 
-- **Results Analysis**
+Reference guide for supported drones and their specifications.
 
-  - Detailed prediction results for each image
-  - Confidence percentages for all categories
-  - Summary statistics (total images, high/medium/low confidence)
-  - Color-coded result cards for quick scanning
+### 5. **AI Image Detection** (`ai-image-detection.html`)
 
-- **Responsive Design**
-  - Two-column layout (instructions + upload)
-  - Mobile-friendly with stacking layout
+Technical documentation explaining the AI artifact detection system and how it works.
 
----
+### 6. **Real-World Examples** (`real-world-examples.html`)
 
-### 4. **👥 Meet The Team** (`team.html`)
+Case studies showcasing drone surveys and artifact detection in action.
 
-Showcases the six talented members of The Quantum Crystals team.
+### 7. **Meet The Team** (`team.html`)
 
-#### Features:
+Showcase of The Quantum Crystals team members with individual profiles.
 
-- **Team Statistics**
+### 8. **Survey Results** (`survey-results.html`)
 
-  - 6 dedicated team members
-  - 2 tools created
-  - 100% commitment to archaeology and technology
-
-- **Team Mission**
-
-  - "We're 6 girls with a 💜 for science and archaeology"
-  - Focused on turning dreams into discoveries through technology
-  - Powered by curiosity, creativity, and collaboration
-
-- **Team Members**
-  1. **Anjini** - Lead Developer
-  2. **Akshara** - UI/UX Designer
-  3. **Ada** - AI/ML Specialist
-  4. **Rena** - Project Manager
-  5. **Akalya** - Backend Engineer
-  6. **Allie** - QA/Testing Lead
+Results dashboard for archaeological survey data.
 
 ---
 
