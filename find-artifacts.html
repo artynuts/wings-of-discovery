@@ -276,6 +276,27 @@
         border-color: #4b1f69;
       }
 
+      .results-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        min-width: 300px;
+      }
+
+      #analysisSummary {
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+        border-left: 4px solid #8a3edb;
+      }
+
+      #analysisSummary p {
+        margin: 0;
+        font-size: 0.9em;
+        color: #333;
+        line-height: 1.5;
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -709,19 +730,23 @@
         <button class="btn-secondary analyze-btn" id="clearBtn">
           🗑️ Clear
         </button>
+        <div class="results-column">
+          <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Analyzing images...</p>
+          </div>
+
+          <div id="analysisSummary" style="display: none">
+            <p id="resultSummary"></p>
+          </div>
+        </div>
       </div>
 
       <!-- Selected Images - Full Width Below -->
       <div class="gallery" id="gallery"></div>
 
-      <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Analyzing images...</p>
-      </div>
-
       <div class="results-header" id="resultsHeader" style="display: none">
         <h2>Analysis Results</h2>
-        <p id="resultSummary"></p>
       </div>
 
       <div class="results-grid" id="resultsGrid"></div>
@@ -1365,11 +1390,15 @@
         currentImageIndex = 0;
         isAnalyzing = false;
 
-        // Clear UI\n        gallery.innerHTML = \"\";\n        gallery.style.display = \"\";\n        stats.style.display = \"none\";
+        // Clear UI
+        gallery.innerHTML = "";
+        gallery.style.display = "block";
+        stats.style.display = "none";
         document.getElementById("totalImages").textContent = "0";
         document.getElementById("totalSize").textContent = "0 MB";
         resultsHeader.style.display = "none";
         resultSummary.textContent = "";
+        document.getElementById("analysisSummary").style.display = "none";
         resultsGrid.innerHTML = "";
         loading.classList.remove("active");
         analyzeBtn.disabled = true;
@@ -1382,7 +1411,7 @@
         );
       }
       function displayAnalysisResults(results) {
-        // Hide gallery and show results only
+        // Hide gallery and show only analysis results
         gallery.style.display = "none";
 
         resultsGrid.innerHTML = "";
@@ -1474,6 +1503,7 @@
         });
 
         resultSummary.textContent = `Analyzed ${results.length} images | High Confidence: ${highCount} | Medium: ${mediumCount} | Low: ${lowCount}`;
+        document.getElementById("analysisSummary").style.display = "block";
         resultsHeader.style.display = "block";
       }
 
