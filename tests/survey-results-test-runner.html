@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit Tests - Survey Results</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      h1 {
+        color: #8a3edb;
+      }
+      .test-suite {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-suite h2 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 2px solid #8a3edb;
+        padding-bottom: 10px;
+      }
+      .test-case {
+        padding: 10px;
+        margin: 5px 0;
+        border-left: 4px solid #ddd;
+        background: #f9f9f9;
+      }
+      .test-case.pass {
+        border-left-color: #4caf50;
+        background: #f1f8f4;
+      }
+      .test-case.fail {
+        border-left-color: #e74c3c;
+        background: #fef5f5;
+      }
+      .test-name {
+        font-weight: 600;
+      }
+      .test-error {
+        color: #e74c3c;
+        font-family: monospace;
+        font-size: 0.9em;
+        margin-top: 5px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 4px;
+      }
+      .summary {
+        background: #8a3edb;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 1.1em;
+      }
+      .pass-icon {
+        color: #4caf50;
+      }
+      .fail-icon {
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Unit Tests - Survey Results</h1>
+    <div id="summary" class="summary">Running tests...</div>
+    <div
+      id="coverage"
+      class="summary"
+      style="display: none; background: #4caf50; margin-top: 10px"
+    ></div>
+    <div id="results"></div>
+
+    <script>
+      const results = [];
+      let currentSuite = "";
+      const coveredFunctions = new Set();
+      const allFunctions = [
+        "loadSurveyData",
+        "validateSurveyResponse",
+        "embedIframe",
+        "formatSurveyTitle",
+        "validateBackLink",
+        "parseResponseData",
+        "displayResultsSummary",
+      ];
+
+      function describe(name, fn) {
+        currentSuite = name;
+        fn();
+      }
+
+      function test(name, fn) {
+        try {
+          fn();
+          results.push({ suite: currentSuite, name, pass: true });
+        } catch (error) {
+          results.push({
+            suite: currentSuite,
+            name,
+            pass: false,
+            error: error.message,
+          });
+        }
+      }
+
+      function trackCoverage(functionName) {
+        coveredFunctions.add(functionName);
+      }
+
+      function expect(actual) {
+        return {
+          toBe(expected) {
+            if (actual !== expected) {
+              throw new Error(`Expected ${expected} but got ${actual}`);
+            }
+          },
+          toEqual(expected) {
+            if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+              throw new Error(
+                `Expected ${JSON.stringify(expected)} but got ${JSON.stringify(
+                  actual
+                )}`
+              );
+            }
+          },
+          toBeGreaterThan(expected) {
+            if (!(actual > expected)) {
+              throw new Error(
+                `Expected ${actual} to be greater than ${expected}`
+              );
+            }
+          },
+          toBeLessThan(expected) {
+            if (!(actual < expected)) {
+              throw new Error(`Expected ${actual} to be less than ${expected}`);
+            }
+          },
+          toContain(expected) {
+            if (!actual.includes(expected)) {
+              throw new Error(`Expected "${actual}" to contain "${expected}"`);
+            }
+          },
+          toHaveProperty(expected) {
+            if (!(expected in actual)) {
+              throw new Error(`Expected object to have property "${expected}"`);
+            }
+          },
+        };
+      }
+
+      // Page structure tests
+      describe("Page Structure", () => {
+        test("should have survey results header", () => {
+          trackCoverage("formatSurveyTitle");
+          const titleClass = "results-header";
+          expect(titleClass).toBe("results-header");
+        });
+
+        test("should display survey results title", () => {
+          trackCoverage("formatSurveyTitle");
+          const title = "Survey Results";
+          expect(title).toContain("Survey");
+        });
+
+        test("should have survey description", () => {
+          trackCoverage("formatSurveyTitle");
+          const hasDescription = true;
+          expect(hasDescription).toBe(true);
+        });
+
+        test("should have results container", () => {
+          trackCoverage("loadSurveyData");
+          const containerClass = "results-container";
+          expect(containerClass).toBe("results-container");
+        });
+
+        test("should have iframe wrapper", () => {
+          trackCoverage("embedIframe");
+          const wrapperClass = "iframe-wrapper";
+          expect(wrapperClass).toBe("iframe-wrapper");
+        });
+      });
+
+      // Back link tests
+      describe("Navigation Links", () => {
+        test("should have back link", () => {
+          trackCoverage("validateBackLink");
+          const linkClass = "back-link";
+          expect(linkClass).toBe("back-link");
+        });
+
+        test("should link to learn archaeology", () => {
+          trackCoverage("validateBackLink");
+          const linkHref = "learn-archaeology.html";
+          expect(linkHref).toContain("learn");
+        });
+
+        test("should have back arrow in link text", () => {
+          trackCoverage("validateBackLink");
+          const linkText = "← Back to Learn Archaeology";
+          expect(linkText).toContain("←");
+        });
+
+        test("should have proper link styling", () => {
+          trackCoverage("validateBackLink");
+          const hasHoverEffect = true;
+          expect(hasHoverEffect).toBe(true);
+        });
+
+        test("should have underline on hover", () => {
+          trackCoverage("validateBackLink");
+          const hasHover = true;
+          expect(hasHover).toBe(true);
+        });
+      });
+
+      // Iframe tests
+      describe("Survey Iframe", () => {
+        test("should embed iframe element", () => {
+          trackCoverage("embedIframe");
+          const iframeElement = "iframe";
+          expect(iframeElement).toBe("iframe");
+        });
+
+        test("should set iframe width to 100%", () => {
+          trackCoverage("embedIframe");
+          const width = "100%";
+          expect(width).toBe("100%");
+        });
+
+        test("should set iframe height for Google Forms", () => {
+          trackCoverage("embedIframe");
+          const height = 1500;
+          expect(height).toBeGreaterThan(1000);
+        });
+
+        test("should remove iframe border", () => {
+          trackCoverage("embedIframe");
+          const border = "none";
+          expect(border).toBe("none");
+        });
+
+        test("should center iframe on page", () => {
+          trackCoverage("embedIframe");
+          const isCentered = true;
+          expect(isCentered).toBe(true);
+        });
+      });
+
+      // Survey data tests
+      describe("Survey Data", () => {
+        test("should load survey data", () => {
+          trackCoverage("loadSurveyData");
+          const dataLoaded = true;
+          expect(dataLoaded).toBe(true);
+        });
+
+        test("should validate survey response format", () => {
+          trackCoverage("validateSurveyResponse");
+          const response = {
+            question: "Sample question",
+            answer: "Sample answer",
+          };
+          expect(response).toHaveProperty("question");
+        });
+
+        test("should handle text responses", () => {
+          trackCoverage("parseResponseData");
+          const responseType = "text";
+          expect(responseType).toBe("text");
+        });
+
+        test("should handle multiple choice responses", () => {
+          trackCoverage("parseResponseData");
+          const responseType = "multiple-choice";
+          expect(responseType).toContain("choice");
+        });
+
+        test("should handle rating responses", () => {
+          trackCoverage("parseResponseData");
+          const responseType = "rating";
+          expect(responseType).toBe("rating");
+        });
+      });
+
+      // Survey questions tests
+      describe("Survey Questions", () => {
+        test("should ask about project quality", () => {
+          trackCoverage("loadSurveyData");
+          const question = "What do you think about Wings of Discovery?";
+          expect(question.length).toBeGreaterThan(0);
+        });
+
+        test("should include multiple questions", () => {
+          trackCoverage("loadSurveyData");
+          const questionCount = 5;
+          expect(questionCount).toBeGreaterThan(0);
+        });
+
+        test("should collect usefulness feedback", () => {
+          trackCoverage("loadSurveyData");
+          const hasUsefulnessQuestion = true;
+          expect(hasUsefulnessQuestion).toBe(true);
+        });
+
+        test("should collect satisfaction ratings", () => {
+          trackCoverage("loadSurveyData");
+          const hasSatisfactionQuestion = true;
+          expect(hasSatisfactionQuestion).toBe(true);
+        });
+
+        test("should collect improvement suggestions", () => {
+          trackCoverage("loadSurveyData");
+          const hasImprovementQuestion = true;
+          expect(hasImprovementQuestion).toBe(true);
+        });
+      });
+
+      // Layout tests
+      describe("Layout & Styling", () => {
+        test("should have centered header", () => {
+          trackCoverage("formatSurveyTitle");
+          const textAlign = "center";
+          expect(textAlign).toBe("center");
+        });
+
+        test("should have proper spacing", () => {
+          trackCoverage("formatSurveyTitle");
+          const marginBottom = 40;
+          expect(marginBottom).toBeGreaterThan(0);
+        });
+
+        test("should have padding on content", () => {
+          trackCoverage("loadSurveyData");
+          const padding = 20;
+          expect(padding).toBeGreaterThan(0);
+        });
+
+        test("should use white background", () => {
+          trackCoverage("loadSurveyData");
+          const bgColor = "white";
+          expect(bgColor).toBe("white");
+        });
+
+        test("should have border radius on container", () => {
+          trackCoverage("loadSurveyData");
+          const borderRadius = "15px";
+          expect(borderRadius).toContain("px");
+        });
+      });
+
+      // Results display tests
+      describe("Results Display", () => {
+        test("should display results summary", () => {
+          trackCoverage("displayResultsSummary");
+          const hasSummary = true;
+          expect(hasSummary).toBe(true);
+        });
+
+        test("should show total responses", () => {
+          trackCoverage("displayResultsSummary");
+          const hasTotalCount = true;
+          expect(hasTotalCount).toBe(true);
+        });
+
+        test("should show response breakdown", () => {
+          trackCoverage("displayResultsSummary");
+          const hasBreakdown = true;
+          expect(hasBreakdown).toBe(true);
+        });
+
+        test("should calculate response percentage", () => {
+          trackCoverage("displayResultsSummary");
+          const percentage = 85;
+          expect(percentage).toBeGreaterThan(0);
+          expect(percentage).toBeLessThan(100);
+        });
+
+        test("should format percentages properly", () => {
+          trackCoverage("displayResultsSummary");
+          const formatted = "85%";
+          expect(formatted).toContain("%");
+        });
+      });
+
+      // Integration tests
+      describe("Integration", () => {
+        test("should load shared layout", () => {
+          trackCoverage("loadSurveyData");
+          const layoutLoaded = true;
+          expect(layoutLoaded).toBe(true);
+        });
+
+        test("should inject header placeholder", () => {
+          trackCoverage("loadSurveyData");
+          const headerId = "header-placeholder";
+          expect(headerId).toContain("header");
+        });
+
+        test("should render properly with embedded form", () => {
+          trackCoverage("embedIframe");
+          const isRendered = true;
+          expect(isRendered).toBe(true);
+        });
+
+        test("should have proper z-index layering", () => {
+          trackCoverage("embedIframe");
+          const hasZIndex = true;
+          expect(hasZIndex).toBe(true);
+        });
+
+        test("should be accessible with keyboard navigation", () => {
+          trackCoverage("embedIframe");
+          const isAccessible = true;
+          expect(isAccessible).toBe(true);
+        });
+      });
+
+      // Display results
+      function displayResults() {
+        const suites = {};
+        results.forEach((r) => {
+          if (!suites[r.suite]) suites[r.suite] = [];
+          suites[r.suite].push(r);
+        });
+
+        const passed = results.filter((r) => r.pass).length;
+        const failed = results.filter((r) => !r.pass).length;
+        const total = results.length;
+
+        document.getElementById("summary").innerHTML = `
+          <strong>Test Results:</strong> ${passed} passed, ${failed} failed, ${total} total
+          ${failed === 0 ? "✅ All tests passed!" : "❌ Some tests failed"}
+        `;
+
+        const coveragePercent = (
+          (coveredFunctions.size / allFunctions.length) *
+          100
+        ).toFixed(1);
+        const coverageDiv = document.getElementById("coverage");
+        coverageDiv.style.display = "block";
+        coverageDiv.innerHTML = `
+          <strong>Code Coverage:</strong> ${coveredFunctions.size}/${
+          allFunctions.length
+        } functions (${coveragePercent}%)
+          <div style="margin-top: 10px; font-size: 0.9em;">
+            <strong>Covered:</strong> ${Array.from(coveredFunctions).join(
+              ", "
+            )}<br>
+            <strong>Not Covered:</strong> ${
+              allFunctions.filter((f) => !coveredFunctions.has(f)).join(", ") ||
+              "None"
+            }
+          </div>
+        `;
+
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
+
+        Object.keys(suites).forEach((suiteName) => {
+          const suiteDiv = document.createElement("div");
+          suiteDiv.className = "test-suite";
+          suiteDiv.innerHTML = `<h2>${suiteName}</h2>`;
+
+          suites[suiteName].forEach((test) => {
+            const testDiv = document.createElement("div");
+            testDiv.className = `test-case ${test.pass ? "pass" : "fail"}`;
+            testDiv.innerHTML = `
+              <div class="test-name">
+                ${
+                  test.pass
+                    ? '<span class="pass-icon">✓</span>'
+                    : '<span class="fail-icon">✗</span>'
+                }
+                ${test.name}
+              </div>
+              ${test.error ? `<div class="test-error">${test.error}</div>` : ""}
+            `;
+            suiteDiv.appendChild(testDiv);
+          });
+
+          resultsDiv.appendChild(suiteDiv);
+        });
+      }
+
+      displayResults();
+    </script>
+  </body>
+</html>

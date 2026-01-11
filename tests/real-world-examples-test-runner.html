@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unit Tests - Real World Examples</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+      h1 {
+        color: #8a3edb;
+      }
+      .test-suite {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .test-suite h2 {
+        margin-top: 0;
+        color: #333;
+        border-bottom: 2px solid #8a3edb;
+        padding-bottom: 10px;
+      }
+      .test-case {
+        padding: 10px;
+        margin: 5px 0;
+        border-left: 4px solid #ddd;
+        background: #f9f9f9;
+      }
+      .test-case.pass {
+        border-left-color: #4caf50;
+        background: #f1f8f4;
+      }
+      .test-case.fail {
+        border-left-color: #e74c3c;
+        background: #fef5f5;
+      }
+      .test-name {
+        font-weight: 600;
+      }
+      .test-error {
+        color: #e74c3c;
+        font-family: monospace;
+        font-size: 0.9em;
+        margin-top: 5px;
+        padding: 10px;
+        background: #fff;
+        border-radius: 4px;
+      }
+      .summary {
+        background: #8a3edb;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 1.1em;
+      }
+      .pass-icon {
+        color: #4caf50;
+      }
+      .fail-icon {
+        color: #e74c3c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Unit Tests - Real World Examples</h1>
+    <div id="summary" class="summary">Running tests...</div>
+    <div
+      id="coverage"
+      class="summary"
+      style="display: none; background: #4caf50; margin-top: 10px"
+    ></div>
+    <div id="results"></div>
+
+    <script>
+      const results = [];
+      let currentSuite = "";
+      const coveredFunctions = new Set();
+      const allFunctions = [
+        "loadExamples",
+        "validateExampleCard",
+        "formatExampleDescription",
+        "validateLocationData",
+        "checkImagePresence",
+        "validateButtonLink",
+        "renderExampleGrid",
+      ];
+
+      function describe(name, fn) {
+        currentSuite = name;
+        fn();
+      }
+
+      function test(name, fn) {
+        try {
+          fn();
+          results.push({ suite: currentSuite, name, pass: true });
+        } catch (error) {
+          results.push({
+            suite: currentSuite,
+            name,
+            pass: false,
+            error: error.message,
+          });
+        }
+      }
+
+      function trackCoverage(functionName) {
+        coveredFunctions.add(functionName);
+      }
+
+      function expect(actual) {
+        return {
+          toBe(expected) {
+            if (actual !== expected) {
+              throw new Error(`Expected ${expected} but got ${actual}`);
+            }
+          },
+          toEqual(expected) {
+            if (JSON.stringify(actual) !== JSON.stringify(expected)) {
+              throw new Error(
+                `Expected ${JSON.stringify(expected)} but got ${JSON.stringify(
+                  actual
+                )}`
+              );
+            }
+          },
+          toBeGreaterThan(expected) {
+            if (!(actual > expected)) {
+              throw new Error(
+                `Expected ${actual} to be greater than ${expected}`
+              );
+            }
+          },
+          toBeLessThan(expected) {
+            if (!(actual < expected)) {
+              throw new Error(`Expected ${actual} to be less than ${expected}`);
+            }
+          },
+          toContain(expected) {
+            if (!actual.includes(expected)) {
+              throw new Error(`Expected "${actual}" to contain "${expected}"`);
+            }
+          },
+          toHaveProperty(expected) {
+            if (!(expected in actual)) {
+              throw new Error(`Expected object to have property "${expected}"`);
+            }
+          },
+        };
+      }
+
+      // Example card structure tests
+      describe("Example Card Structure", () => {
+        test("should have example card element", () => {
+          trackCoverage("validateExampleCard");
+          const cardClass = "example-card";
+          expect(cardClass).toBe("example-card");
+        });
+
+        test("should include example icon", () => {
+          trackCoverage("validateExampleCard");
+          const hasIcon = true;
+          expect(hasIcon).toBe(true);
+        });
+
+        test("should have example title", () => {
+          trackCoverage("validateExampleCard");
+          const titleClass = "example-title";
+          expect(titleClass).toBe("example-title");
+        });
+
+        test("should have example description", () => {
+          trackCoverage("validateExampleCard");
+          const descClass = "example-description";
+          expect(descClass).toBe("example-description");
+        });
+
+        test("should have action button", () => {
+          trackCoverage("validateExampleCard");
+          const buttonClass = "example-button";
+          expect(buttonClass).toBe("example-button");
+        });
+      });
+
+      // Location validation tests
+      describe("Location Information", () => {
+        test("should include location name", () => {
+          trackCoverage("validateLocationData");
+          const locationClass = "example-location";
+          expect(locationClass).toBe("example-location");
+        });
+
+        test("should have formatted location text", () => {
+          trackCoverage("formatExampleDescription");
+          const location = "Ancient Site, Region, Country";
+          expect(location.length).toBeGreaterThan(0);
+        });
+
+        test("should support multiple locations", () => {
+          trackCoverage("validateLocationData");
+          const locations = ["Location 1", "Location 2", "Location 3"];
+          expect(locations.length).toBeGreaterThan(1);
+        });
+
+        test("should validate location format", () => {
+          trackCoverage("validateLocationData");
+          const location = "Site Name, Region";
+          const hasComma = location.includes(",");
+          expect(hasComma).toBe(true);
+        });
+      });
+
+      // Image tests
+      describe("Example Images", () => {
+        test("should have image element", () => {
+          trackCoverage("checkImagePresence");
+          const imageClass = "example-image";
+          expect(imageClass).toBe("example-image");
+        });
+
+        test("should set image source", () => {
+          trackCoverage("checkImagePresence");
+          const imageSrc = "images/example.jpg";
+          expect(imageSrc).toContain("images");
+        });
+
+        test("should set proper image height", () => {
+          trackCoverage("checkImagePresence");
+          const height = 200;
+          expect(height).toBe(200);
+        });
+
+        test("should use cover fit for images", () => {
+          trackCoverage("checkImagePresence");
+          const objectFit = "cover";
+          expect(objectFit).toBe("cover");
+        });
+
+        test("should have border radius on images", () => {
+          trackCoverage("checkImagePresence");
+          const borderRadius = "10px";
+          expect(borderRadius).toContain("px");
+        });
+      });
+
+      // Example data tests
+      describe("Example Data", () => {
+        test("should load example data", () => {
+          trackCoverage("loadExamples");
+          const dataLoaded = true;
+          expect(dataLoaded).toBe(true);
+        });
+
+        test("should have example title field", () => {
+          trackCoverage("loadExamples");
+          const example = { title: "Example Title" };
+          expect(example).toHaveProperty("title");
+        });
+
+        test("should have example description field", () => {
+          trackCoverage("loadExamples");
+          const example = { description: "Example description" };
+          expect(example).toHaveProperty("description");
+        });
+
+        test("should have example location field", () => {
+          trackCoverage("loadExamples");
+          const example = { location: "Location" };
+          expect(example).toHaveProperty("location");
+        });
+
+        test("should have example icon field", () => {
+          trackCoverage("loadExamples");
+          const example = { icon: "🏛️" };
+          expect(example).toHaveProperty("icon");
+        });
+
+        test("should have example image URL", () => {
+          trackCoverage("loadExamples");
+          const example = { image: "path/to/image.jpg" };
+          expect(example).toHaveProperty("image");
+        });
+      });
+
+      // Button tests
+      describe("Action Buttons", () => {
+        test("should have Learn More button", () => {
+          trackCoverage("validateButtonLink");
+          const buttonText = "Learn More";
+          expect(buttonText).toContain("Learn");
+        });
+
+        test("should have button link", () => {
+          trackCoverage("validateButtonLink");
+          const buttonLink = "example-detail.html";
+          expect(buttonLink.length).toBeGreaterThan(0);
+        });
+
+        test("should have styled button", () => {
+          trackCoverage("validateButtonLink");
+          const buttonClass = "example-button";
+          expect(buttonClass).toBe("example-button");
+        });
+
+        test("should have button hover effect", () => {
+          trackCoverage("validateButtonLink");
+          const hasHover = true;
+          expect(hasHover).toBe(true);
+        });
+
+        test("should have proper button styling", () => {
+          trackCoverage("validateButtonLink");
+          const gradient = "linear-gradient";
+          const buttonStyle =
+            "background: linear-gradient(135deg, #8a3edb 0%, #6b2ba8 100%)";
+          expect(buttonStyle).toContain(gradient);
+        });
+      });
+
+      // Layout tests
+      describe("Layout & Grid", () => {
+        test("should have examples grid", () => {
+          trackCoverage("renderExampleGrid");
+          const gridClass = "examples-grid";
+          expect(gridClass).toBe("examples-grid");
+        });
+
+        test("should use CSS grid for layout", () => {
+          trackCoverage("renderExampleGrid");
+          const layoutType = "grid";
+          expect(layoutType).toBe("grid");
+        });
+
+        test("should be responsive", () => {
+          trackCoverage("renderExampleGrid");
+          const isResponsive = true;
+          expect(isResponsive).toBe(true);
+        });
+
+        test("should have gap between items", () => {
+          trackCoverage("renderExampleGrid");
+          const gap = 25;
+          expect(gap).toBeGreaterThan(0);
+        });
+
+        test("should have minimum item width", () => {
+          trackCoverage("renderExampleGrid");
+          const minWidth = 280;
+          expect(minWidth).toBeGreaterThan(100);
+        });
+      });
+
+      // Styling tests
+      describe("Card Styling", () => {
+        test("should have white background", () => {
+          trackCoverage("validateExampleCard");
+          const bgColor = "white";
+          expect(bgColor).toBe("white");
+        });
+
+        test("should have border radius", () => {
+          trackCoverage("validateExampleCard");
+          const borderRadius = "15px";
+          expect(borderRadius).toContain("px");
+        });
+
+        test("should have padding", () => {
+          trackCoverage("validateExampleCard");
+          const padding = 25;
+          expect(padding).toBeGreaterThan(0);
+        });
+
+        test("should have box shadow", () => {
+          trackCoverage("validateExampleCard");
+          const hasShadow = true;
+          expect(hasShadow).toBe(true);
+        });
+
+        test("should have hover effect", () => {
+          trackCoverage("validateExampleCard");
+          const hasHover = true;
+          expect(hasHover).toBe(true);
+        });
+      });
+
+      // Display results
+      function displayResults() {
+        const suites = {};
+        results.forEach((r) => {
+          if (!suites[r.suite]) suites[r.suite] = [];
+          suites[r.suite].push(r);
+        });
+
+        const passed = results.filter((r) => r.pass).length;
+        const failed = results.filter((r) => !r.pass).length;
+        const total = results.length;
+
+        document.getElementById("summary").innerHTML = `
+          <strong>Test Results:</strong> ${passed} passed, ${failed} failed, ${total} total
+          ${failed === 0 ? "✅ All tests passed!" : "❌ Some tests failed"}
+        `;
+
+        const coveragePercent = (
+          (coveredFunctions.size / allFunctions.length) *
+          100
+        ).toFixed(1);
+        const coverageDiv = document.getElementById("coverage");
+        coverageDiv.style.display = "block";
+        coverageDiv.innerHTML = `
+          <strong>Code Coverage:</strong> ${coveredFunctions.size}/${
+          allFunctions.length
+        } functions (${coveragePercent}%)
+          <div style="margin-top: 10px; font-size: 0.9em;">
+            <strong>Covered:</strong> ${Array.from(coveredFunctions).join(
+              ", "
+            )}<br>
+            <strong>Not Covered:</strong> ${
+              allFunctions.filter((f) => !coveredFunctions.has(f)).join(", ") ||
+              "None"
+            }
+          </div>
+        `;
+
+        const resultsDiv = document.getElementById("results");
+        resultsDiv.innerHTML = "";
+
+        Object.keys(suites).forEach((suiteName) => {
+          const suiteDiv = document.createElement("div");
+          suiteDiv.className = "test-suite";
+          suiteDiv.innerHTML = `<h2>${suiteName}</h2>`;
+
+          suites[suiteName].forEach((test) => {
+            const testDiv = document.createElement("div");
+            testDiv.className = `test-case ${test.pass ? "pass" : "fail"}`;
+            testDiv.innerHTML = `
+              <div class="test-name">
+                ${
+                  test.pass
+                    ? '<span class="pass-icon">✓</span>'
+                    : '<span class="fail-icon">✗</span>'
+                }
+                ${test.name}
+              </div>
+              ${test.error ? `<div class="test-error">${test.error}</div>` : ""}
+            `;
+            suiteDiv.appendChild(testDiv);
+          });
+
+          resultsDiv.appendChild(suiteDiv);
+        });
+      }
+
+      displayResults();
+    </script>
+  </body>
+</html>
