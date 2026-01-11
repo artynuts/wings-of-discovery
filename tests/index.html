@@ -333,20 +333,20 @@
         try {
           const response = await fetch(filename);
           const html = await response.text();
-          
+
           // Extract script content between <script> tags
           const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
           if (!scriptMatch) return;
-          
+
           const scriptContent = scriptMatch[1];
-          
+
           // Set current file
           currentFile = pageName;
-          
-          // Create a new function scope and execute the script
-          // This will define describe and test calls that populate TestManager.allResults
-          const testFunction = new Function(scriptContent);
-          testFunction();
+
+          // Execute the script in this scope where describe, test, expect are available
+          // We need to remove any existing describe/test/expect definitions from the script
+          // and rely on our own implementations
+          eval(scriptContent);
         } catch (error) {
           console.error(`Failed to load tests from ${filename}:`, error);
         }
@@ -357,15 +357,36 @@
         TestManager.clearResults();
 
         // Load tests from each individual test runner
-        await loadTestsFromFile("find-artifacts-test-runner.html", "Find Artifacts");
-        await loadTestsFromFile("plan-path-test-runner.html", "Plan Drone Path");
-        await loadTestsFromFile("learn-archaeology-test-runner.html", "Learn Archaeology");
-        await loadTestsFromFile("drone-selection-test-runner.html", "Drone Selection");
-        await loadTestsFromFile("ai-image-detection-test-runner.html", "AI Image Detection");
+        await loadTestsFromFile(
+          "find-artifacts-test-runner.html",
+          "Find Artifacts"
+        );
+        await loadTestsFromFile(
+          "plan-path-test-runner.html",
+          "Plan Drone Path"
+        );
+        await loadTestsFromFile(
+          "learn-archaeology-test-runner.html",
+          "Learn Archaeology"
+        );
+        await loadTestsFromFile(
+          "drone-selection-test-runner.html",
+          "Drone Selection"
+        );
+        await loadTestsFromFile(
+          "ai-image-detection-test-runner.html",
+          "AI Image Detection"
+        );
         await loadTestsFromFile("index-test-runner.html", "Home Page");
-        await loadTestsFromFile("real-world-examples-test-runner.html", "Real World Examples");
+        await loadTestsFromFile(
+          "real-world-examples-test-runner.html",
+          "Real World Examples"
+        );
         await loadTestsFromFile("team-test-runner.html", "Team Page");
-        await loadTestsFromFile("survey-results-test-runner.html", "Survey Results");
+        await loadTestsFromFile(
+          "survey-results-test-runner.html",
+          "Survey Results"
+        );
 
         document.getElementById("loading").style.display = "none";
         TestManager.updateStats();
