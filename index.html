@@ -297,17 +297,25 @@
         color: rgba(138, 62, 219);
         text-decoration: none;
         transition: opacity 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       }
 
       .emoji-pulse {
         display: inline-block;
-        animation: pulse 1.5s ease-in-out infinite;
+        animation: pulse 2s ease-in-out infinite;
+        background: #d3fae0;
+        font-size: 0.6em;
+        padding: 4px 6px;
+        border-radius: 6px;
       }
 
       @keyframes pulse {
         0%,
         100% {
-          opacity: 0.2;
+          opacity: 0.5;
           transform: scale(1);
         }
         50% {
