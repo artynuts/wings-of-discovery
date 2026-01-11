@@ -1280,38 +1280,62 @@
               const file = fileObj.file;
 
               if (fileObj.isVideo) {
-                // Extract multiple frames from video
-                const frames = await extractMultipleVideoFrames(file, 5);
-                if (frames.length > 0) {
-                  for (const frame of frames) {
-                    try {
-                      const predictions = await model.predict(frame.canvas);
-                      results.push({
-                        filename: file.name + ` (frame ${frame.frameNumber})`,
-                        dataUrl: frame.dataUrl,
-                        predictions: predictions,
-                        isVideoFrame: true,
-                        timestamp: frame.timestamp,
-                      });
-                    } catch (err) {
-                      console.error("Error analyzing video frame:", err);
-                      results.push({
-                        filename: file.name + ` (frame ${frame.frameNumber})`,
-                        dataUrl: frame.dataUrl,
-                        predictions: [],
-                        error: err.message,
-                        isVideoFrame: true,
-                        timestamp: frame.timestamp,
-                      });
-                    }
+                // Use already-extracted frame data if available
+                if (fileObj.frameData && fileObj.canvas) {
+                  try {
+                    const predictions = await model.predict(fileObj.canvas);
+                    results.push({
+                      filename: file.name + ` (frame ${fileObj.frameNumber})`,
+                      dataUrl: fileObj.frameData,
+                      predictions: predictions,
+                      isVideoFrame: true,
+                      timestamp: fileObj.timestamp || 0,
+                    });
+                  } catch (err) {
+                    console.error("Error analyzing video frame:", err);
+                    results.push({
+                      filename: file.name + ` (frame ${fileObj.frameNumber})`,
+                      dataUrl: fileObj.frameData,
+                      predictions: [],
+                      error: err.message,
+                      isVideoFrame: true,
+                      timestamp: fileObj.timestamp || 0,
+                    });
                   }
                 } else {
-                  results.push({
-                    filename: file.name,
-                    predictions: [],
-                    error: "Failed to extract frames from video",
-                    isVideoFrame: true,
-                  });
+                  // Fallback: extract frames if not already done
+                  const frames = await extractMultipleVideoFrames(file, 5);
+                  if (frames.length > 0) {
+                    for (const frame of frames) {
+                      try {
+                        const predictions = await model.predict(frame.canvas);
+                        results.push({
+                          filename: file.name + ` (frame ${frame.frameNumber})`,
+                          dataUrl: frame.dataUrl,
+                          predictions: predictions,
+                          isVideoFrame: true,
+                          timestamp: frame.timestamp,
+                        });
+                      } catch (err) {
+                        console.error("Error analyzing video frame:", err);
+                        results.push({
+                          filename: file.name + ` (frame ${frame.frameNumber})`,
+                          dataUrl: frame.dataUrl,
+                          predictions: [],
+                          error: err.message,
+                          isVideoFrame: true,
+                          timestamp: frame.timestamp,
+                        });
+                      }
+                    }
+                  } else {
+                    results.push({
+                      filename: file.name,
+                      predictions: [],
+                      error: "Failed to extract frames from video",
+                      isVideoFrame: true,
+                    });
+                  }
                 }
               } else {
                 // Handle image files
