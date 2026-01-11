@@ -1365,9 +1365,7 @@
         currentImageIndex = 0;
         isAnalyzing = false;
 
-        // Clear UI
-        gallery.innerHTML = "";
-        stats.style.display = "none";
+        // Clear UI\n        gallery.innerHTML = \"\";\n        gallery.style.display = \"\";\n        stats.style.display = \"none\";
         document.getElementById("totalImages").textContent = "0";
         document.getElementById("totalSize").textContent = "0 MB";
         resultsHeader.style.display = "none";
@@ -1384,6 +1382,9 @@
         );
       }
       function displayAnalysisResults(results) {
+        // Hide gallery and show results only
+        gallery.style.display = "none";
+
         resultsGrid.innerHTML = "";
         let highCount = 0;
         let mediumCount = 0;
