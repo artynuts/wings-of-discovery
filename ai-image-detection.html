@@ -120,6 +120,129 @@
       </div>
 
       <div class="content-section">
+        <h2>🎓 What is Teachable Machine?</h2>
+        <p>
+          Google's Teachable Machine is a free, web-based tool that makes
+          machine learning accessible to everyone—no coding required. It allows
+          you to train custom AI models using your own images, sounds, or poses
+          without needing deep expertise in computer science or neural networks.
+        </p>
+        <img
+          src="images/ai-image-detection/teachable-machine.png"
+          alt="Google Teachable Machine platform overview"
+          style="
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+          "
+        />
+        <h3>Why We Chose Teachable Machine</h3>
+        <ul>
+          <li>
+            <strong>User-Friendly:</strong> Drag-and-drop interface makes
+            training models simple
+          </li>
+          <li>
+            <strong>No Coding Required:</strong> Perfect for archaeologists who
+            aren't software engineers
+          </li>
+          <li>
+            <strong>Free to Use:</strong> No subscription or expensive software
+            needed
+          </li>
+          <li>
+            <strong>Exportable:</strong> Models can be exported and embedded in
+            websites
+          </li>
+          <li>
+            <strong>Fast Training:</strong> Models train in minutes, not hours
+          </li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h2>📸 Our Training Process Step-by-Step</h2>
+
+        <h3>Step 1: Set Up Our Classes</h3>
+        <p>
+          We created 10 different classes in Teachable Machine, each
+          representing a different type of artifact we wanted the model to
+          recognize: Kitchen tools, Jewelry, Ceramics, Shells & Bones, Glass,
+          Polished Gems & Rocks, Unpolished Gems & Rocks, Currencies, Hunting
+          Tools, and Recreation items.
+        </p>
+        <img
+          src="images/ai-image-detection/tm-ourclasses.png"
+          alt="Our 10 artifact classes in Teachable Machine"
+          style="
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+          "
+        />
+
+        <h3>Step 2: Collect Training Images</h3>
+        <p>
+          For each class, we photographed artifacts from multiple angles and
+          under different lighting conditions. This diverse training data helps
+          the model recognize artifacts even when they're photographed
+          differently in the field. We uploaded hundreds of images for each
+          category into Teachable Machine.
+        </p>
+        <img
+          src="images/ai-image-detection/tm-training.png"
+          alt="Training data collection in Teachable Machine"
+          style="
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+          "
+        />
+
+        <h3>Step 3: Train the Model</h3>
+        <p>
+          Teachable Machine uses transfer learning, which means it starts with
+          knowledge from models trained on millions of images and adapts that
+          knowledge to our specific artifact classes. The training process is
+          fast—typically just a few minutes—and the tool provides real-time
+          feedback as the model learns.
+        </p>
+        <img
+          src="images/ai-image-detection/tm-trained-model.png"
+          alt="Trained model results in Teachable Machine"
+          style="
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+          "
+        />
+
+        <h3>Step 4: Test and Export</h3>
+        <p>
+          Once trained, we tested the model with new images to verify it could
+          accurately identify artifacts. Teachable Machine showed us the
+          confidence scores for each class, helping us understand where the
+          model was strong and where it needed improvement. Finally, we exported
+          the model as a TensorFlow.js file so we could embed it directly into
+          our website.
+        </p>
+        <img
+          src="images/ai-image-detection/tm-howtouse.png"
+          alt="How to use our trained Teachable Machine model"
+          style="
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+          "
+        />
+      </div>
+
+      <div class="content-section">
         <h2>📊 Understanding Confidence Scores</h2>
         <p>
           When our model analyzes an image, it provides a confidence score for
