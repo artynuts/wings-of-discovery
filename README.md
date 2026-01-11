@@ -340,12 +340,12 @@ The model provides:
 
 Created by **The Quantum Crystals:**
 
-- Anjini - Lead Developer
-- Akshara - UI/UX Designer
-- Ada - AI/ML Specialist
-- Rena - Project Manager
-- Akalya - Backend Engineer
-- Allie - QA/Testing Lead
+- Ada - Drone Researcher
+- Rena - Drone Researcher
+- Akshara - Drone Path Planner
+- Allie - Drone Path Planner
+- Anjini - AI Vision Researcher
+- Akalya - AI Vision Researcher
 
 ---
 
