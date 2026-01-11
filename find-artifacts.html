@@ -872,6 +872,9 @@
           });
           card.appendChild(deleteBtn);
 
+          // Append info first so we can insert image before it
+          card.appendChild(info);
+
           if (fileObj.isVideo) {
             // Handle video frames - display the extracted frame
             const typeEl = document.createElement("div");
@@ -903,18 +906,12 @@
               };
               info.appendChild(dimensionsEl);
 
-              // Insert image as first child after delete button
-              const deleteBtn = card.querySelector(".delete-btn");
-              if (deleteBtn.nextSibling) {
-                card.insertBefore(img, deleteBtn.nextSibling);
-              } else {
-                card.insertBefore(img, info);
-              }
+              // Insert image before info div
+              card.insertBefore(img, info);
             };
             reader.readAsDataURL(file);
           }
 
-          card.appendChild(info);
           gallery.appendChild(card);
         });
       }
