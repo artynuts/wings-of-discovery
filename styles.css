@@ -9,7 +9,7 @@
 /* Typography */
 body {
   font-family: "Nunito", sans-serif;
-  background: url("images/Wings.png") center/cover no-repeat;
+  background: url("images/site-wide/Wings.png") center/cover no-repeat;
   min-height: 100vh;
   color: #333;
   padding: 20px 60px;
