@@ -248,6 +248,33 @@
         color: white;
       }
 
+      .instructions-divider {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+      }
+
+      .learn-more-label {
+        margin: 0 0 10px 0;
+      }
+
+      .learn-more-link {
+        display: inline-block;
+        background: #8a3edb;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .learn-more-link:hover {
+        background: #4b1f69;
+        transform: translateY(-2px);
+      }
+
       .point-item {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -343,14 +370,22 @@
             create your flight plan
           </li>
           <li>
-            <strong>Save Scripts</strong> - Download both the Tello coverage path
-            script and the image extraction script to your computer
+            <strong>Save Scripts</strong> - Download both the Tello coverage
+            path script and the image extraction script to your computer
           </li>
           <li>
             <strong>Copy Blocks</strong> - Copy the DroneBlocks XML code to
             paste into DroneBlocks
           </li>
         </ol>
+        <div class="instructions-divider">
+          <p class="learn-more-label">
+            <strong>Want to learn more?</strong>
+          </p>
+          <a href="drone-selection.html" class="learn-more-link">
+            🚁 Select Your Drone
+          </a>
+        </div>
       </div>
 
       <div class="main-content">
@@ -1010,7 +1045,7 @@
           const dx = (line.x2 - line.x1) * scale;
           const dy = (line.y2 - line.y1) * scale;
           const distance = Math.sqrt(dx * dx + dy * dy).toFixed(0);
-          
+
           // Move forward along the line
           xml += `          <block type="db_fly_forward">\n`;
           xml += `            <value name="DISTANCE">\n`;
@@ -1019,11 +1054,11 @@
           xml += `              </shadow>\n`;
           xml += `            </value>\n`;
           xml += `            <next>\n`;
-          
+
           // Take a photo
           xml += `              <block type="db_take_photo">\n`;
           xml += `                <next>\n`;
-          
+
           // Add a hover delay
           xml += `                  <block type="db_hover">\n`;
           xml += `                    <value name="SECONDS">\n`;
@@ -1062,36 +1097,36 @@
         // Save the coverage path script
         const codeOutput = document.getElementById("codeOutput");
         const coverageCode = codeOutput.value;
-        
-        const blob1 = new Blob([coverageCode], { type: 'text/plain' });
+
+        const blob1 = new Blob([coverageCode], { type: "text/plain" });
         const url1 = URL.createObjectURL(blob1);
-        const a1 = document.createElement('a');
+        const a1 = document.createElement("a");
         a1.href = url1;
-        a1.download = 'drone_coverage_path.py';
+        a1.download = "drone_coverage_path.py";
         document.body.appendChild(a1);
         a1.click();
         document.body.removeChild(a1);
         URL.revokeObjectURL(url1);
-        
+
         // Wait a moment before downloading the second file
         setTimeout(() => {
           // Save the image extraction script
           const imageCode = getImageExtractionScriptCode();
-          
-          const blob2 = new Blob([imageCode], { type: 'text/plain' });
+
+          const blob2 = new Blob([imageCode], { type: "text/plain" });
           const url2 = URL.createObjectURL(blob2);
-          const a2 = document.createElement('a');
+          const a2 = document.createElement("a");
           a2.href = url2;
-          a2.download = 'get_images.py';
+          a2.download = "get_images.py";
           document.body.appendChild(a2);
           a2.click();
           document.body.removeChild(a2);
           URL.revokeObjectURL(url2);
-          
+
           alert("Both scripts saved to downloads!");
         }, 500);
       }
-      
+
       function getImageExtractionScriptCode() {
         return `#!/usr/bin/env python3
 """
