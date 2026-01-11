@@ -230,6 +230,17 @@
         flex-basis: 100%;
       }
 
+      .extraction-spinner-icon {
+        width: 12px;
+        height: 12px;
+        border-width: 2px;
+        flex-shrink: 0;
+      }
+
+      .extraction-spinner-text {
+        font-size: 0.7em;
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -975,13 +986,10 @@
               spinnerContainer.className = "extraction-spinner";
 
               const spinnerDiv = document.createElement("div");
-              spinnerDiv.className = "spinner";
-              spinnerDiv.style.width = "12px";
-              spinnerDiv.style.height = "12px";
-              spinnerDiv.style.borderWidth = "2px";
+              spinnerDiv.className = "spinner extraction-spinner-icon";
 
               const text = document.createElement("span");
-              text.style.fontSize = "0.7em";
+              text.className = "extraction-spinner-text";
               text.textContent = "Extracting images...";
 
               spinnerContainer.appendChild(spinnerDiv);
