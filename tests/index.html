@@ -3,415 +3,94 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Consolidated Test Runner - Wings of Discovery</title>
+    <title>Test Runners - Wings of Discovery</title>
     <link rel="stylesheet" href="test-runner-styles.css" />
   </head>
   <body>
     <div class="header">
-      <div class="test-badge">🧪 Consolidated Test Runner</div>
-      <h1 class="header-title">Wings of Discovery - All Tests</h1>
-      <p class="header-subtitle">Run All 9 Test Suites at Once</p>
+      <div class="test-badge">🧪 Test Runners</div>
+      <h1 class="header-title">Wings of Discovery - Test Suite</h1>
+      <p class="header-subtitle">All Test Runners</p>
       <p class="header-description">
-        Execute all unit tests across all pages in a single consolidated
-        dashboard
+        Click on any test to run the unit tests for that page
       </p>
     </div>
 
     <div class="container">
-      <div
-        class="consolidated-stats-grid"
-        style="
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 15px;
-          margin-bottom: 30px;
-        "
-      >
-        <div class="stat-card">
-          <div class="stat-number" id="totalTests">0</div>
-          <div class="stat-label">Total Tests</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="passedTests">0</div>
-          <div class="stat-label">Passed</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="failedTests">0</div>
-          <div class="stat-label">Failed</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number" id="passRate">0%</div>
-          <div class="stat-label">Pass Rate</div>
-        </div>
+      <div class="test-grid">
+        <a href="find-artifacts-test-runner.html" class="test-card">
+          <span class="test-icon">🔍</span>
+          <h2 class="test-name">Find Artifacts</h2>
+          <p class="test-description">Tests for image detection and artifact analysis</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="plan-path-test-runner.html" class="test-card">
+          <span class="test-icon">📍</span>
+          <h2 class="test-name">Plan Drone Path</h2>
+          <p class="test-description">Tests for flight path planning and polygon management</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="learn-archaeology-test-runner.html" class="test-card">
+          <span class="test-icon">📚</span>
+          <h2 class="test-name">Learn Archaeology</h2>
+          <p class="test-description">Tests for quiz logic and scoring system</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="drone-selection-test-runner.html" class="test-card">
+          <span class="test-icon">🚁</span>
+          <h2 class="test-name">Drone Selection</h2>
+          <p class="test-description">Tests for drone specifications and capabilities</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="ai-image-detection-test-runner.html" class="test-card">
+          <span class="test-icon">🤖</span>
+          <h2 class="test-name">AI Image Detection</h2>
+          <p class="test-description">Tests for machine learning model and artifact classification</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="index-test-runner.html" class="test-card">
+          <span class="test-icon">🏠</span>
+          <h2 class="test-name">Home Page</h2>
+          <p class="test-description">Tests for homepage structure and layout</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="real-world-examples-test-runner.html" class="test-card">
+          <span class="test-icon">🌍</span>
+          <h2 class="test-name">Real World Examples</h2>
+          <p class="test-description">Tests for archaeological site examples and data</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="team-test-runner.html" class="test-card">
+          <span class="test-icon">👥</span>
+          <h2 class="test-name">Team Page</h2>
+          <p class="test-description">Tests for team member information and profiles</p>
+          <span class="test-status">Run Tests</span>
+        </a>
+
+        <a href="survey-results-test-runner.html" class="test-card">
+          <span class="test-icon">📊</span>
+          <h2 class="test-name">Survey Results</h2>
+          <p class="test-description">Tests for survey data and analytics</p>
+          <span class="test-status">Run Tests</span>
+        </a>
       </div>
 
-      <div class="controls">
-        <button onclick="runAllTests()">▶ Run All Tests</button>
-        <button onclick="clearResults()">⟲ Clear Results</button>
-      </div>
-
-      <div class="view-toggle">
-        <button class="view-btn active" onclick="setView('by-file')">
-          View by File
-        </button>
-        <button class="view-btn" onclick="setView('by-suite')">
-          View by Suite
-        </button>
-        <button class="view-btn" onclick="setView('failures-only')">
-          Failures Only
-        </button>
-      </div>
-
-      <div id="loading" class="loading" style="display: none">
-        Running tests...
-      </div>
-      <div id="test-results" class="test-suites-container"></div>
-      <div id="summary" class="summary hidden">
-        <div id="summary-text"></div>
+      <div class="info-box">
+        <h3>ℹ️ How to Use</h3>
+        <ul>
+          <li><strong>Click any card above</strong> to open that test suite</li>
+          <li><strong>View results</strong> organized by test file and suite</li>
+          <li><strong>See statistics</strong> including pass/fail counts and coverage</li>
+          <li><strong>Each test runner</strong> can also be run independently</li>
+        </ul>
       </div>
     </div>
-
-    <script>
-      const TestManager = {
-        allResults: [],
-        currentView: "by-file",
-
-        clearResults() {
-          this.allResults = [];
-          document.getElementById("test-results").innerHTML = "";
-          document.getElementById("summary").classList.add("hidden");
-        },
-
-        updateStats() {
-          const total = this.allResults.length;
-          const passed = this.allResults.filter((r) => r.pass).length;
-          const failed = total - passed;
-          const rate = total === 0 ? 0 : Math.round((passed / total) * 100);
-
-          document.getElementById("totalTests").textContent = total;
-          document.getElementById("passedTests").textContent = passed;
-          document.getElementById("failedTests").textContent = failed;
-          document.getElementById("passRate").textContent = rate + "%";
-        },
-
-        renderResults() {
-          const resultsDiv = document.getElementById("test-results");
-          resultsDiv.innerHTML = "";
-
-          if (this.currentView === "by-file") {
-            this.renderByFile(resultsDiv);
-          } else if (this.currentView === "by-suite") {
-            this.renderBySuite(resultsDiv);
-          } else if (this.currentView === "failures-only") {
-            this.renderFailuresOnly(resultsDiv);
-          }
-
-          this.renderSummary();
-        },
-
-        renderByFile(resultsDiv) {
-          const byFile = {};
-          this.allResults.forEach((result) => {
-            if (!byFile[result.file]) byFile[result.file] = [];
-            byFile[result.file].push(result);
-          });
-
-          Object.entries(byFile).forEach(([file, results]) => {
-            resultsDiv.appendChild(this.createFileSection(file, results));
-          });
-        },
-
-        renderBySuite(resultsDiv) {
-          const bySuite = {};
-          this.allResults.forEach((result) => {
-            const key = `${result.file} - ${result.suite}`;
-            if (!bySuite[key]) bySuite[key] = [];
-            bySuite[key].push(result);
-          });
-
-          Object.entries(bySuite).forEach(([suiteKey, results]) => {
-            const [file, suite] = suiteKey.split(" - ");
-            const div = document.createElement("div");
-            div.className = "test-file-section";
-            div.innerHTML = `<div class="file-header"><div><div class="file-name">${suite}</div><div class="file-stats">from ${file}</div></div></div>`;
-            const testSuite = document.createElement("div");
-            testSuite.className = "test-suite";
-            results.forEach((result) =>
-              testSuite.appendChild(this.createTestCase(result))
-            );
-            div.appendChild(testSuite);
-            resultsDiv.appendChild(div);
-          });
-        },
-
-        renderFailuresOnly(resultsDiv) {
-          const failures = this.allResults.filter((r) => !r.pass);
-          if (failures.length === 0) {
-            const div = document.createElement("div");
-            div.style.gridColumn = "1 / -1";
-            div.style.textAlign = "center";
-            div.style.padding = "40px";
-            div.innerHTML =
-              '<h2 style="color: #27ae60; font-size: 1.5em;">✓ All Tests Passed!</h2>';
-            resultsDiv.appendChild(div);
-            return;
-          }
-
-          const byFile = {};
-          failures.forEach((result) => {
-            if (!byFile[result.file]) byFile[result.file] = [];
-            byFile[result.file].push(result);
-          });
-
-          Object.entries(byFile).forEach(([file, results]) => {
-            resultsDiv.appendChild(this.createFileSection(file, results));
-          });
-        },
-
-        createFileSection(file, results) {
-          const section = document.createElement("div");
-          section.className = "test-file-section";
-          const icon = this.getFileIcon(file);
-          const passed = results.filter((r) => r.pass).length;
-          const total = results.length;
-
-          const header = document.createElement("div");
-          header.className = "file-header";
-          header.innerHTML = `<div class="file-icon">${icon}</div><div><div class="file-name">${file}</div><div class="file-stats">${passed}/${total} tests passed</div></div>`;
-          section.appendChild(header);
-
-          const bySuite = {};
-          results.forEach((result) => {
-            if (!bySuite[result.suite]) bySuite[result.suite] = [];
-            bySuite[result.suite].push(result);
-          });
-
-          Object.entries(bySuite).forEach(([suite, suiteResults]) => {
-            const suiteDiv = document.createElement("div");
-            suiteDiv.className = "test-suite";
-            const suiteName = document.createElement("div");
-            suiteName.className = "suite-name";
-            suiteName.textContent = suite;
-            suiteDiv.appendChild(suiteName);
-            suiteResults.forEach((result) =>
-              suiteDiv.appendChild(this.createTestCase(result))
-            );
-            section.appendChild(suiteDiv);
-          });
-
-          return section;
-        },
-
-        createTestCase(result) {
-          const div = document.createElement("div");
-          div.className = `test-case ${result.pass ? "pass" : "fail"}`;
-          const name = document.createElement("div");
-          name.className = "test-name";
-          name.innerHTML = `<span class="${
-            result.pass ? "pass-icon" : "fail-icon"
-          }"></span>${result.name}`;
-          div.appendChild(name);
-          if (!result.pass && result.error) {
-            const error = document.createElement("div");
-            error.className = "test-error";
-            error.textContent = result.error;
-            div.appendChild(error);
-          }
-          return div;
-        },
-
-        renderSummary() {
-          const total = this.allResults.length;
-          const passed = this.allResults.filter((r) => r.pass).length;
-          const failed = total - passed;
-          const rate = total === 0 ? 0 : Math.round((passed / total) * 100);
-          const summaryDiv = document.getElementById("summary");
-          const summaryText = document.getElementById("summary-text");
-
-          if (total === 0) {
-            summaryDiv.classList.add("hidden");
-            return;
-          }
-
-          summaryDiv.classList.remove("hidden");
-          if (failed === 0) {
-            summaryDiv.classList.add("success");
-            summaryDiv.classList.remove("failure");
-            summaryText.innerHTML = `✓ All ${total} tests passed! (${rate}%)`;
-          } else {
-            summaryDiv.classList.add("failure");
-            summaryDiv.classList.remove("success");
-            summaryText.innerHTML = `✗ ${failed} of ${total} tests failed (${rate}% pass rate)`;
-          }
-        },
-
-        getFileIcon(file) {
-          const icons = {
-            "Find Artifacts": "🔍",
-            "Plan Drone Path": "📍",
-            "Learn Archaeology": "🎓",
-            "Drone Selection": "🚁",
-            "AI Image Detection": "🧠",
-            "Home Page": "🏠",
-            "Real World Examples": "🌍",
-            "Team Page": "👥",
-            "Survey Results": "📊",
-          };
-          return icons[file] || "📄";
-        },
-      };
-
-      function expect(actual) {
-        return {
-          toBe(expected) {
-            if (actual !== expected)
-              throw new Error(`Expected ${expected} but got ${actual}`);
-          },
-          toEqual(expected) {
-            if (JSON.stringify(actual) !== JSON.stringify(expected))
-              throw new Error(
-                `Expected ${JSON.stringify(expected)} but got ${JSON.stringify(
-                  actual
-                )}`
-              );
-          },
-          toBeGreaterThan(expected) {
-            if (!(actual > expected))
-              throw new Error(
-                `Expected ${actual} to be greater than ${expected}`
-              );
-          },
-          toBeLessThan(expected) {
-            if (!(actual < expected))
-              throw new Error(`Expected ${actual} to be less than ${expected}`);
-          },
-          toContain(expected) {
-            if (!actual.includes(expected))
-              throw new Error(`Expected "${actual}" to contain "${expected}"`);
-          },
-          toHaveProperty(expected) {
-            if (!(expected in actual))
-              throw new Error(`Expected object to have property "${expected}"`);
-          },
-          toBeNull() {
-            if (actual !== null)
-              throw new Error(`Expected null but got ${actual}`);
-          },
-        };
-      }
-
-      let currentFile = "";
-      let currentSuite = "";
-
-      function describe(name, fn) {
-        currentSuite = name;
-        fn();
-      }
-
-      function test(name, fn) {
-        try {
-          fn();
-          TestManager.allResults.push({
-            file: currentFile,
-            suite: currentSuite,
-            name: name,
-            pass: true,
-          });
-        } catch (error) {
-          TestManager.allResults.push({
-            file: currentFile,
-            suite: currentSuite,
-            name: name,
-            pass: false,
-            error: error.message,
-          });
-        }
-      }
-
-      // Load and execute tests from individual test runners
-      async function loadTestsFromFile(filename, pageName) {
-        try {
-          const response = await fetch(filename);
-          const html = await response.text();
-
-          // Extract script content between <script> tags
-          const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
-          if (!scriptMatch) return;
-
-          const scriptContent = scriptMatch[1];
-
-          // Set current file
-          currentFile = pageName;
-
-          // Execute the script in this scope where describe, test, expect are available
-          // We need to remove any existing describe/test/expect definitions from the script
-          // and rely on our own implementations
-          eval(scriptContent);
-        } catch (error) {
-          console.error(`Failed to load tests from ${filename}:`, error);
-        }
-      }
-
-      async function runAllTests() {
-        document.getElementById("loading").style.display = "block";
-        TestManager.clearResults();
-
-        // Load tests from each individual test runner
-        await loadTestsFromFile(
-          "find-artifacts-test-runner.html",
-          "Find Artifacts"
-        );
-        await loadTestsFromFile(
-          "plan-path-test-runner.html",
-          "Plan Drone Path"
-        );
-        await loadTestsFromFile(
-          "learn-archaeology-test-runner.html",
-          "Learn Archaeology"
-        );
-        await loadTestsFromFile(
-          "drone-selection-test-runner.html",
-          "Drone Selection"
-        );
-        await loadTestsFromFile(
-          "ai-image-detection-test-runner.html",
-          "AI Image Detection"
-        );
-        await loadTestsFromFile("index-test-runner.html", "Home Page");
-        await loadTestsFromFile(
-          "real-world-examples-test-runner.html",
-          "Real World Examples"
-        );
-        await loadTestsFromFile("team-test-runner.html", "Team Page");
-        await loadTestsFromFile(
-          "survey-results-test-runner.html",
-          "Survey Results"
-        );
-
-        document.getElementById("loading").style.display = "none";
-        TestManager.updateStats();
-        TestManager.renderResults();
-      }
-
-      function clearResults() {
-        TestManager.clearResults();
-        document.getElementById("totalTests").textContent = "0";
-        document.getElementById("passedTests").textContent = "0";
-        document.getElementById("failedTests").textContent = "0";
-        document.getElementById("passRate").textContent = "0%";
-      }
-
-      function setView(view) {
-        TestManager.currentView = view;
-        document
-          .querySelectorAll(".view-toggle .view-btn")
-          .forEach((btn) => btn.classList.remove("active"));
-        event.target.classList.add("active");
-        TestManager.renderResults();
-      }
-
-      // Run tests on load
-      window.addEventListener("load", runAllTests);
-    </script>
   </body>
 </html>
