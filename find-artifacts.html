@@ -221,6 +221,15 @@
         font-weight: 500;
       }
 
+      .extraction-spinner {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75em;
+        color: #8a3edb;
+        flex-basis: 100%;
+      }
+
       .modal {
         display: none;
         position: fixed;
@@ -841,7 +850,19 @@
               });
               processedCount++;
             } else if (videoExtensions.includes(ext)) {
-              // Show placeholder with spinner immediately
+              // Extract first frame immediately for preview
+              extractVideoFrame(file, 0).then((firstFrameData) => {
+                // Show placeholder with spinner immediately
+                const placeholderIndex = imageFiles.findIndex(
+                  (f) => f.file === file && f.isExtracting
+                );
+                if (placeholderIndex !== -1) {
+                  imageFiles[placeholderIndex].firstFrame =
+                    firstFrameData?.dataUrl;
+                  displayGallery();
+                }
+              });
+
               imageFiles.push({
                 file: file,
                 type: "video",
@@ -851,35 +872,32 @@
                 totalFrames: 0,
               });
 
-              // For videos, extract all frames immediately
-              extractMultipleVideoFrames(file).then((frames) => {
-                if (frames.length > 0) {
-                  // Find the index of this file's placeholder entry
-                  const placeholderIndex = imageFiles.findIndex(
-                    (f) => f.file === file && f.isExtracting
-                  );
+              // For videos, extract all frames after 15s delay
+              setTimeout(() => {
+                extractMultipleVideoFrames(file).then((frames) => {
+                  if (frames.length > 0) {
+                    // Remove the placeholder and all its entries for this file
+                    imageFiles = imageFiles.filter((f) => f.file !== file);
 
-                  // Remove the placeholder and all its entries for this file
-                  imageFiles = imageFiles.filter((f) => f.file !== file);
-
-                  // Add actual frame entries
-                  frames.forEach((frameData) => {
-                    imageFiles.push({
-                      file: file,
-                      type: "video",
-                      isVideo: true,
-                      frameNumber: frameData.frameNumber,
-                      totalFrames: frames.length,
-                      frameData: frameData.dataUrl,
-                      canvas: frameData.canvas,
+                    // Add actual frame entries
+                    frames.forEach((frameData) => {
+                      imageFiles.push({
+                        file: file,
+                        type: "video",
+                        isVideo: true,
+                        frameNumber: frameData.frameNumber,
+                        totalFrames: frames.length,
+                        frameData: frameData.dataUrl,
+                        canvas: frameData.canvas,
+                      });
                     });
-                  });
 
-                  // Re-render gallery with actual frames
-                  displayGallery();
-                  updateStats();
-                }
-              });
+                    // Re-render gallery with actual frames
+                    displayGallery();
+                    updateStats();
+                  }
+                });
+              }, 15000); // 15 second delay
 
               processedCount++; // Count the video file itself for now
             }
@@ -943,22 +961,32 @@
 
           if (fileObj.isVideo) {
             if (fileObj.isExtracting) {
-              // Show extraction overlay with spinner
-              const overlay = document.createElement("div");
-              overlay.className = "extraction-overlay";
+              // Display the first frame as preview
+              if (fileObj.firstFrame) {
+                const img = document.createElement("img");
+                img.src = fileObj.firstFrame;
+                img.alt = `${file.name} - Preview`;
+                img.style.borderRadius = "10px 10px 0 0";
+                card.insertBefore(img, info);
+              }
+
+              // Show spinner in the info section
+              const spinnerContainer = document.createElement("span");
+              spinnerContainer.className = "extraction-spinner";
 
               const spinnerDiv = document.createElement("div");
               spinnerDiv.className = "spinner";
+              spinnerDiv.style.width = "12px";
+              spinnerDiv.style.height = "12px";
+              spinnerDiv.style.borderWidth = "2px";
 
-              const text = document.createElement("p");
-              text.textContent = "Extracting frames...";
+              const text = document.createElement("span");
+              text.style.fontSize = "0.7em";
+              text.textContent = "Extracting images...";
 
-              overlay.appendChild(spinnerDiv);
-              overlay.appendChild(text);
-              card.appendChild(overlay);
-
-              // Set a placeholder height so card is visible
-              overlay.style.minHeight = "120px";
+              spinnerContainer.appendChild(spinnerDiv);
+              spinnerContainer.appendChild(text);
+              info.appendChild(spinnerContainer);
             } else {
               // Handle video frames - display the extracted frame
               const typeEl = document.createElement("span");
