@@ -647,6 +647,29 @@
         color: #e74c3c;
         font-weight: 700;
       }
+
+      .results-section-header {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 30px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .results-section-header h3 {
+        margin: 0;
+        color: #333;
+        font-size: 1.3em;
+      }
+
+      .results-section-high h3 {
+        color: #27ae60;
+      }
+
+      .results-section-unknown h3 {
+        color: #e74c3c;
+      }
     </style>
   </head>
   <body>
@@ -1458,12 +1481,17 @@
         let highCount = 0;
         let mediumCount = 0;
         let lowCount = 0;
+        let unknownCount = 0;
+
+        // Separate results into high confidence and unknown
+        const highConfidenceResults = [];
+        const unknownResults = [];
 
         results.forEach((result) => {
-          const card = document.createElement("div");
-          card.className = "result-item";
-
+          // Skip error results for categorization
           if (result.error) {
+            const card = document.createElement("div");
+            card.className = "result-item";
             card.innerHTML = `
               <div class="result-filename">${result.filename}</div>
               <p class="result-error">Error: ${result.error}</p>
@@ -1500,50 +1528,96 @@
             lowCount++;
           }
 
-          card.classList.add(riskLevel);
+          // Categorize into sections
+          const resultData = {
+            result: result,
+            confidence: confidence,
+            categoryName: categoryName,
+            topMatchDisplay: topMatchDisplay,
+            riskLevel: riskLevel,
+            emoji: emoji,
+          };
 
-          let predictionsHtml = "";
-          result.predictions.forEach((pred) => {
-            const percent = (pred.probability * 100).toFixed(1);
-            const confidence = pred.probability;
-
-            // Skip categories with 0% match
-            if (percent == 0) {
-              return;
-            }
-
-            let predEmoji = "⊘";
-            if (confidence > 0.7) {
-              predEmoji = "✅";
-            } else if (confidence > 0.4) {
-              predEmoji = "🤔";
-            }
-
-            const displayName = pred.className;
-            predictionsHtml += `
-              <div class="prediction-row">
-                <span class="prediction-label">${predEmoji} ${displayName}</span>
-                <span class="prediction-value">${percent}%</span>
-              </div>
-            `;
-          });
-
-          card.innerHTML = `
-            ${
-              result.dataUrl
-                ? `<img src="${result.dataUrl}" class="result-image" alt="${result.filename}">`
-                : ""
-            }
-            <div class="result-filename">${result.filename}</div>
-            <div class="result-top-match-text">Top Match: <span class="top-match-${riskLevel}">${topMatchDisplay}</span></div>
-            <div class="result-predictions">${predictionsHtml}</div>
-          `;
-
-          resultsGrid.appendChild(card);
+          if (topMatchDisplay === "Unknown") {
+            unknownResults.push(resultData);
+            unknownCount++;
+          } else {
+            highConfidenceResults.push(resultData);
+          }
         });
+
+        // Display high confidence section
+        if (highConfidenceResults.length > 0) {
+          const header = document.createElement("div");
+          header.className = "results-section-header results-section-high";
+          header.innerHTML = `<h3>✅ High Confidence (${highConfidenceResults.length})</h3>`;
+          resultsGrid.appendChild(header);
+
+          highConfidenceResults.forEach((resultData) => {
+            appendResultCard(resultData);
+          });
+        }
+
+        // Display unknown section
+        if (unknownResults.length > 0) {
+          const header = document.createElement("div");
+          header.className = "results-section-header results-section-unknown";
+          header.innerHTML = `<h3>❓ Unknown/Low Confidence (${unknownResults.length})</h3>`;
+          resultsGrid.appendChild(header);
+
+          unknownResults.forEach((resultData) => {
+            appendResultCard(resultData);
+          });
+        }
 
         resultSummary.innerHTML = `Analyzed: <span class="summary-images">${results.length} images</span> | High Confidence: <span class="summary-stat summary-high">${highCount}</span> | Medium Confidence: <span class="summary-stat summary-medium">${mediumCount}</span> | Low Confidence: <span class="summary-stat summary-low">${lowCount}</span>`;
         resultsHeader.style.display = "block";
+      }
+
+      function appendResultCard(resultData) {
+        const { result, riskLevel, topMatchDisplay, emoji } = resultData;
+        const card = document.createElement("div");
+        card.className = "result-item";
+        card.classList.add(riskLevel);
+
+        let predictionsHtml = "";
+        result.predictions.forEach((pred) => {
+          const percent = (pred.probability * 100).toFixed(1);
+          const confidence = pred.probability;
+
+          // Skip categories with 0% match
+          if (percent == 0) {
+            return;
+          }
+
+          let predEmoji = "⊘";
+          if (confidence > 0.7) {
+            predEmoji = "✅";
+          } else if (confidence > 0.4) {
+            predEmoji = "🤔";
+          }
+
+          const displayName = pred.className;
+          predictionsHtml += `
+            <div class="prediction-row">
+              <span class="prediction-label">${predEmoji} ${displayName}</span>
+              <span class="prediction-value">${percent}%</span>
+            </div>
+          `;
+        });
+
+        card.innerHTML = `
+          ${
+            result.dataUrl
+              ? `<img src="${result.dataUrl}" class="result-image" alt="${result.filename}">`
+              : ""
+          }
+          <div class="result-filename">${result.filename}</div>
+          <div class="result-top-match-text">Top Match: <span class="top-match-${riskLevel}">${topMatchDisplay}</span></div>
+          <div class="result-predictions">${predictionsHtml}</div>
+        `;
+
+        resultsGrid.appendChild(card);
       }
 
       function formatFileSize(bytes) {
